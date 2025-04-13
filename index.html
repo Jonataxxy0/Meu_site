@@ -59,6 +59,7 @@
             color: #fff;
             border-radius: 10px;
             margin: 20px;
+            z-index: 1;
         }
 
         .support-section h1, 
@@ -79,7 +80,7 @@
             border-radius: 10px;
         }
 
-        .support-image {
+        .support-section .support-image {
             width: 100%;
             height: 200px;
             background-image: url('https://via.placeholder.com/1920x1080'); /* Substitua pela imagem desejada */
@@ -87,6 +88,10 @@
             background-position: center;
             border-radius: 10px;
             margin-top: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Coloca a imagem atrás do conteúdo */
         }
 
         .faq-section {
@@ -127,7 +132,7 @@
         <h1>Suporte</h1>
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
         <p><strong>suporte@lojajogos.com</strong></p>
-        <!-- Imagem abaixo do e-mail -->
+        <!-- Imagem que aparece atrás do e-mail -->
         <div class="support-image"></div>
     </div>
 
