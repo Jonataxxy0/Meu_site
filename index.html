@@ -43,17 +43,19 @@
             object-fit: cover;
         }
 
+        /* Barra de navegação com imagem */
         .navbar {
             display: flex;
-            align-items: center; /* Centraliza verticalmente o texto */
-            justify-content: center; /* Centraliza horizontalmente o texto */
+            align-items: center;
+            justify-content: center;
             background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
-            background-size: cover; /* Garante que a imagem cubra toda a barra */
-            background-position: center; /* Centraliza a imagem */
-            height: 120px; /* Ajuste a altura para acomodar a imagem */
+            background-size: cover;
+            background-position: center;
+            height: 120px;
             padding: 10px;
             flex-wrap: wrap;
             z-index: 2;
+            position: relative;
         }
 
         .navbar a {
@@ -67,10 +69,19 @@
         }
 
         .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Fundo transparente ao passar o mouse */
+            background-color: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
+        .navbar-bottom {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Estilos do conteúdo das abas */
         .tab-content {
             display: none;
             padding: 20px;
@@ -87,7 +98,6 @@
 
         #games {
             background-color: #333;
-            position: relative;
         }
 
         #contact {
@@ -131,7 +141,7 @@
         @media (max-width: 480px) {
             .navbar {
                 flex-direction: column;
-                height: auto; /* Ajusta a altura para evitar cortes */
+                height: auto;
                 padding: 5px;
             }
 
@@ -155,13 +165,15 @@
         </video>
     </div>
 
-    <!-- Barra de navegação -->
+    <!-- Barra de navegação com imagem -->
     <div class="navbar">
-        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
-        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
-        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
-        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
+        <div class="navbar-bottom">
+            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+            <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
+            <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
+            <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
+            <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
+        </div>
     </div>
 
     <!-- Conteúdo das abas -->
