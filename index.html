@@ -8,10 +8,10 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            color: #000; /* Alterado para texto preto */
+            color: #fff;
+            background-color: #E0FFFF; /* Cor de fundo alterada */
             height: 100vh;
-            overflow: auto; /* Permite rolar o conteúdo */
-            background-color: #ffffff; /* Fundo branco */
+            overflow: hidden;
         }
 
         .background {
@@ -20,7 +20,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #ffffff, #f5f5f5); /* Fundo branco */
+            background: linear-gradient(45deg, #333333, #1a1a1a);
             filter: blur(10px);
             z-index: -1;
         }
@@ -78,7 +78,7 @@
             display: none;
             padding: 20px;
             text-align: center;
-            color: #000; /* Alterado para texto preto */
+            color: #fff;
             border-radius: 10px;
             margin-top: 20px;
             z-index: 1;
@@ -89,7 +89,7 @@
         }
 
         #support {
-            background-color: #f5f5f5; /* Fundo mais claro */
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -99,16 +99,16 @@
         }
 
         .faq-section {
-            margin-top: 100px;
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #ffffff; /* Fundo branco */
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
         }
 
         .faq-section h2 {
-            color: #4d4d4d;
+            color: #4d4d4d; /* Preto mais claro */
         }
 
         .faq-question {
@@ -136,12 +136,12 @@
         .social-links {
             display: flex;
             justify-content: flex-start;
-            margin-top: 50px;
+            margin-top: 50px; /* Ajusta o espaçamento para baixo */
         }
 
         .social-links a {
             margin-right: 20px;
-            width: 40px;
+            width: 40px; /* Reduz o tamanho dos ícones */
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
