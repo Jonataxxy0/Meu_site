@@ -66,37 +66,30 @@
             z-index: 1;
         }
 
+        #home {
+            background-color: #444;
+        }
+
         #support {
-            background-color: #777; 
+            background-color: #777;
             padding: 20px;
             border-radius: 10px;
         }
 
-        h1 {
+        h1, h2 {
             color: #0000ff;
         }
 
         .faq-section {
-            margin-top: 50px;
+            margin-top: 100px;
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080; 
+            background-color: #4d4d4d;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .faq-section h2 {
-            background: linear-gradient(to right, #ff8c00, #ff4500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 24px;
-            text-align: center;
         }
 
         .faq-question {
-            display: flex;
-            align-items: center;
             background: rgba(0, 0, 0, 0.7);
             padding: 10px;
             margin: 10px 0;
@@ -104,18 +97,10 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .faq-question:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-        }
-
-        .faq-question span {
-            margin-right: 10px;
-            font-size: 18px;
-            transition: transform 0.3s;
         }
 
         .faq-answer {
@@ -126,8 +111,25 @@
             margin-top: 5px;
         }
 
-        .faq-question.active span {
-            transform: rotate(90deg);
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #222;
+            padding: 10px 0;
+            text-align: center;
+            color: white;
+        }
+
+        footer a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        footer img {
+            vertical-align: middle;
+            width: 30px;
         }
 
         @media (max-width: 768px) {
@@ -153,6 +155,11 @@
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
     </div>
 
+    <div id="home" class="tab-content">
+        <h1>Bem-vindo à Loja de Jogos!</h1>
+        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+    </div>
+
     <div id="support" class="tab-content">
         <h1>Suporte</h1>
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
@@ -161,37 +168,41 @@
         <div class="faq-section">
             <h2>Perguntas Frequentes</h2>
 
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>+</span> É seguro comprar por aqui?
-            </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
             <div class="faq-answer">Sim! Nossa loja é 100% segura e confiável...</div>
 
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>+</span> Quais métodos de pagamento vocês aceitam?
-            </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
             <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
 
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>+</span> Como funciona a entrega dos jogos?
-            </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
             <div class="faq-answer">A entrega é automática e imediata...</div>
         </div>
     </div>
+
+    <footer>
+        <div>
+            <a href="https://instagram.com" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"> Instagram
+            </a>
+            <a href="https://discord.com" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Discord_logo.svg" alt="Discord"> Discord
+            </a>
+        </div>
+    </footer>
 
     <script>
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
+            document.getElementById(tabName).style.display = 'block');
         }
 
         function toggleAnswer(questionElement) {
             const answer = questionElement.nextElementSibling;
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-            questionElement.classList.toggle('active');
         }
 
-        window.onload = () => openTab('support');
+        window.onload = () => openTab('home');
     </script>
 </body>
 </html>
