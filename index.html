@@ -8,11 +8,10 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            color: #333;
-            min-height: 100vh; /* Garante que o fundo preencha pelo menos a altura da janela */
-            background-color: #fff; /* Altere o fundo para branco */
-            overflow-y: auto; /* Permite rolagem vertical */
-            padding-bottom: 100px; /* Adiciona espaçamento extra na parte inferior */
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #ffffff; /* Fundo branco */
         }
 
         .background {
@@ -21,7 +20,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #fff; /* Altere o fundo para branco */
+            background: linear-gradient(45deg, #333333, #1a1a1a);
             filter: blur(10px);
             z-index: -1;
         }
@@ -79,18 +78,18 @@
             display: none;
             padding: 20px;
             text-align: center;
-            color: #333; /* Mudou para uma cor mais escura para contraste */
+            color: #fff;
             border-radius: 10px;
             margin-top: 20px;
             z-index: 1;
         }
 
         #home {
-            background-color: #f4f4f4;
+            background-color: #444;
         }
 
         #support {
-            background-color: #f9f9f9; /* Branco mais claro para a seção de suporte */
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -104,7 +103,7 @@
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #DCDCDC; /* Cinza claro para a seção de Perguntas Frequentes */
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
         }
 
@@ -113,18 +112,18 @@
         }
 
         .faq-question {
-            background: rgba(0, 0, 0, 0.7);
+            background: #F0F8FF; /* Cor de fundo azul claro */
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
-            color: #F0F8FF; /* Cor do texto da pergunta (azul claro) */
+            color: #000; /* Cor do texto */
         }
 
         .faq-question:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2); /* Leve clareamento ao passar o mouse */
         }
 
         .faq-answer {
@@ -133,7 +132,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             margin-top: 5px;
-            color: #F0F8FF; /* Cor do texto da pergunta (azul claro) */
+            color: #F0F8FF; /* Cor do texto da resposta */
         }
 
         .social-links {
@@ -213,16 +212,16 @@
             <h2>Perguntas Frequentes</h2>
 
             <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.<br>
-                🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.<br>
+            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.
+                🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.
                 💬 Feedback positivo de milhares de clientes satisfeitos!
             </div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
-            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário e outras opções seguras!</div>
+            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
-            <div class="faq-answer">A entrega é automática e imediata após a confirmação do pagamento!</div>
+            <div class="faq-answer">A entrega é automática e imediata...</div>
         </div>
     </div>
 
