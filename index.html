@@ -71,6 +71,10 @@
             background-color: #666; /* Cinza claro */
         }
 
+        #donations {
+            background-color: #555; /* Cinza médio */
+        }
+
         h1 {
             color: #0000ff; /* Azul */
         }
@@ -101,7 +105,7 @@
 
         /* Animação de controle na aba Jogos */
         #games:hover::before {
-            content: "\f11b"; /* Código do ícone do controle (usando FontAwesome) */
+            content: "\\f11b"; /* Código do ícone do controle (usando FontAwesome) */
             font-family: "Font Awesome 5 Free"; 
             font-weight: 900;
             font-size: 40px;
@@ -133,6 +137,7 @@
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
         <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
+        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
     </div>
 
     <!-- Conteúdo das abas -->
@@ -151,6 +156,12 @@
         <h1>Entre em Contato</h1>
         <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
         <!-- Adicione um formulário de contato se necessário -->
+    </div>
+
+    <div id="donations" class="tab-content">
+        <h1>Faça uma Doação</h1>
+        <p>Contribua para nos ajudar a continuar oferecendo os melhores serviços!</p>
+        <button onclick="alert('Obrigado pela sua doação!')" style="padding: 10px 20px; background-color: #ff007f; color: white; border: none; border-radius: 5px; cursor: pointer;">Doar Agora</button>
     </div>
 
     <script>
