@@ -104,8 +104,8 @@
             padding-top: 20px;
             background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
-            height: 50vh; /* Definindo altura para metade da tela */
-            overflow-y: auto; /* Permitindo rolagem vertical apenas nessa seção */
+            height: 50vh; /* Dividido pela metade da tela */
+            overflow-y: auto; /* Rolagem habilitada */
         }
 
         .faq-section h2 {
@@ -153,6 +153,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Adicionando uma animação de rotação no código de verificação */
+        .verification-code {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -219,6 +233,9 @@
             <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
             <div class="faq-answer">A entrega é automática e imediata...</div>
         </div>
+
+        <!-- Código de verificação com animação -->
+        <div class="verification-code">Código de verificação: 1234-ABCD</div>
     </div>
 
     <div class="social-links">
