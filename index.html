@@ -24,34 +24,13 @@
             z-index: -1;
         }
 
-        .gif-container {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .gif-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .navbar {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
-            background-size: cover;
-            background-repeat: no-repeat;
+            background-color: #222;
             height: 150px;
             padding: 0 10px;
-            z-index: 2;
-            position: relative;
         }
 
         .navbar a {
@@ -73,84 +52,55 @@
             transform: scale(1.1);
         }
 
-        .tab-content {
-            display: none;
-            padding: 20px;
-            text-align: center;
-            color: #fff;
-            border-radius: 10px;
-            margin-top: 20px;
-            z-index: 1;
-        }
-
-        #home {
-            background-color: #444;
-        }
-
-        #support {
-            background-color: #777; /* Cinza mais claro para a seção de suporte */
+        .support-section {
+            position: relative;
+            background-image: url('https://via.placeholder.com/1920x1080'); /* Substitua pela imagem desejada */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             padding: 20px;
             border-radius: 10px;
+            margin: 20px;
+            color: #fff; /* Cor da fonte */
         }
 
-        h1, h2 {
-            color: #0000ff;
+        .support-section h1, 
+        .support-section p {
+            position: relative;
+            z-index: 1; /* Para garantir que o texto fique visível acima da imagem */
+        }
+
+        .support-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Cor escura para destacar o texto */
+            z-index: 0;
+            border-radius: 10px;
         }
 
         .faq-section {
-            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
-            text-align: left;
-            border-top: 2px solid #000000;
-            padding-top: 20px;
-            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
+            margin: 30px 20px;
+            padding: 20px;
+            background-color: #ccc; /* Cinza claro */
             border-radius: 10px;
         }
 
-        .faq-question {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
+        .faq-section h2 {
+            color: #000;
+            border-bottom: 2px solid #000; /* Linha preta */
+            padding-bottom: 10px;
         }
 
-        .faq-question:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .faq-item {
+            margin-top: 15px;
         }
 
-        .faq-answer {
-            display: none;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-            }
-
-            .navbar a {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .gif-container {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gif-container {
-                width: 60px;
-                height: 60px;
-            }
+        .faq-item p {
+            color: #000;
         }
     </style>
 </head>
@@ -158,55 +108,36 @@
 
     <div class="background"></div>
 
-    <div class="gif-container">
-        <video id="gifVideo" muted loop autoplay>
-            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-    </div>
-
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
+        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
+        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
+        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
-    <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-    </div>
-
-    <div id="support" class="tab-content">
+    <!-- Suporte -->
+    <div class="support-section">
         <h1>Suporte</h1>
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
         <p><strong>suporte@lojajogos.com</strong></p>
+    </div>
 
-        <div class="faq-section">
-            <h2>Perguntas Frequentes</h2>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">Sim! Nossa loja é 100% segura e confiável...</div>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
-            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
-            <div class="faq-answer">A entrega é automática e imediata...</div>
+    <!-- Perguntas Frequentes -->
+    <div class="faq-section">
+        <h2>Perguntas Frequentes</h2>
+        <div class="faq-item">
+            <p><strong>É seguro comprar por aqui?</strong></p>
+            <p>Sim! Nossa loja é 100% segura e confiável. Possuímos selo de verificação, utilizamos Google Safe Browsing, e garantimos um ambiente protegido.</p>
+        </div>
+        <div class="faq-item">
+            <p><strong>Quando receberei meu jogo após a compra?</strong></p>
+            <p>A entrega do seu jogo é automática e imediata após a confirmação do pagamento.</p>
+        </div>
+        <div class="faq-item">
+            <p><strong>Quais formas de pagamento estão disponíveis?</strong></p>
+            <p>Aceitamos cartões de crédito, débito e pagamentos via Pix, todos em ambiente seguro.</p>
         </div>
     </div>
 
-    <script>
-        function openTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
-        }
-
-        function toggleAnswer(questionElement) {
-            const answer = questionElement.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        }
-
-        window.onload = () => openTab('support');
-    </script>
 </body>
 </html>
