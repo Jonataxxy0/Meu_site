@@ -87,17 +87,8 @@
             background-color: #444;
         }
 
-        #games {
-            background-color: #333;
-            position: relative;
-        }
-
-        #donations {
+        #support {
             background-color: #555;
-        }
-
-        #community {
-            background-color: #444;
         }
 
         h1 {
@@ -105,11 +96,34 @@
             font-size: 24px;
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 18px;
-            }
+        .faq-section {
+            margin-top: 30px;
+            text-align: left;
+        }
 
+        .faq-question {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
                 height: auto;
@@ -148,39 +162,31 @@
 
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
-        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
-        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
+        <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
     </div>
 
-    <!-- Tela 1 (inicial) -->
     <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
     </div>
 
-    <!-- Tela 2 (conteúdo de suporte) -->
     <div id="support" class="tab-content">
         <h1>Suporte</h1>
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
-        <p><strong>suporte@lojajogos.com</strong></p> <!-- E-mail para contato -->
-    </div>
+        <p><strong>suporte@lojajogos.com</strong></p>
 
-    <div id="games" class="tab-content">
-        <h1>Jogos em Destaque</h1>
-        <p>Confira os jogos mais populares e novos lançamentos!</p>
-    </div>
+        <div class="faq-section">
+            <h2>Perguntas Frequentes</h2>
 
-    <div id="donations" class="tab-content">
-        <h1>Faça uma Doação</h1>
-        <p>Contribua para nos ajudar a continuar oferecendo os melhores serviços!</p>
-        <button onclick="alert('Obrigado pela sua doação!')" style="padding: 10px 20px; background-color: #ff007f; color: white; border: none; border-radius: 5px; cursor: pointer;">Doar Agora</button>
-    </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
+            <div class="faq-answer">Sim! Nossa loja é 100% segura e confiável...</div>
 
-    <div id="community" class="tab-content">
-        <h1>Comunidade</h1>
-        <p>Junte-se ao nosso servidor no Discord para interagir com outros jogadores, compartilhar dicas e muito mais!</p>
-        <a href="https://discord.com" target="_blank" style="padding: 10px 20px; background-color: #7289da; color: white; border: none; border-radius: 5px; text-decoration: none; font-size: 16px; cursor: pointer;">Acessar o Discord</a>
+            <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
+            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
+
+            <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
+            <div class="faq-answer">A entrega é automática e imediata...</div>
+        </div>
     </div>
 
     <script>
@@ -190,16 +196,12 @@
             document.getElementById(tabName).style.display = 'block';
         }
 
-        // Ao carregar a página, automaticamente exibe a tela de "Suporte"
-        window.onload = () => {
-            openTab('support');
-        };
+        function toggleAnswer(questionElement) {
+            const answer = questionElement.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
 
-        const gifVideo = document.getElementById('gifVideo');
-        setInterval(() => {
-            gifVideo.play();
-        }, 15000);
+        window.onload = () => openTab('support');
     </script>
-
 </body>
 </html>
