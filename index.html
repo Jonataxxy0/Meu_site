@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- Importa ícones -->
     <style>
         body {
             margin: 0;
@@ -18,6 +19,7 @@
             background-color: #333;
             padding: 14px 20px;
             justify-content: center;
+            transition: all 0.3s ease-in-out;
         }
 
         .navbar a {
@@ -27,10 +29,12 @@
             text-decoration: none;
             font-size: 18px;
             cursor: pointer;
+            transition: all 0.3s ease-in-out;
         }
 
         .navbar a:hover {
             background-color: #575757;
+            transform: scale(1.1); /* Animação de escala */
         }
 
         .tab-content {
@@ -48,6 +52,7 @@
 
         #games {
             background-color: #333; /* Preto */
+            position: relative;
         }
 
         #contact {
@@ -82,6 +87,28 @@
             background-color: #ff007f;
         }
 
+        /* Animação de controle na aba Jogos */
+        #games:hover::before {
+            content: "\f11b"; /* Código do ícone do controle (usando FontAwesome) */
+            font-family: "Font Awesome 5 Free"; 
+            font-weight: 900;
+            font-size: 40px;
+            color: #ff007f;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            animation: moveControl 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveControl {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+        
     </style>
 </head>
 <body>
