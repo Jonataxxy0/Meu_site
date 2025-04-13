@@ -10,21 +10,32 @@
             background-color: #f0f8ff;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
         header {
             background-color: #007bff;
             color: white;
             padding: 20px;
+            display: flex; /* Alinha itens na horizontal */
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+            gap: 20px; /* Espaço entre a logo e o texto */
+        }
+        header img {
+            width: 150px; /* Tamanho da logo */
+            height: auto; /* Mantém proporções */
+        }
+        header h1 {
+            margin: 0; /* Remove margens extras no título */
         }
         section {
             padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="image.png" alt="Minha Logo" style="width: 388px; height: 289;">
+        <img src="image.png" alt="Minha Logo">
         <h1>Site Vendas</h1>
     </header>
     <section>
@@ -32,3 +43,4 @@
     </section>
 </body>
 </html>
+
