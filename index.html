@@ -34,7 +34,7 @@
             height: 100px;
             border-radius: 8px;
             overflow: hidden;
-            z-index: 1; /* Garantir que o GIF fique acima de outros elementos */
+            z-index: 1;
         }
 
         .gif-container video {
@@ -49,7 +49,7 @@
             padding: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            z-index: 2; /* A barra de navegação também fica acima do fundo */
+            z-index: 2;
         }
 
         .navbar a {
@@ -92,6 +92,10 @@
 
         #donations {
             background-color: #555;
+        }
+
+        #community {
+            background-color: #444;
         }
 
         h1 {
@@ -152,6 +156,7 @@
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
         <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
         <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
+        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
     <!-- Conteúdo das abas -->
@@ -176,6 +181,12 @@
         <button onclick="alert('Obrigado pela sua doação!')" style="padding: 10px 20px; background-color: #ff007f; color: white; border: none; border-radius: 5px; cursor: pointer;">Doar Agora</button>
     </div>
 
+    <div id="community" class="tab-content">
+        <h1>Comunidade</h1>
+        <p>Junte-se ao nosso servidor no Discord para interagir com outros jogadores, compartilhar dicas e muito mais!</p>
+        <a href="https://discord.com" target="_blank" style="padding: 10px 20px; background-color: #7289da; color: white; border: none; border-radius: 5px; text-decoration: none; font-size: 16px; cursor: pointer;">Acessar o Discord</a>
+    </div>
+
     <script>
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
@@ -192,4 +203,3 @@
 
 </body>
 </html>
-
