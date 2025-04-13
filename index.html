@@ -9,9 +9,22 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #ff007f, #7f00ff); /* Gradiente azul e rosa */
+            background: #ffffff; /* Cor de fundo branco */
             color: #fff;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Fundo desfocado */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #cccccc, #ffffff); /* Fundo branco e cinza */
+            filter: blur(10px); /* Aplica o desfoque */
+            z-index: -1;
         }
 
         .navbar {
@@ -112,6 +125,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Div do fundo desfocado -->
+    <div class="background"></div>
 
     <!-- Barra de navegação -->
     <div class="navbar">
