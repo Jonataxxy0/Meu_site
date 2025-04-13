@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- Importa ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -21,32 +21,32 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #333333, #1a1a1a); /* Fundo preto e cinza escuro */
-            filter: blur(10px); /* Aplica o desfoque */
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            filter: blur(10px);
             z-index: -1;
         }
 
         .navbar {
             display: flex;
             background-color: #333;
-            padding: 14px 20px;
+            padding: 10px;
             justify-content: center;
-            transition: all 0.3s ease-in-out;
+            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
         }
 
         .navbar a {
             color: white;
-            padding: 14px 20px;
+            padding: 10px 15px;
             text-align: center;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
 
         .navbar a:hover {
             background-color: #575757;
-            transform: scale(1.1); /* Animação de escala */
+            transform: scale(1.1);
         }
 
         .tab-content {
@@ -59,26 +59,28 @@
         }
 
         #home {
-            background-color: #444; /* Cinza escuro */
+            background-color: #444;
         }
 
         #games {
-            background-color: #333; /* Preto */
+            background-color: #333;
             position: relative;
         }
 
         #contact {
-            background-color: #666; /* Cinza claro */
+            background-color: #666;
         }
 
         #donations {
-            background-color: #555; /* Cinza médio */
+            background-color: #555;
         }
 
         h1 {
-            color: #0000ff; /* Azul */
+            color: #0000ff;
+            font-size: 24px;
         }
 
+        /* Botões das abas */
         .tab-buttons {
             display: flex;
             justify-content: center;
@@ -92,7 +94,7 @@
             margin: 5px;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .tab-buttons button:hover {
@@ -103,35 +105,13 @@
             background-color: #ff007f;
         }
 
-        /* Animação de controle na aba Jogos */
-        #games:hover::before {
-            content: "\\f11b"; /* Código do ícone do controle (usando FontAwesome) */
-            font-family: "Font Awesome 5 Free"; 
-            font-weight: 900;
-            font-size: 40px;
-            color: #ff007f;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            animation: moveControl 0.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes moveControl {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.2);
-            }
-        }
-
-        /* Estilização do GIF no canto superior esquerdo */
+        /* Estilização do GIF */
         .gif-container {
             position: absolute;
             top: 10px;
             left: 10px;
-            width: 150px; /* Reduz a largura */
-            height: 150px; /* Reduz a altura */
+            width: 100px; /* Largura ajustada */
+            height: 100px; /* Altura ajustada */
             border: 2px solid #fff;
             border-radius: 8px;
             overflow: hidden;
@@ -142,11 +122,54 @@
             height: 100%;
             object-fit: cover;
         }
+
+        /* Ajustes para telas pequenas */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .navbar a {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .tab-content {
+                padding: 15px;
+            }
+
+            .gif-container {
+                width: 80px; /* Reduz ainda mais o tamanho */
+                height: 80px;
+            }
+
+            .tab-buttons button {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column; /* Empilha os itens na barra de navegação */
+                padding: 5px;
+            }
+
+            .gif-container {
+                width: 60px;
+                height: 60px;
+            }
+
+            .tab-buttons button {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Div do fundo desfocado -->
+    <!-- Fundo desfocado -->
     <div class="background"></div>
 
     <!-- GIF no canto superior esquerdo -->
@@ -171,13 +194,11 @@
     <div id="games" class="tab-content">
         <h1>Jogos em Destaque</h1>
         <p>Confira os jogos mais populares e novos lançamentos!</p>
-        <!-- Adicione aqui uma lista de jogos -->
     </div>
 
     <div id="contact" class="tab-content">
         <h1>Entre em Contato</h1>
         <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
-        <!-- Adicione um formulário de contato se necessário -->
     </div>
 
     <div id="donations" class="tab-content">
@@ -188,21 +209,9 @@
 
     <script>
         function openTab(tabName) {
-            // Esconde todas as abas
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-
-            // Exibe a aba selecionada
-            const activeTab = document.getElementById(tabName);
-            activeTab.style.display = 'block';
-
-            // Altera o estilo das abas ativas
-            const buttons = document.querySelectorAll('.navbar a');
-            buttons.forEach(button => button.style.backgroundColor = '');
-
-            // Destaca a aba ativa
-            const activeButton = document.querySelector(`[onclick="openTab('${tabName}')"]`);
-            activeButton.style.backgroundColor = '#ff007f';
+            document.getElementById(tabName).style.display = 'block';
         }
     </script>
 
