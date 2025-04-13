@@ -45,29 +45,30 @@
 
         .navbar {
             display: flex;
-            background-color: rgba(255, 102, 0, 0.7); /* Cor laranja com transparência */
-            padding: 10px;
+            align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            z-index: 2;
+            height: 150px; /* Aumentar altura da barra */
             background-image: url('https://i.postimg.cc/3kTtTjFf/your-image.png');
             background-size: cover;
             background-position: center;
+            padding: 10px 0;
+            z-index: 2;
         }
 
         .navbar a {
             color: white;
-            padding: 10px 15px;
+            padding: 15px 20px;
             text-align: center;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             z-index: 2;
         }
 
         .navbar a:hover {
-            background-color: #ff8533; /* Laranja mais claro */
+            background-color: rgba(255, 133, 51, 0.8); /* Laranja mais claro com transparência */
             transform: scale(1.1);
         }
 
@@ -126,12 +127,17 @@
                 width: 80px;
                 height: 80px;
             }
+
+            .navbar {
+                height: 120px; /* Ajustar altura para telas menores */
+            }
         }
 
         @media (max-width: 480px) {
             .navbar {
                 flex-direction: column;
                 padding: 5px;
+                height: 100px; /* Ajustar altura ainda menor */
             }
 
             .gif-container {
@@ -195,7 +201,7 @@
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
+            document.getElementById(tabName).style.display = 'block');
         }
 
         // Controla a reprodução do vídeo (GIF)
