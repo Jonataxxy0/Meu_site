@@ -13,7 +13,6 @@
             overflow: hidden;
         }
 
-        /* Fundo desfocado em preto e cinza */
         .background {
             position: absolute;
             top: 0;
@@ -25,7 +24,6 @@
             z-index: -1;
         }
 
-        /* GIF no canto superior esquerdo */
         .gif-container {
             position: absolute;
             top: 10px;
@@ -43,21 +41,17 @@
             object-fit: cover;
         }
 
-        /* Barra de navegação */
         .navbar {
             display: flex;
-            align-items: center; /* Centraliza verticalmente o texto */
-            justify-content: center; /* Centraliza horizontalmente o texto */
+            align-items: center;
+            justify-content: center;
             background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
-            background-size: cover; /* Garante que a imagem cubra toda a barra */
-            background-position: center; /* Centraliza a imagem */
-            height: 120px; /* Ajuste a altura para acomodar a imagem */
-            padding: 10px;
-            flex-wrap: wrap;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 150px;
+            padding: 0 10px;
             z-index: 2;
-            position: absolute;
-            top: 200px; /* Move a barra para baixo */
-            width: 100%;
+            position: relative;
         }
 
         .navbar a {
@@ -66,16 +60,19 @@
             text-align: center;
             text-decoration: none;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            margin: 5px;
             transition: all 0.3s ease-in-out;
         }
 
         .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Fundo transparente ao passar o mouse */
+            background-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
 
-        /* Conteúdo das abas */
         .tab-content {
             display: none;
             padding: 20px;
@@ -92,6 +89,7 @@
 
         #games {
             background-color: #333;
+            position: relative;
         }
 
         #contact {
@@ -111,19 +109,20 @@
             font-size: 24px;
         }
 
-        /* Ajustes para telas pequenas */
         @media (max-width: 768px) {
             h1 {
                 font-size: 18px;
             }
 
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
             .navbar a {
                 font-size: 14px;
                 padding: 8px;
-            }
-
-            .tab-content {
-                padding: 15px;
             }
 
             .gif-container {
@@ -133,12 +132,6 @@
         }
 
         @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                height: auto; /* Ajusta a altura para evitar cortes */
-                padding: 5px;
-            }
-
             .gif-container {
                 width: 60px;
                 height: 60px;
@@ -148,10 +141,8 @@
 </head>
 <body>
 
-    <!-- Fundo desfocado -->
     <div class="background"></div>
 
-    <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
         <video id="gifVideo" muted loop autoplay>
             <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
@@ -159,7 +150,6 @@
         </video>
     </div>
 
-    <!-- Barra de navegação -->
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
@@ -168,7 +158,6 @@
         <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
-    <!-- Conteúdo das abas -->
     <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
@@ -203,11 +192,10 @@
             document.getElementById(tabName).style.display = 'block';
         }
 
-        // Controla a reprodução do vídeo (GIF)
         const gifVideo = document.getElementById('gifVideo');
         setInterval(() => {
             gifVideo.play();
-        }, 15000); // Reproduz a cada 15 segundos
+        }, 15000);
     </script>
 
 </body>
