@@ -11,7 +11,6 @@
             color: #fff;
             height: 100vh;
             overflow: hidden;
-            background-color: #ffffff; /* Fundo branco */
         }
 
         .background {
@@ -103,7 +102,7 @@
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
+            background-color: #E0FFFF; /* Alterei para a cor solicitada */
             border-radius: 10px;
         }
 
@@ -112,27 +111,25 @@
         }
 
         .faq-question {
-            background: #F0F8FF; /* Cor de fundo azul claro */
+            background: rgba(0, 0, 0, 0.7);
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
-            color: #000; /* Cor do texto */
         }
 
         .faq-question:hover {
-            background: rgba(255, 255, 255, 0.2); /* Leve clareamento ao passar o mouse */
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .faq-answer {
             display: none;
             padding: 10px;
-            background: #ffffff; /* Fundo branco */
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             margin-top: 5px;
-            color: #E0FFFF; /* Cor do texto da resposta */
         }
 
         .social-links {
@@ -212,10 +209,7 @@
             <h2>Perguntas Frequentes</h2>
 
             <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.
-                🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.
-                💬 Feedback positivo de milhares de clientes satisfeitos!
-            </div>
+            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados. 🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida. 💬 Feedback positivo de milhares de clientes satisfeitos!</div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
             <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
