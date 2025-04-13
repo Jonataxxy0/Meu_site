@@ -1,76 +1,205 @@
-<div id="support" class="tab-content">
-    <h1>Suporte</h1>
-    <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
-    <p><strong>suporte@lojajogos.com</strong></p>
-    
-    <h2>Perguntas Frequentes</h2>
-    <div class="faq">
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleAnswer(this)">
-                ➥ É seguro comprar por aqui?
-            </button>
-            <div class="faq-answer">
-                <p>
-                    Sim! Nossa loja é <strong>100% segura e confiável</strong>. Possuímos selo de verificação e utilizamos <strong>Google Safe Browsing</strong> para garantir um ambiente livre de ameaças. 
-                    Além disso, contamos com certificado SSL para proteger seus dados. Nossos métodos de pagamento são seguros, e a entrega do seu produto é automática e imediata após a compra.
-                </p>
-            </div>
-        </div>
-        <!-- Adicione mais perguntas aqui -->
-    </div>
-</div>
-
-<style>
-    .faq {
-        margin-top: 20px;
-    }
-
-    .faq-item {
-        margin-bottom: 15px;
-        border: 1px solid #666;
-        border-radius: 8px;
-        overflow: hidden;
-        background-color: #222;
-    }
-
-    .faq-question {
-        width: 100%;
-        text-align: left;
-        background-color: #444;
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        outline: none;
-        transition: background-color 0.3s ease;
-    }
-
-    .faq-question:hover {
-        background-color: #555;
-    }
-
-    .faq-answer {
-        display: none;
-        padding: 10px;
-        background-color: #333;
-        color: #fff;
-        font-size: 16px;
-    }
-
-    .faq-answer p {
-        margin: 0;
-    }
-</style>
-
-<script>
-    function toggleAnswer(button) {
-        const answer = button.nextElementSibling;
-        if (answer.style.display === "block") {
-            answer.style.display = "none";
-        } else {
-            answer.style.display = "block";
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Jogos</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
         }
-    }
-</script>
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .gif-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .gif-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 150px;
+            padding: 0 10px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            margin: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            border-radius: 10px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        #home {
+            background-color: #444;
+        }
+
+        #games {
+            background-color: #333;
+            position: relative;
+        }
+
+        #donations {
+            background-color: #555;
+        }
+
+        #community {
+            background-color: #444;
+        }
+
+        h1 {
+            color: #0000ff;
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .navbar a {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .gif-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-container {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+
+    <div class="gif-container">
+        <video id="gifVideo" muted loop autoplay>
+            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
+    </div>
+
+    <div class="navbar">
+        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
+        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
+        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
+    </div>
+
+    <!-- Tela 1 (inicial) -->
+    <div id="home" class="tab-content">
+        <h1>Bem-vindo à Loja de Jogos!</h1>
+        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+    </div>
+
+    <!-- Tela 2 (conteúdo de suporte) -->
+    <div id="support" class="tab-content">
+        <h1>Suporte</h1>
+        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
+        <p><strong>suporte@lojajogos.com</strong></p> <!-- E-mail para contato -->
+    </div>
+
+    <div id="games" class="tab-content">
+        <h1>Jogos em Destaque</h1>
+        <p>Confira os jogos mais populares e novos lançamentos!</p>
+    </div>
+
+    <div id="donations" class="tab-content">
+        <h1>Faça uma Doação</h1>
+        <p>Contribua para nos ajudar a continuar oferecendo os melhores serviços!</p>
+        <button onclick="alert('Obrigado pela sua doação!')" style="padding: 10px 20px; background-color: #ff007f; color: white; border: none; border-radius: 5px; cursor: pointer;">Doar Agora</button>
+    </div>
+
+    <div id="community" class="tab-content">
+        <h1>Comunidade</h1>
+        <p>Junte-se ao nosso servidor no Discord para interagir com outros jogadores, compartilhar dicas e muito mais!</p>
+        <a href="https://discord.com" target="_blank" style="padding: 10px 20px; background-color: #7289da; color: white; border: none; border-radius: 5px; text-decoration: none; font-size: 16px; cursor: pointer;">Acessar o Discord</a>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+        }
+
+        // Ao carregar a página, automaticamente exibe a tela de "Suporte"
+        window.onload = () => {
+            openTab('support');
+        };
+
+        const gifVideo = document.getElementById('gifVideo');
+        setInterval(() => {
+            gifVideo.play();
+        }, 15000);
+    </script>
+
+</body>
+</html>
