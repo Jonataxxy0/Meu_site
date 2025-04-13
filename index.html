@@ -28,18 +28,17 @@
         .navbar {
             display: flex;
             background-color: #333;
-            padding: 15px;
+            padding: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            font-size: 18px;
         }
 
         .navbar a {
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             text-align: center;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
@@ -84,8 +83,8 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            width: 80px; /* Diminuído para 80px */
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border: 2px solid #fff;
             border-radius: 8px;
             overflow: hidden;
@@ -100,29 +99,33 @@
         /* Ajustes para telas pequenas */
         @media (max-width: 768px) {
             h1 {
-                font-size: 20px;
+                font-size: 18px;
             }
 
-            .navbar {
-                font-size: 16px;
-                padding: 10px;
+            .navbar a {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .tab-content {
+                padding: 15px;
             }
 
             .gif-container {
-                width: 60px; /* Reduzido ainda mais em telas menores */
-                height: 60px;
+                width: 80px;
+                height: 80px;
             }
         }
 
         @media (max-width: 480px) {
             .navbar {
-                font-size: 14px;
-                padding: 8px;
+                flex-direction: column;
+                padding: 5px;
             }
 
             .gif-container {
-                width: 50px; /* Para telas bem pequenas */
-                height: 50px;
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
@@ -134,7 +137,7 @@
 
     <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
-        <video id="gifVideo" autoplay muted loop playsinline>
+        <video id="gifVideo" muted>
             <source src="https://media.giphy.com/media/PduK1djQ9JUoNPcAvK/giphy.mp4" type="video/mp4">
             Seu navegador não suporta vídeos HTML5.
         </video>
@@ -176,6 +179,12 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
+
+        // Controla a reprodução do vídeo (GIF)
+        const gifVideo = document.getElementById('gifVideo');
+        setInterval(() => {
+            gifVideo.play();
+        }, 15000); // Reproduz a cada 15 segundos
     </script>
 
 </body>
