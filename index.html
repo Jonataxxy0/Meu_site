@@ -154,15 +154,20 @@
         }
 
         /* Selo de verificação */
-        .verification-seal {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            pointer-events: none;
-            width: 150px;
-            height: auto;
+  .verification-seal {
+    position: fixed;
+    bottom: 20px; /* Distância do fundo da tela */
+    left: 50%; /* Centraliza horizontalmente na tela */
+    transform: translateX(-50%); /* Ajuste para centralizar exatamente */
+    z-index: 9999; /* Certifique-se de que o selo está acima de outros elementos */
+    pointer-events: none; /* Impede a interação com o selo */
+    width: 150px; /* Defina a largura que você quer para o selo */
+    height: auto; /* Mantém a altura proporcional da imagem */
+}
+
+.verification-seal img {
+    width: 100%; /* Ajusta a largura da imagem para ocupar todo o contêiner */
+    height: auto; /* Mantém a altura proporcional à largura */
         }
 
         @media (max-width: 768px) {
