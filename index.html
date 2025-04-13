@@ -134,7 +134,7 @@
 
     <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
-        <video id="gifVideo" muted>
+        <video id="gifVideo" autoplay muted loop playsinline>
             <source src="https://media.giphy.com/media/PduK1djQ9JUoNPcAvK/giphy.mp4" type="video/mp4">
             Seu navegador não suporta vídeos HTML5.
         </video>
@@ -176,12 +176,6 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
-
-        // Controla a reprodução do vídeo (GIF)
-        const gifVideo = document.getElementById('gifVideo');
-        setInterval(() => {
-            gifVideo.play();
-        }, 15000); // Reproduz a cada 15 segundos
     </script>
 
 </body>
