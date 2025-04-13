@@ -9,8 +9,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             color: #fff;
-            height: 100vh;
-            overflow: hidden;
+            overflow: auto; /* Permite a rolagem */
         }
 
         .background {
@@ -28,7 +27,7 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            width: 120px; /* Aumentando o tamanho da imagem */
+            width: 120px;
             height: 120px;
             border-radius: 8px;
             overflow: hidden;
@@ -55,9 +54,9 @@
         }
 
         .navbar img {
-            width: 200px; /* Aumentando o tamanho da imagem na barra de navegação */
+            width: 200px;
             height: auto;
-            margin-top: 10px; /* Ajustando o alinhamento */
+            margin-top: 10px;
         }
 
         .navbar a {
@@ -86,7 +85,6 @@
             color: #fff;
             border-radius: 10px;
             margin-top: 20px;
-            z-index: 1;
         }
 
         #home {
@@ -94,7 +92,7 @@
         }
 
         #support {
-            background-color: #777; /* Cinza mais claro para a seção de suporte */
+            background-color: #777;
             padding: 20px;
             border-radius: 10px;
         }
@@ -104,16 +102,16 @@
         }
 
         .faq-section {
-            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
+            margin-top: 100px;
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
+            background-color: #808080;
             border-radius: 10px;
         }
 
         .faq-section h2 {
-            color: #4d4d4d; /* Preto mais claro */
+            color: #4d4d4d;
         }
 
         .faq-question {
@@ -141,12 +139,12 @@
         .social-links {
             display: flex;
             justify-content: flex-start;
-            margin-top: 50px; /* Ajusta o espaçamento para baixo */
+            margin-top: 50px;
         }
 
         .social-links a {
             margin-right: 20px;
-            width: 40px; /* Reduz o tamanho dos ícones */
+            width: 40px;
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
@@ -161,15 +159,15 @@
 
         .safe-seal {
             text-align: center;
-            position: fixed; /* Fixa a imagem na parte inferior */
-            bottom: 10px; /* Ajuste para a distância da parte inferior */
+            position: fixed;
+            bottom: 10px;
             left: 50%;
-            transform: translateX(-50%); /* Centraliza horizontalmente */
-            z-index: 10; /* Garante que a imagem fique acima de outros elementos */
+            transform: translateX(-50%);
+            z-index: 10;
         }
 
         .safe-seal img {
-            max-width: 300px; /* Aumenta o tamanho da imagem */
+            max-width: 300px;
             display: block;
         }
 
