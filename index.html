@@ -153,6 +153,17 @@
             object-fit: cover;
         }
 
+        /* Selo de verificação */
+        .verification-seal {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 150px;
+            height: auto;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -238,6 +249,10 @@
         <a href="https://discord.com" target="_blank">
             <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Discord_Logo_sans_text.svg" alt="Discord">
         </a>
+    </div>
+
+    <div class="verification-seal">
+        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Verificação">
     </div>
 
     <script>
