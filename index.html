@@ -7,24 +7,117 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-family: Arial, sans-serif;
             background: linear-gradient(45deg, #ff007f, #7f00ff);
-            backdrop-filter: blur(10px);
-            color: #ffffff;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #333;
+            padding: 14px 20px;
+            justify-content: center;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #home {
+            display: block;
         }
 
         h1 {
             color: #0000ff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            font-size: 3rem;
         }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tab-buttons button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab-buttons button:hover {
+            background-color: #575757;
+        }
+
+        .tab-buttons button.active {
+            background-color: #ff007f;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Bem-vindo à Loja de Jogos!</h1>
+
+    <!-- Barra de navegação -->
+    <div class="navbar">
+        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
+        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
+    </div>
+
+    <!-- Conteúdo das abas -->
+    <div id="home" class="tab-content">
+        <h1>Bem-vindo à Loja de Jogos!</h1>
+        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+    </div>
+
+    <div id="games" class="tab-content">
+        <h1>Jogos em Destaque</h1>
+        <p>Confira os jogos mais populares e novos lançamentos!</p>
+        <!-- Adicione aqui uma lista de jogos -->
+    </div>
+
+    <div id="contact" class="tab-content">
+        <h1>Entre em Contato</h1>
+        <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
+        <!-- Adicione um formulário de contato se necessário -->
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            // Esconde todas as abas
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.style.display = 'none');
+
+            // Exibe a aba selecionada
+            const activeTab = document.getElementById(tabName);
+            activeTab.style.display = 'block';
+
+            // Altera o estilo das abas ativas
+            const buttons = document.querySelectorAll('.navbar a');
+            buttons.forEach(button => button.style.backgroundColor = '');
+
+            // Destaca a aba ativa
+            const activeButton = document.querySelector(`[onclick="openTab('${tabName}')"]`);
+            activeButton.style.backgroundColor = '#ff007f';
+        }
+    </script>
+
 </body>
 </html>
