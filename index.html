@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -31,7 +30,7 @@
             background-color: #333;
             padding: 10px;
             justify-content: center;
-            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+            flex-wrap: wrap;
         }
 
         .navbar a {
@@ -80,44 +79,18 @@
             font-size: 24px;
         }
 
-        /* Botões das abas */
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .tab-buttons button {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .tab-buttons button:hover {
-            background-color: #575757;
-        }
-
-        .tab-buttons button.active {
-            background-color: #ff007f;
-        }
-
-        /* Estilização do GIF */
         .gif-container {
             position: absolute;
             top: 10px;
             left: 10px;
-            width: 100px; /* Largura ajustada */
-            height: 100px; /* Altura ajustada */
+            width: 100px;
+            height: 100px;
             border: 2px solid #fff;
             border-radius: 8px;
             overflow: hidden;
         }
 
-        .gif-container img {
+        .gif-container video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -139,30 +112,20 @@
             }
 
             .gif-container {
-                width: 80px; /* Reduz ainda mais o tamanho */
+                width: 80px;
                 height: 80px;
-            }
-
-            .tab-buttons button {
-                font-size: 12px;
-                padding: 8px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .navbar {
-                flex-direction: column; /* Empilha os itens na barra de navegação */
+                flex-direction: column;
                 padding: 5px;
             }
 
             .gif-container {
                 width: 60px;
                 height: 60px;
-            }
-
-            .tab-buttons button {
-                font-size: 10px;
-                padding: 5px 10px;
             }
         }
     </style>
@@ -174,7 +137,10 @@
 
     <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
-        <img src="https://media.giphy.com/media/PduK1djQ9JUoNPcAvK/giphy.gif" alt="Animação">
+        <video id="gifVideo" muted>
+            <source src="https://media.giphy.com/media/PduK1djQ9JUoNPcAvK/giphy.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
     </div>
 
     <!-- Barra de navegação -->
@@ -213,6 +179,12 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
+
+        // Controla a reprodução do vídeo (GIF)
+        const gifVideo = document.getElementById('gifVideo');
+        setInterval(() => {
+            gifVideo.play();
+        }, 15000); // Reproduz a cada 15 segundos
     </script>
 
 </body>
