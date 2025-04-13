@@ -1,205 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja de Jogos</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
+    /* Barra de navegação invertida */
+    .navbar {
+        display: flex;
+        background: linear-gradient(90deg, #666, #333); /* Invertido: cinza claro para preto */
+        padding: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1; /* Aparece acima do GIF */
+    }
 
-        /* Fundo desfocado em preto e cinza */
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #333333, #1a1a1a);
-            filter: blur(10px);
-            z-index: -1;
-        }
+    .navbar a {
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
 
-        /* GIF no canto superior esquerdo */
-        .gif-container {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .gif-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .navbar {
-            display: flex;
-            background-color: #ff6600; /* Cor laranja */
-            padding: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            z-index: 2;
-        }
-
-        .navbar a {
-            color: white;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .navbar a:hover {
-            background-color: #ff8533; /* Laranja mais claro */
-            transform: scale(1.1);
-        }
-
-        .tab-content {
-            display: none;
-            padding: 20px;
-            text-align: center;
-            color: #fff;
-            border-radius: 10px;
-            margin-top: 20px;
-            z-index: 1;
-        }
-
-        #home {
-            background-color: #444;
-        }
-
-        #games {
-            background-color: #333;
-            position: relative;
-        }
-
-        #contact {
-            background-color: #666;
-        }
-
-        #donations {
-            background-color: #555;
-        }
-
-        #community {
-            background-color: #444;
-        }
-
-        h1 {
-            color: #0000ff;
-            font-size: 24px;
-        }
-
-        /* Ajustes para telas pequenas */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 18px;
-            }
-
-            .navbar a {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .tab-content {
-                padding: 15px;
-            }
-
-            .gif-container {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                padding: 5px;
-            }
-
-            .gif-container {
-                width: 60px;
-                height: 60px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Fundo desfocado -->
-    <div class="background"></div>
-
-    <!-- GIF no canto superior esquerdo -->
-    <div class="gif-container">
-        <video id="gifVideo" muted loop autoplay>
-            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-    </div>
-
-    <!-- Barra de navegação -->
-    <div class="navbar">
-        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
-        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
-        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
-        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
-    </div>
-
-    <!-- Conteúdo das abas -->
-    <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-    </div>
-
-    <div id="games" class="tab-content">
-        <h1>Jogos em Destaque</h1>
-        <p>Confira os jogos mais populares e novos lançamentos!</p>
-    </div>
-
-    <div id="contact" class="tab-content">
-        <h1>Entre em Contato</h1>
-        <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
-    </div>
-
-    <div id="donations" class="tab-content">
-        <h1>Faça uma Doação</h1>
-        <p>Contribua para nos ajudar a continuar oferecendo os melhores serviços!</p>
-        <button onclick="alert('Obrigado pela sua doação!')" style="padding: 10px 20px; background-color: #ff007f; color: white; border: none; border-radius: 5px; cursor: pointer;">Doar Agora</button>
-    </div>
-
-    <div id="community" class="tab-content">
-        <h1>Comunidade</h1>
-        <p>Junte-se ao nosso servidor no Discord para interagir com outros jogadores, compartilhar dicas e muito mais!</p>
-        <a href="https://discord.com" target="_blank" style="padding: 10px 20px; background-color: #7289da; color: white; border: none; border-radius: 5px; text-decoration: none; font-size: 16px; cursor: pointer;">Acessar o Discord</a>
-    </div>
-
-    <script>
-        function openTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
-        }
-
-        // Controla a reprodução do vídeo (GIF)
-        const gifVideo = document.getElementById('gifVideo');
-        setInterval(() => {
-            gifVideo.play();
-        }, 15000); // Reproduz a cada 15 segundos
-    </script>
-
-</body>
-</html>
+    .navbar a:hover {
+        background-color: #444; /* Cor intermediária para hover */
+        transform: scale(1.1);
+    }
+</style>
