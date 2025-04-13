@@ -194,7 +194,7 @@
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block');
+            document.getElementById(tabName).style.display = 'block';
         }
 
         function toggleAnswer(questionElement) {
@@ -202,6 +202,7 @@
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Abra a aba inicial por padrão
         window.onload = () => openTab('home');
     </script>
 </body>
