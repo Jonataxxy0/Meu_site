@@ -43,20 +43,20 @@
             object-fit: cover;
         }
 
-        /* Barra de navegação com imagem */
+        /* Barra de navegação */
         .navbar {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; /* Centraliza verticalmente o texto */
+            justify-content: center; /* Centraliza horizontalmente o texto */
             background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
-            background-size: cover;
-            background-position: center;
-            height: 120px;
+            background-size: cover; /* Garante que a imagem cubra toda a barra */
+            background-position: center; /* Centraliza a imagem */
+            height: 120px; /* Ajuste a altura para acomodar a imagem */
             padding: 10px;
             flex-wrap: wrap;
             z-index: 2;
             position: absolute;
-            top: 200px; /* Ajusta a posição da barra para baixo */
+            top: 200px; /* Move a barra para baixo */
             width: 100%;
         }
 
@@ -71,11 +71,11 @@
         }
 
         .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo transparente ao passar o mouse */
             transform: scale(1.1);
         }
 
-        /* Estilos do conteúdo das abas */
+        /* Conteúdo das abas */
         .tab-content {
             display: none;
             padding: 20px;
@@ -135,7 +135,7 @@
         @media (max-width: 480px) {
             .navbar {
                 flex-direction: column;
-                height: auto;
+                height: auto; /* Ajusta a altura para evitar cortes */
                 padding: 5px;
             }
 
@@ -159,7 +159,7 @@
         </video>
     </div>
 
-    <!-- Barra de navegação com imagem -->
+    <!-- Barra de navegação -->
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
