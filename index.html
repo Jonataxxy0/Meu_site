@@ -9,7 +9,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             color: #fff;
-            overflow: auto; /* Permite a rolagem */
+            overflow: auto;
         }
 
         .background {
@@ -108,6 +108,8 @@
             padding-top: 20px;
             background-color: #808080;
             border-radius: 10px;
+            width: 50%; /* Reduz o tamanho para 50% */
+            margin-left: 25%; /* Centraliza a seção */
         }
 
         .faq-section h2 {
@@ -203,69 +205,4 @@
 
     <div class="gif-container">
         <video id="gifVideo" muted loop autoplay>
-            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-    </div>
-
-    <div class="navbar">
-        <img src="https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png" alt="Logo">
-        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-    </div>
-
-    <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-    </div>
-
-    <div id="support" class="tab-content">
-        <h1>Suporte</h1>
-        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
-        <p><strong>suporte@lojajogos.com</strong></p>
-
-        <div class="faq-section">
-            <h2>Perguntas Frequentes</h2>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.
-🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.
-💬 Feedback positivo de milhares de clientes satisfeitos!</div>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
-            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
-            <div class="faq-answer">A entrega é automática e imediata...</div>
-        </div>
-    </div>
-
-    <div class="social-links">
-        <a href="https://www.instagram.com" target="_blank">
-            <img src="https://i.postimg.cc/GppfcRGb/transferir.png" alt="Instagram">
-        </a>
-        <a href="https://discord.com" target="_blank">
-            <img src="https://img.icons8.com/ios_filled/512/discord-logo.png" alt="Discord">
-        </a>
-    </div>
-
-    <div class="safe-seal">
-        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Segurança">
-    </div>
-
-    <script>
-        function openTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
-        }
-
-        function toggleAnswer(questionElement) {
-            const answer = questionElement.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        }
-
-        window.onload = () => openTab('support');
-    </script>
-</body>
-</html>
+            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4"
