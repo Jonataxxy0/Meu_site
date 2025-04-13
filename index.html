@@ -59,46 +59,88 @@
 
         #home {
             background-color: #444;
-        }
-
-        #games {
-            background-color: #333;
             position: relative;
+            overflow: hidden;
+            text-align: center;
         }
 
-        #contact {
-            background-color: #666;
-        }
-
-        #donations {
-            background-color: #555;
-        }
-
-        h1 {
+        #home h1 {
+            font-size: 48px;
             color: #0000ff;
-            font-size: 24px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Animação de FadeIn para o título */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #home p {
+            font-size: 18px;
+            color: #fff;
+            margin: 20px 0;
+        }
+
+        /* Animação de fundo gradiente */
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(45deg, #333333, #1a1a1a);
+            }
+            50% {
+                background: linear-gradient(45deg, #ff007f, #ff6600);
+            }
+            100% {
+                background: linear-gradient(45deg, #333333, #1a1a1a);
+            }
+        }
+
+        #home {
+            animation: backgroundAnimation 5s infinite;
+        }
+
+        .cta-button {
+            padding: 15px 30px;
+            background-color: #ff007f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff6600;
+            transform: scale(1.1);
         }
 
         /* Ajustes para telas pequenas */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 18px;
+            #home h1 {
+                font-size: 36px;
             }
 
-            .navbar a {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .tab-content {
-                padding: 15px;
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 16px;
             }
         }
 
         @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                padding: 5px;
+            #home h1 {
+                font-size: 28px;
+            }
+
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 14px;
             }
         }
 
@@ -116,7 +158,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8; /* Deixa o GIF com um pouco de transparência */
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -142,6 +184,7 @@
     <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+        <button class="cta-button" onclick="openTab('games')">Confira nossos Jogos</button>
     </div>
 
     <div id="games" class="tab-content">
