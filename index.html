@@ -9,8 +9,9 @@
             margin: 0;
             font-family: Arial, sans-serif;
             color: #fff;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh; /* Garante que o fundo preencha pelo menos a altura da janela */
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            overflow-y: auto; /* Permite rolagem vertical */
         }
 
         .background {
@@ -209,17 +210,16 @@
             <h2>Perguntas Frequentes</h2>
 
             <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">
-                🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.
-                🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.
+            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.<br>
+                🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.<br>
                 💬 Feedback positivo de milhares de clientes satisfeitos!
             </div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
-            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
+            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário e outras opções seguras!</div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
-            <div class="faq-answer">A entrega é automática e imediata...</div>
+            <div class="faq-answer">A entrega é automática e imediata após a confirmação do pagamento!</div>
         </div>
     </div>
 
