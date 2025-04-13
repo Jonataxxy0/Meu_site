@@ -190,6 +190,11 @@
             document.getElementById(tabName).style.display = 'block';
         }
 
+        // Ao carregar a página, automaticamente exibe a tela de "Contato"
+        window.onload = () => {
+            openTab('contact');
+        };
+
         const gifVideo = document.getElementById('gifVideo');
         setInterval(() => {
             gifVideo.play();
