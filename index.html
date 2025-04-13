@@ -55,8 +55,9 @@
             padding: 10px;
             flex-wrap: wrap;
             z-index: 2;
-            position: relative;
-            margin-top: 150px; /* Ajusta a distância para baixo */
+            position: absolute;
+            top: 200px; /* Ajusta a posição da barra para baixo */
+            width: 100%;
         }
 
         .navbar a {
@@ -72,14 +73,6 @@
         .navbar a:hover {
             background-color: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
-        }
-
-        .navbar-bottom {
-            position: absolute;
-            bottom: 10px;
-            display: flex;
-            justify-content: center;
-            width: 100%;
         }
 
         /* Estilos do conteúdo das abas */
@@ -168,13 +161,11 @@
 
     <!-- Barra de navegação com imagem -->
     <div class="navbar">
-        <div class="navbar-bottom">
-            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-            <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
-            <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
-            <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
-            <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
-        </div>
+        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+        <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
+        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
+        <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
+        <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
     <!-- Conteúdo das abas -->
