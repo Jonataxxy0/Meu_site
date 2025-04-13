@@ -24,19 +24,21 @@
             z-index: -1;
         }
 
-        /* Estilo do ícone de voltar */
-        .back-button {
+        .gif-container {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        .back-button:hover {
-            color: #ff007f;
+        .gif-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .navbar {
@@ -137,6 +139,11 @@
                 font-size: 14px;
                 padding: 8px;
             }
+
+            .gif-container {
+                width: 80px;
+                height: 80px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -151,13 +158,14 @@
 
     <div class="background"></div>
 
-    <!-- Ícone de voltar -->
-    <div class="back-button" onclick="goBack()">
-        &#8592; <!-- Seta para voltar -->
+    <div class="gif-container">
+        <video id="gifVideo" muted loop autoplay>
+            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
     </div>
 
     <div class="navbar">
-        <!-- Links de navegação -->
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
     </div>
@@ -198,11 +206,7 @@
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
-        function goBack() {
-            window.history.back(); // Volta para a página anterior
-        }
-
-        window.onload = () => openTab('home');
+        window.onload = () => openTab('support');
     </script>
 </body>
 </html>
