@@ -13,7 +13,6 @@
             overflow: hidden;
         }
 
-        /* Fundo desfocado em preto e cinza */
         .background {
             position: absolute;
             top: 0;
@@ -25,7 +24,6 @@
             z-index: -1;
         }
 
-        /* GIF no canto superior esquerdo */
         .gif-container {
             position: absolute;
             top: 10px;
@@ -47,28 +45,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            height: 150px; /* Aumentar altura da barra */
-            background-image: url('https://i.postimg.cc/3kTtTjFf/your-image.png');
+            background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
             background-size: cover;
-            background-position: center;
-            padding: 10px 0;
+            background-repeat: no-repeat;
+            height: 150px;
+            padding: 0 10px;
             z-index: 2;
+            position: relative;
         }
 
         .navbar a {
             color: white;
-            padding: 15px 20px;
+            padding: 10px 15px;
             text-align: center;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            margin: 5px;
             transition: all 0.3s ease-in-out;
-            z-index: 2;
         }
 
         .navbar a:hover {
-            background-color: rgba(255, 133, 51, 0.8); /* Laranja mais claro com transparência */
+            background-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
 
@@ -108,10 +109,15 @@
             font-size: 24px;
         }
 
-        /* Ajustes para telas pequenas */
         @media (max-width: 768px) {
             h1 {
                 font-size: 18px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
             }
 
             .navbar a {
@@ -119,27 +125,13 @@
                 padding: 8px;
             }
 
-            .tab-content {
-                padding: 15px;
-            }
-
             .gif-container {
                 width: 80px;
                 height: 80px;
             }
-
-            .navbar {
-                height: 120px; /* Ajustar altura para telas menores */
-            }
         }
 
         @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                padding: 5px;
-                height: 100px; /* Ajustar altura ainda menor */
-            }
-
             .gif-container {
                 width: 60px;
                 height: 60px;
@@ -149,10 +141,8 @@
 </head>
 <body>
 
-    <!-- Fundo desfocado -->
     <div class="background"></div>
 
-    <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
         <video id="gifVideo" muted loop autoplay>
             <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
@@ -160,7 +150,6 @@
         </video>
     </div>
 
-    <!-- Barra de navegação -->
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
@@ -169,7 +158,6 @@
         <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
-    <!-- Conteúdo das abas -->
     <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
@@ -201,14 +189,13 @@
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block');
+            document.getElementById(tabName).style.display = 'block';
         }
 
-        // Controla a reprodução do vídeo (GIF)
         const gifVideo = document.getElementById('gifVideo');
         setInterval(() => {
             gifVideo.play();
-        }, 15000); // Reproduz a cada 15 segundos
+        }, 15000);
     </script>
 
 </body>
