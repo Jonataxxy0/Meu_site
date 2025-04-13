@@ -84,13 +84,12 @@
         }
 
         #home {
-            display: block;
             background-color: #444;
+            display: block; /* Tela 1 visível ao entrar no site */
         }
 
         #games {
             background-color: #333;
-            position: relative;
         }
 
         #contact {
@@ -108,6 +107,21 @@
         h1 {
             color: #0000ff;
             font-size: 24px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .contact-info a {
+            color: #ff007f;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -162,6 +176,12 @@
     <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+        
+        <div class="contact-info">
+            <p>Para suporte, entre em contato conosco:</p>
+            <p>Email: <a href="mailto:support@lojadejogos.com">support@lojadejogos.com</a></p>
+            <p>Telefone: <a href="tel:+5511987654321">(11) 98765-4321</a></p>
+        </div>
     </div>
 
     <div id="games" class="tab-content">
@@ -192,13 +212,6 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
-
-        // Controla a reprodução do vídeo (GIF)
-        const gifVideo = document.getElementById('gifVideo');
-        setInterval(() => {
-            gifVideo.play();
-        }, 15000);
-
     </script>
 
 </body>
