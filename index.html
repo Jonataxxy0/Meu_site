@@ -79,23 +79,6 @@
             font-size: 24px;
         }
 
-        .gif-container {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 100px;
-            height: 100px;
-            border: 2px solid #fff;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .gif-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         /* Ajustes para telas pequenas */
         @media (max-width: 768px) {
             h1 {
@@ -110,11 +93,6 @@
             .tab-content {
                 padding: 15px;
             }
-
-            .gif-container {
-                width: 80px;
-                height: 80px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -122,11 +100,24 @@
                 flex-direction: column;
                 padding: 5px;
             }
+        }
 
-            .gif-container {
-                width: 60px;
-                height: 60px;
-            }
+        /* Estilos para o GIF */
+        .gif-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -137,10 +128,7 @@
 
     <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
-        <video id="gifVideo" muted>
-            <source src="https://media.giphy.com/media/PduK1djQ9JUoNPcAvK/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
+        <img src="https://media.giphy.com/media/YQ2Cjz1c0lUO8gNKX6/giphy.gif" alt="GIF">
     </div>
 
     <!-- Barra de navegação -->
@@ -179,12 +167,6 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
-
-        // Controla a reprodução do vídeo (GIF)
-        const gifVideo = document.getElementById('gifVideo');
-        setInterval(() => {
-            gifVideo.play();
-        }, 15000); // Reproduz a cada 15 segundos
     </script>
 
 </body>
