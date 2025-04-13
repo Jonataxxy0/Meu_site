@@ -24,6 +24,23 @@
             z-index: -1;
         }
 
+        .gif-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .gif-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .navbar {
             display: flex;
             align-items: center;
@@ -71,7 +88,7 @@
         }
 
         #support {
-            background-color: #777;
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -81,12 +98,17 @@
         }
 
         .faq-section {
-            margin-top: 100px;
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #4d4d4d;
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
+        }
+
+        /* Ajuste da cor para um preto mais claro no título */
+        .faq-section h2 {
+            color: #4d4d4d; /* Preto mais claro */
         }
 
         .faq-question {
@@ -111,27 +133,6 @@
             margin-top: 5px;
         }
 
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: #222;
-            padding: 10px 0;
-            text-align: center;
-            color: white;
-        }
-
-        footer a {
-            margin: 0 10px;
-            color: white;
-            text-decoration: none;
-        }
-
-        footer img {
-            vertical-align: middle;
-            width: 30px;
-        }
-
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -143,12 +144,31 @@
                 font-size: 14px;
                 padding: 8px;
             }
+
+            .gif-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-container {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="background"></div>
+
+    <div class="gif-container">
+        <video id="gifVideo" muted loop autoplay>
+            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
+    </div>
 
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
@@ -179,17 +199,6 @@
         </div>
     </div>
 
-    <footer>
-        <div>
-            <a href="https://instagram.com" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"> Instagram
-            </a>
-            <a href="https://discord.com" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Discord_logo.svg" alt="Discord"> Discord
-            </a>
-        </div>
-    </footer>
-
     <script>
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
@@ -202,8 +211,7 @@
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Abra a aba inicial por padrão
-        window.onload = () => openTab('home');
+        window.onload = () => openTab('support');
     </script>
 </body>
 </html>
