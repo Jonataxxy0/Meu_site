@@ -10,9 +10,7 @@
             font-family: Arial, sans-serif;
             color: #fff;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            overflow: hidden;
         }
 
         .background {
@@ -45,19 +43,23 @@
 
         .navbar {
             display: flex;
-            justify-content: center;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 15px 0;
+            justify-content: center;
+            background-image: url('https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 150px;
+            padding: 0 10px;
             z-index: 2;
+            position: relative;
         }
 
         .navbar a {
             color: white;
-            padding: 10px 20px;
+            padding: 10px 15px;
             text-align: center;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             background: rgba(0, 0, 0, 0.5);
@@ -86,7 +88,7 @@
         }
 
         #support {
-            background-color: #777;
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -96,16 +98,16 @@
         }
 
         .faq-section {
-            margin-top: 100px;
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080;
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
         }
 
         .faq-section h2 {
-            color: #4d4d4d;
+            color: #4d4d4d; /* Preto mais claro */
         }
 
         .faq-question {
@@ -132,14 +134,14 @@
 
         .social-links {
             display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
+            justify-content: flex-start;
+            margin-top: 50px; /* Ajusta o espaçamento para baixo */
         }
 
         .social-links a {
             margin-right: 20px;
-            width: 50px;
-            height: 50px;
+            width: 40px; /* Reduz o tamanho dos ícones */
+            height: 40px;
             border-radius: 50%;
             overflow: hidden;
             display: inline-block;
@@ -154,6 +156,7 @@
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
+                height: auto;
                 padding: 10px;
             }
 
