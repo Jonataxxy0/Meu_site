@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
     <style>
-        body, html {
+        body {
             margin: 0;
             font-family: Arial, sans-serif;
-            color: #000;
-            height: 100%;
-            overflow-y: auto; /* Permitir rolagem */
-            background-color: #fff; /* Fundo branco */
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .background {
@@ -89,7 +88,7 @@
         }
 
         #support {
-            background-color: #777;
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -99,16 +98,16 @@
         }
 
         .faq-section {
-            margin-top: 100px;
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080;
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
         }
 
         .faq-section h2 {
-            color: #4d4d4d;
+            color: #4d4d4d; /* Preto mais claro */
         }
 
         .faq-question {
@@ -136,12 +135,12 @@
         .social-links {
             display: flex;
             justify-content: flex-start;
-            margin-top: 50px;
+            margin-top: 50px; /* Ajusta o espaçamento para baixo */
         }
 
         .social-links a {
             margin-right: 20px;
-            width: 40px;
+            width: 40px; /* Reduz o tamanho dos ícones */
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
@@ -156,15 +155,15 @@
 
         .safe-seal {
             text-align: center;
-            margin-top: 50px;
-            position: absolute;
-            bottom: 20px;
+            position: fixed; /* Fixa a imagem na parte inferior */
+            bottom: 10px; /* Ajuste para a distância da parte inferior */
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%); /* Centraliza horizontalmente */
+            z-index: 10; /* Garante que a imagem fique acima de outros elementos */
         }
 
         .safe-seal img {
-            max-width: 200px;
+            max-width: 300px; /* Aumenta o tamanho da imagem */
             display: block;
         }
 
@@ -224,7 +223,9 @@
             <h2>Perguntas Frequentes</h2>
 
             <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
-            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados. 🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida. 💬 Feedback positivo de milhares de clientes satisfeitos!</div>
+            <div class="faq-answer">🔒 Sim! Nosso site é protegido com tecnologia de ponta. Utilizamos certificação SSL para garantir a segurança dos seus dados.
+🛡️ Suporte ao cliente disponível 24/7 para qualquer dúvida.
+💬 Feedback positivo de milhares de clientes satisfeitos!</div>
 
             <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
             <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
@@ -244,7 +245,7 @@
     </div>
 
     <div class="safe-seal">
-        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Google Safe">
+        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Segurança">
     </div>
 
     <script>
@@ -261,6 +262,5 @@
 
         window.onload = () => openTab('support');
     </script>
-
 </body>
 </html>
