@@ -28,8 +28,8 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            width: 100px;
-            height: 100px;
+            width: 120px; /* Aumentando o tamanho da imagem */
+            height: 120px;
             border-radius: 8px;
             overflow: hidden;
             z-index: 1;
@@ -52,6 +52,12 @@
             padding: 0 10px;
             z-index: 2;
             position: relative;
+        }
+
+        .navbar img {
+            width: 200px; /* Aumentando o tamanho da imagem na barra de navegação */
+            height: auto;
+            margin-top: 10px; /* Ajustando o alinhamento */
         }
 
         .navbar a {
@@ -205,6 +211,7 @@
     </div>
 
     <div class="navbar">
+        <img src="https://i.postimg.cc/7ZCdSmG4/Black-White-Minimalist-Gaming-Banner-Landscape.png" alt="Logo">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
     </div>
