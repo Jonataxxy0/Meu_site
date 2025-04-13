@@ -1,25 +1,45 @@
-
-import React from 'react';
-import { Heart } from 'lucide-react';
-
-const Index = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1EAEDB] to-[#FFDEE2] flex items-center justify-center p-4">
-      <div className="text-center bg-white/20 backdrop-blur-md rounded-2xl p-8 md:p-16 shadow-lg transform transition-all hover:scale-105">
-        <div className="flex justify-center mb-6 space-x-4">
-          <Heart className="text-pink-300 w-12 h-12 animate-pulse" />
-          <Heart className="text-blue-300 w-12 h-12 animate-pulse delay-300" />
-          <Heart className="text-pink-300 w-12 h-12 animate-pulse delay-600" />
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-          Azul com Corações Rosas
-        </h1>
-        <p className="text-xl text-white/90 max-w-md mx-auto">
-          Um toque de amor e delicadeza em cada detalhe
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export default Index;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        header img {
+            width: 1280px;
+            height: 657auto;
+        }
+        header h1 {
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="transferir.jpg" alt="Minha Logo">
+        <h1>Site Vendas</h1>
+    </header>
+    <section>
+        <p>Venda</p>
+    </section>
+</body>
+</html>
