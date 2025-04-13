@@ -45,8 +45,8 @@
 
         .navbar {
             display: flex;
-            background-color: rgba(255, 102, 0, 0.5); /* Laranja com transparência */
-            background-image: url('https://i.imgur.com/VORDmyf.jpg'); /* URL da imagem */
+            background: rgba(0, 0, 0, 0.5); /* Fundo preto com transparência */
+            background-image: url('https://i.imgur.com/lhQlJZR.jpg'); /* Imagem fornecida */
             background-size: cover;
             background-position: center;
             padding: 10px;
@@ -63,6 +63,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
+            z-index: 3; /* Coloca os links acima da imagem */
         }
 
         .navbar a:hover {
