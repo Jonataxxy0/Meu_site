@@ -84,6 +84,7 @@
         }
 
         #home {
+            display: block;
             background-color: #444;
         }
 
@@ -192,10 +193,12 @@
             document.getElementById(tabName).style.display = 'block';
         }
 
+        // Controla a reprodução do vídeo (GIF)
         const gifVideo = document.getElementById('gifVideo');
         setInterval(() => {
             gifVideo.play();
         }, 15000);
+
     </script>
 
 </body>
