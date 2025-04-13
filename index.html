@@ -125,8 +125,8 @@
             }
         }
 
-        /* Estilização do vídeo no canto superior esquerdo */
-        .video-container {
+        /* Estilização do GIF no canto superior esquerdo */
+        .gif-container {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -136,6 +136,12 @@
             border-radius: 8px;
             overflow: hidden;
         }
+
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -143,14 +149,9 @@
     <!-- Div do fundo desfocado -->
     <div class="background"></div>
 
-    <!-- Vídeo no canto superior esquerdo -->
-    <div class="video-container">
-        <iframe 
-            src="https://www.youtube.com/embed/Gkao4MqUc_Q" 
-            frameborder="0" 
-            allowfullscreen 
-            style="width: 100%; height: 100%;">
-        </iframe>
+    <!-- GIF no canto superior esquerdo -->
+    <div class="gif-container">
+        <img src="URL_DO_SEU_GIF" alt="Animação">
     </div>
 
     <!-- Barra de navegação -->
