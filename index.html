@@ -88,7 +88,7 @@
         }
 
         #support {
-            background-color: #777;
+            background-color: #777; /* Cinza mais claro para a seção de suporte */
             padding: 20px;
             border-radius: 10px;
         }
@@ -98,16 +98,17 @@
         }
 
         .faq-section {
-            margin-top: 100px;
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
             text-align: left;
             border-top: 2px solid #000000;
             padding-top: 20px;
-            background-color: #808080;
+            background-color: #808080; /* Cinza claro para a seção de Perguntas Frequentes */
             border-radius: 10px;
         }
 
+        /* Ajuste da cor para um preto mais claro no título */
         .faq-section h2 {
-            color: #4d4d4d;
+            color: #4d4d4d; /* Preto mais claro */
         }
 
         .faq-question {
@@ -130,6 +131,27 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             margin-top: 5px;
+        }
+
+        .social-icons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 50px;
+            height: 50px;
+        }
+
+        .social-icons img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @media (max-width: 768px) {
@@ -155,33 +177,6 @@
                 width: 60px;
                 height: 60px;
             }
-        }
-
-        /* Estilos do rodapé */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-        }
-
-        .footer a {
-            display: block;
-            width: 40px;
-            height: 40px;
-        }
-
-        .footer img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .footer img:hover {
-            transform: scale(1.1);
         }
     </style>
 </head>
@@ -225,12 +220,9 @@
         </div>
     </div>
 
-    <div class="footer">
-        <a href="https://www.instagram.com" target="_blank">
+    <div class="social-icons">
+        <a href="https://www.instagram.com/seu_perfil/" target="_blank">
             <img src="https://i.postimg.cc/GppfcRGb/transferir.png" alt="Instagram">
-        </a>
-        <a href="https://discord.com" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Discord_logo_2023.png" alt="Discord">
         </a>
     </div>
 
