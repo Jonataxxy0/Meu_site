@@ -85,11 +85,11 @@
 
         #home {
             background-color: #444;
-            display: block; /* Tela 1 visível ao entrar no site */
         }
 
         #games {
             background-color: #333;
+            position: relative;
         }
 
         #contact {
@@ -107,21 +107,6 @@
         h1 {
             color: #0000ff;
             font-size: 24px;
-        }
-
-        p {
-            font-size: 18px;
-        }
-
-        .contact-info {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        .contact-info a {
-            color: #ff007f;
-            text-decoration: none;
-            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -156,8 +141,10 @@
 </head>
 <body>
 
+    <!-- Fundo desfocado -->
     <div class="background"></div>
 
+    <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
         <video id="gifVideo" muted loop autoplay>
             <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
@@ -165,6 +152,7 @@
         </video>
     </div>
 
+    <!-- Barra de navegação -->
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
@@ -173,17 +161,14 @@
         <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
-    <div id="home" class="tab-content">
+    <!-- Tela Inicial 1 - Conteúdo visível automaticamente -->
+    <div id="home" class="tab-content" style="display: block;">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-        
-        <div class="contact-info">
-            <p>Para suporte, entre em contato conosco:</p>
-            <p>Email: <a href="mailto:support@lojadejogos.com">support@lojadejogos.com</a></p>
-            <p>Telefone: <a href="tel:+5511987654321">(11) 98765-4321</a></p>
-        </div>
+        <p>Para entrar em contato, clique na opção "Contato" na barra de navegação.</p>
     </div>
 
+    <!-- Conteúdo das abas (Tela 2) -->
     <div id="games" class="tab-content">
         <h1>Jogos em Destaque</h1>
         <p>Confira os jogos mais populares e novos lançamentos!</p>
@@ -192,6 +177,7 @@
     <div id="contact" class="tab-content">
         <h1>Entre em Contato</h1>
         <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
+        <p>Email de Suporte: <a href="mailto:support@lojadejogos.com">support@lojadejogos.com</a></p>
     </div>
 
     <div id="donations" class="tab-content">
@@ -212,6 +198,11 @@
             tabs.forEach(tab => tab.style.display = 'none');
             document.getElementById(tabName).style.display = 'block';
         }
+
+        const gifVideo = document.getElementById('gifVideo');
+        setInterval(() => {
+            gifVideo.play();
+        }, 15000);
     </script>
 
 </body>
