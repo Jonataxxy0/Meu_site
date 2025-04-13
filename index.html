@@ -45,11 +45,14 @@
 
         .navbar {
             display: flex;
-            background-color: #ff6600; /* Cor laranja */
+            background-image: url('URL_DA_SUA_IMAGEM_AQUI');
+            background-size: cover;
+            background-position: center;
             padding: 10px;
             justify-content: center;
             flex-wrap: wrap;
             z-index: 2;
+            opacity: 0.8; /* Tornar a imagem transparente */
         }
 
         .navbar a {
@@ -60,10 +63,12 @@
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
+            background: rgba(0, 0, 0, 0.5); /* Fundo escuro para contraste */
+            border-radius: 5px;
         }
 
         .navbar a:hover {
-            background-color: #ff8533; /* Laranja mais claro */
+            background-color: rgba(255, 133, 51, 0.7); /* Cor de hover com transparência */
             transform: scale(1.1);
         }
 
@@ -191,7 +196,7 @@
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
+            document.getElementById(tabName).style.display = 'block');
         }
 
         // Controla a reprodução do vídeo (GIF)
