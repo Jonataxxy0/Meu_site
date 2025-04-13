@@ -141,10 +141,8 @@
 </head>
 <body>
 
-    <!-- Fundo desfocado -->
     <div class="background"></div>
 
-    <!-- GIF no canto superior esquerdo -->
     <div class="gif-container">
         <video id="gifVideo" muted loop autoplay>
             <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
@@ -152,32 +150,30 @@
         </video>
     </div>
 
-    <!-- Barra de navegação -->
     <div class="navbar">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('games')">Jogos</a>
-        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a>
+        <a href="javascript:void(0)" onclick="openTab('contact')">Contato</a> <!-- Adicionada a opção "Contato" -->
         <a href="javascript:void(0)" onclick="openTab('donations')">Doações</a>
         <a href="javascript:void(0)" onclick="openTab('community')">Comunidade</a>
     </div>
 
-    <!-- Tela Inicial 1 - Conteúdo visível automaticamente -->
-    <div id="home" class="tab-content" style="display: block;">
+    <!-- Tela 1 (inicial) -->
+    <div id="home" class="tab-content">
         <h1>Bem-vindo à Loja de Jogos!</h1>
         <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-        <p>Para entrar em contato, clique na opção "Contato" na barra de navegação.</p>
     </div>
 
-    <!-- Conteúdo das abas (Tela 2) -->
+    <!-- Tela 2 (conteúdo do contato) -->
+    <div id="contact" class="tab-content">
+        <h1>Entre em Contato</h1>
+        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
+        <p><strong>suporte@lojajogos.com</strong></p> <!-- E-mail para contato -->
+    </div>
+
     <div id="games" class="tab-content">
         <h1>Jogos em Destaque</h1>
         <p>Confira os jogos mais populares e novos lançamentos!</p>
-    </div>
-
-    <div id="contact" class="tab-content">
-        <h1>Entre em Contato</h1>
-        <p>Tem alguma dúvida? Fale conosco através do formulário abaixo:</p>
-        <p>Email de Suporte: <a href="mailto:support@lojadejogos.com">support@lojadejogos.com</a></p>
     </div>
 
     <div id="donations" class="tab-content">
