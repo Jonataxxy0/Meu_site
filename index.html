@@ -45,13 +45,13 @@
 
         .navbar {
             display: flex;
+            justify-content: space-between; /* Isso distribui os itens com o máximo de espaço entre eles */
             align-items: center;
-            justify-content: center;
             background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
             background-size: cover;
             background-repeat: no-repeat;
             height: 300px;
-            padding: 10px 300px 30px 40px;
+            padding: 10px 40px 30px 40px;
             z-index: 2;
             position: relative;
         }
@@ -81,7 +81,7 @@
             
         .navbar-logo-container {
             flex-shrink: 0; /* Impede que a logo encolha */
-            margin-left: 150px; /* Adiciona espaço entre a logo e os links */
+            margin-left: auto; /* Adiciona espaço entre a logo e os links */
         }
 
         .navbar-logo {
