@@ -82,9 +82,11 @@
         .navbar-logo-container {
             flex-shrink: 0; /* Impede que a logo encolha */
             margin-left: auto; /* Adiciona espaço entre a logo e os links */
+            margin-right: 150px; /* Ajuste esse valor conforme necessário */
         }
 
         .navbar-logo {
+            display: none; /* Garante que não haverá outra logo em locais inesperados */
             max-width: 150px; /* Reduz um pouco o tamanho */
             height: auto; /* Mantém a proporção da imagem */
             border-radius: 50%; /* Torna a logo completamente arredondada (circulando a imagem) */
@@ -253,7 +255,7 @@
         </video>
     </div>
 
-    <div class="navbar">
+ <div class="navbar">
     <div class="navbar-links">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
