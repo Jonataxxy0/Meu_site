@@ -117,30 +117,33 @@
             color: #000000;
         }
 
-        #discord .faq-section {
-            background-color: #000000;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
-            color: #000;
+        .discord-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Espaço acima do botão */
         }
-
-        #discord .faq-section h2 {
-            color: #c3f7f7;
-        }
-
-        #discord .discord-link {
-            color: #4CAF50;
-            font-weight: bold;
+        
+        .discord-button {
+            display: inline-block;
+            padding: 15px 30px; /* Tamanho do botão */
+            background: linear-gradient(45deg, #7289da, #99aaff); /* Gradiente inspirado nas cores do Discord */
+            color: #fff;
             text-decoration: none;
+            font-size: 18px; /* Tamanho da fonte */
+            font-weight: bold;
+            border-radius: 10px; /* Bordas arredondadas */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
-        #discord .discord-link:hover {
-            text-decoration: underline;
+       .discord-button:hover {
+            transform: scale(1.1); /* Faz o botão crescer ligeiramente */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Intensifica a sombra ao passar o mouse */
         }
-                    
-        h1, h2 {
-            color: #000000;
+
+        .discord-button:active {
+            transform: scale(1); /* Volta ao tamanho original ao clicar */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Retorna a sombra original */
         }
 
         .faq-section {
