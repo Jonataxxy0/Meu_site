@@ -46,43 +46,35 @@
         .navbar {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
             background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
             background-size: cover;
             background-repeat: no-repeat;
             height: 300px;
-            padding: 10px 100px 30px 40px;
+            padding: 10px 300px 30px 40px;
             z-index: 2;
             position: relative;
         }
 
         .navbar a {
-            color: #FFFFFF;
+            color: white;
             padding: 10px 15px;
             text-align: center;
             text-decoration: none;
             font-size: 30px;
             font-weight: bold;
             cursor: pointer;
-            background: linear-gradient(135deg, rgba(200, 200, 200, 0.8), rgba(150, 150, 180, 0.8));
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             margin: 5px;
             transition: all 0.3s ease-in-out;
         }
 
         .navbar a:hover {
-            background: linear-gradient(135deg, rgba(173, 216, 230, 0.8), rgba(211, 211, 211, 0.8)); /* Azul claro e cinza */
+            background-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
-            transition: all 0.3s ease-in-out;
         }
 
-         .navbar-logo {
-            width: 150px; /* Ajuste o valor de acordo com o tamanho desejado */
-            height: auto; /* A altura será ajustada automaticamente para manter a proporção */
-            cursor: pointer; /* Mostra o cursor como uma mãozinha ao passar por cima */
-            margin-left: 300px; /* Adiciona espaço entre a logo e as abas */
-        }
-        
         .tab-content {
             display: none;
             padding: 20px;
@@ -108,17 +100,17 @@
             color: #000000;
         }
 
-        .faq-question {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-            max-width: 600px; /* Limita a largura */
-            margin-left: auto; /* Centraliza */
-            margin-right: auto; /* Centraliza */
+        .faq-section {
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
+            text-align: center;
+            border-top: 2px solid #000000;
+            padding-top: 20px;
+            background-color: #a3c7c9; /* Cinza claro para a seção de Perguntas Frequentes */
+            border-radius: 10px;
+        }
+
+        .faq-section h2 {
+            color: #c3f7f7; /* Preto mais claro */
         }
 
         .faq-question {
@@ -132,17 +124,14 @@
             max-width: 600px; /* Limita a largura */
             margin-left: auto; /* Centraliza */
             margin-right: auto; /* Centraliza */
-            color: white;
-            text-align: center;
         }
 
         .faq-question:hover {
             background: rgba(255, 255, 255, 0.2);
         }
 
-
         .faq-answer {
-            display: none; /* Mantém as respostas ocultas inicialmente */
+            display: none;
             padding: 10px;
             background: rgba(0, 0, 255, 0.1);
             border-radius: 5px;
@@ -154,9 +143,15 @@
             font-size: 14px; /* Diminui o tamanho do texto */
         }
 
+        .social-links {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 50px; /* Ajusta o espaçamento para baixo */
+        }
+
         .social-links a {
             margin-right: 20px;
-            width: 20px; /* Reduz o tamanho dos ícones */
+            width: 40px; /* Reduz o tamanho dos ícones */
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
@@ -229,9 +224,9 @@
     </div>
 
     <div class="navbar">
+        <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-        <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
     </div>
 
     <div id="home" class="tab-content">
@@ -244,32 +239,30 @@
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
         <p><strong>suporte@lojajogos.com</strong></p>
 
-    <div class="faq-section">
-        <h2>Perguntas Frequentes</h2>
+        <div class="faq-section">
+            <h2>Perguntas Frequentes</h2>
 
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            Clique para ver a resposta 1
-        </div>
-        <div class="faq-answer">
-            Esta é a resposta 1. Aqui está o conteúdo da resposta.
-        </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
+            <div class="faq-answer">Sim! Nossa loja é 100% segura e confiável...</div>
 
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            Clique para ver a resposta 2
-        </div>
-        <div class="faq-answer">
-            Esta é a resposta 2. Mais informações estão aqui.
-        </div>
+            <div class="faq-question" onclick="toggleAnswer(this)">Quais métodos de pagamento vocês aceitam?</div>
+            <div class="faq-answer">Aceitamos cartões de crédito, boleto bancário...</div>
 
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            Clique para ver a resposta 3
-        </div>
-        <div class="faq-answer">
-            Esta é a resposta 3. Tudo o que você precisa saber está aqui.
-    </div>
-</div>
+            <div class="faq-question" onclick="toggleAnswer(this)">Como funciona a entrega dos jogos?</div>
+            <div class="faq-answer">A entrega é automática e imediata...</div>
 
-        
+            <div class="faq-question" onclick="toggleAnswer(this)">Como posso acompanhar meu pedido?</div>
+            <div class="faq-answer">Você receberá um link de rastreamento assim que o pedido for processado.</div>
+
+            <div class="faq-question" onclick="toggleAnswer(this)">Posso trocar ou devolver um jogo?</div>
+            <div class="faq-answer">Infelizmente, não aceitamos devoluções de jogos digitais, mas caso haja um problema, entre em contato.</div>
+
+            <div class="faq-question" onclick="toggleAnswer(this)">Quais plataformas vocês atendem?</div>
+            <div class="faq-answer">Atendemos todas as principais plataformas como PC, PlayStation, Xbox e Nintendo Switch.</div>
+
+            <div class="faq-question" onclick="toggleAnswer(this)">Posso comprar um jogo como presente?</div>
+            <div class="faq-answer">Sim! Você pode escolher a opção de presente no momento da compra.</div>
+        </div>
     </div>
 
     <div class="social-links">
@@ -293,14 +286,8 @@
         }
 
         function toggleAnswer(questionElement) {
-            // Encontra a próxima resposta associada à pergunta clicada
             const answer = questionElement.nextElementSibling;
-
-            // Alterna entre mostrar e ocultar a resposta
-            if (answer.style.display === 'block') {
-                answer.style.display = 'none';
-                } else {
-                answer.style.display = 'block';
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
         window.onload = () => openTab('support');
