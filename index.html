@@ -84,7 +84,13 @@
             max-width: 150px; /* Define o tamanho da logo */
             height: auto; /* Mantém a proporção da imagem */
         }
-        
+
+        .navbar-links {
+            display: flex;  /* Flexbox para alinhar os links na horizontal */
+            gap: 20px; /* Espaço entre os links */
+            justify-content: center; /* Centraliza os links na barra */
+        }
+
         .tab-content {
             display: none;
             padding: 20px;
@@ -310,7 +316,7 @@
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
-        window.onload = () => openTab('support');
+        window.onload = () => openTab('home'); // Mudar de 'support' para 'home'
     </script>
 </body>
 </html>
