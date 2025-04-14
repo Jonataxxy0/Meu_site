@@ -108,67 +108,36 @@
             color: #000000;
         }
 
-        .faq-section {
-            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
-            text-align: center;
-            border-top: 2px solid #000000;
-            padding-top: 20px;
-            background-color: #a3c7c9; /* Cinza claro para a seção de Perguntas Frequentes */
-            border-radius: 10px;
-        }
-
-        .faq-section h2 {
-            color: #c3f7f7; /* Preto mais claro */
-        }
-
-        .c
-        }
-
         .faq-question {
-            background: rgba(0, 0, 0, 0.6); /* Cor de fundo escura, mais visível */
-            padding: 15px; /* Aumenta o espaçamento interno */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
             margin: 10px 0;
-            border-radius: 10px; /* Bordas arredondadas */
+            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px solid rgba(255, 255, 255, 0.6); /* Borda clara ao redor da pergunta */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra para destacar mais */
+            max-width: 600px; /* Limita a largura */
+            margin-left: auto; /* Centraliza */
+            margin-right: auto; /* Centraliza */
         }
 
         .faq-question:hover {
-            background: rgba(255, 255, 255, 0.2);  /* Fundo levemente mais claro quando o mouse passa */
-            transform: scale(1.05);  /* Aumenta ligeiramente o tamanho da pergunta para dar um efeito de zoom */
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .faq-answer {
-            display: none;  /* Inicialmente, as respostas são ocultas */
+            display: none;
             padding: 10px;
             background: rgba(0, 0, 255, 0.1);
             border-radius: 5px;
             margin-top: 5px;
-            text-align: center;
-            width: 50%;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 14px;
-            transition: all 0.3s ease-in-out;
-            opacity: 0;
-            transform: translateY(-20px);  /* As respostas começam ligeiramente deslocadas para cima */
+            text-align: center; /* Centraliza o texto */
+            width: 50%; /* Define a largura da resposta */
+            margin-left: auto; /* Centraliza horizontalmente o contêiner */
+            margin-right: auto; /* Centraliza horizontalmente o contêiner */
+            font-size: 14px; /* Diminui o tamanho do texto */
         }
 
-        .faq-answer.show {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);  /* Resposta desce suavemente */
-        }
-
-        .faq-answer:hover {
-            background: rgba(0, 0, 255, 0.3);  /* Destaca a resposta quando passa o mouse sobre ela */
-        }
 
         .social-links {
             display: flex;
