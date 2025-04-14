@@ -129,16 +129,19 @@
         }
 
         .faq-answer {
-            display: none;
-            padding: 10px;
-            background: rgba(230, 230, 250, 0.7)
-            border-radius: 5px;
-            margin-top: 5px;
-            text-align: center; /* Centraliza o texto */
-            width: 50%; /* Define a largura da resposta */
-            margin-left: auto; /* Centraliza horizontalmente o contêiner */
-            margin-right: auto; /* Centraliza horizontalmente o contêiner */
-            font-size: 14px; /* Diminui o tamanho do texto */
+              display: none;  /* As respostas ficam inicialmente escondidas */
+              padding: 10px;
+              background: rgba(0, 0, 255, 0.1);  /* Cor de fundo suave */
+              border-radius: 5px;
+              margin-top: 5px;
+              text-align: center;
+              width: 50%;
+              margin-left: auto;
+              margin-right: auto;
+              font-size: 14px;
+              transition: max-height 0.3s ease-out;
+              max-height: 0;  /* Faz com que a resposta tenha uma altura de 0 inicialmente */
+              overflow: hidden;  /* Esconde o conteúdo quando a altura for 0 */
         }
 
         .social-links {
