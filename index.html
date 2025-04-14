@@ -145,26 +145,35 @@
         }
 
         .faq-answer {
-              display: none;  /* As respostas ficam inicialmente escondidas */
-              padding: 10px;
-              background: rgba(0, 0, 255, 0.1);  /* Cor de fundo suave */
-              border-radius: 5px;
-              margin-top: 5px;
-              text-align: center;
-              width: 50%;
-              margin-left: auto;
-              margin-right: auto;
-              font-size: 14px;
-              transition: max-height 0.3s ease-out;
-              max-height: 0;  /* Faz com que a resposta tenha uma altura de 0 inicialmente */
-              overflow: hidden;  /* Esconde o conteúdo quando a altura for 0 */
+                display: none;  /* Inicialmente, as respostas são ocultas */
+            padding: 10px;
+            background: rgba(0, 0, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: center;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(-20px);  /* As respostas começam ligeiramente deslocadas para cima */
         }
 
+        .faq-answer.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);  /* Resposta desce suavemente */
+        }
+        
         .social-links {
             display: flex;
             justify-content: flex-start;
             margin-top: 50px; /* Ajusta o espaçamento para baixo */
         }
+
+        .faq-answer:hover {
+            background: rgba(0, 0, 255, 0.3);  /* Destaca a resposta quando passa o mouse sobre ela */
 
         .social-links a {
             margin-right: 20px;
@@ -256,7 +265,7 @@
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
         <p><strong>suporte@lojajogos.com</strong></p>
 
-        <div class="faq-section">
+    <div class="faq-section">
             <h2>Perguntas Frequentes</h2>
 
             <div class="faq-question" onclick="toggleAnswer(this)">É seguro comprar por aqui?</div>
@@ -304,7 +313,7 @@
 
         function toggleAnswer(questionElement) {
             const answer = questionElement.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            answer.classList.toggle('show');
         }
 
         window.onload = () => openTab('support');
