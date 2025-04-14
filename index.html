@@ -82,11 +82,10 @@
         .navbar-logo-container {
             flex-shrink: 0; /* Impede que a logo encolha */
             margin-left: auto; /* Adiciona espaço entre a logo e os links */
-            margin-right: 150px; /* Ajuste esse valor conforme necessário */
         }
 
         .navbar-logo {
-            max-width: 150px; /* Reduz um pouco o tamanho */
+            max-width: 150px; /* Define o tamanho da logo */
             height: auto; /* Mantém a proporção da imagem */
             border-radius: 50%; /* Torna a logo completamente arredondada (circulando a imagem) */
             cursor: pointer; /* Muda o cursor para a mãozinha */
@@ -95,6 +94,7 @@
         .navbar-links {
             display: flex;  /* Flexbox para alinhar os links na horizontal */
             gap: 20px; /* Espaço entre os links */
+            justify-content: center; /* Centraliza os links na barra */
         }
 
         .tab-content {
@@ -170,7 +170,8 @@
         
         .navbar-logo {
             max-width: 150px; /* Define a largura máxima */
-            height: auto; /* Mantém a proporção da imagem *
+            height: auto; /* Mantém a proporção da imagem */
+            margin-right: 150px; /* Adiciona espaço entre a logo e os links */
         }
 
         .social-links {
@@ -253,27 +254,11 @@
         </video>
     </div>
 
-<div class="navbar">
-    <div class="navbar-links">
-        <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-        <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-        <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a> <!-- Adicionei a aba do Discord aqui -->
-    </div>
-    <div class="navbar-logo-container">
-        <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
-    </div>
-</div>
-
-<div id="discord" class="tab-content">
-    <h1>Bem-vindo à nossa Comunidade no Discord!</h1>
-    <p>Junte-se à nossa comunidade no Discord para participar de discussões, eventos e muito mais!</p>
-    <p>
-        <a href="https://discord.gg/SEULINKDISCORD" target="_blank" style="background-color: #7289da; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
-            Entrar no Discord
-        </a>
-    </p>
-</div>
-        
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+            <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
+        </div>
     <div class="navbar-logo-container">
         <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
     </div>
