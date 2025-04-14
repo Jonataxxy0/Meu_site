@@ -85,16 +85,18 @@
         }
 
         .navbar-logo {
-            max-width: 150px; /* Define o tamanho da logo */
+            max-width: 120px; /* Reduz um pouco o tamanho */
             height: auto; /* Mantém a proporção da imagem */
             border-radius: 50%; /* Torna a logo completamente arredondada (circulando a imagem) */
             cursor: pointer; /* Muda o cursor para a mãozinha */
+            margin-right: 20px; /* Ajusta o espaçamento entre a logo e os links */
         }
 
         .navbar-links {
             display: flex;  /* Flexbox para alinhar os links na horizontal */
             gap: 20px; /* Espaço entre os links */
             justify-content: center; /* Centraliza os links na barra */
+            flex-wrap: wrap; /* Permite que os links quebrem para uma nova linha, se necessário */
         }
 
         .tab-content {
@@ -255,16 +257,20 @@
     </div>
 
     <div class="navbar">
-        <div class="navbar-links">
+    <div class="navbar-links">
         <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
         <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
         <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a>
+    </div>
+    <div class="navbar-logo-container">
+        <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
+    </div>
 </div>
 
 <div id="discord" class="tab-content">
-        <h1>Bem-vindo à nossa Comunidade no Discord!</h1>
-        <p>Junte-se à nossa comunidade no Discord para participar de discussões, eventos, e muito mais!</p>
-        <p>
+    <h1>Bem-vindo à nossa Comunidade no Discord!</h1>
+    <p>Junte-se à nossa comunidade no Discord para participar de discussões, eventos e muito mais!</p>
+    <p>
         <a href="https://discord.gg/SEULINKDISCORD" target="_blank" style="background-color: #7289da; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
             Entrar no Discord
         </a>
