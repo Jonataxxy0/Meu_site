@@ -5,10 +5,264 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
     <style>
-        /* Seu CSS original aqui */
+        #discord a {
+            transform: rotate(0deg);
+            transform-origin: center;
+            white-space: nowrap; /* Garante que o texto não quebre */
+            display: inline-block; /* Permite que o elemento seja tratado como um bloco para rodar */
+            margin-top: 20px; /* Ajuste para dar um espaço de alinhamento se necessário */
+        }
+
+        .discord-button {
+            display: inline-block;
+            padding: 15px 25px;
+            background: linear-gradient(45deg, rgba(138, 43, 226, 0.8), rgba(75, 0, 130, 0.8));
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .discord-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+        }
+
+        .discord-button:active {
+            transform: scale(1);
+            box-shadow: 0 0 10px rgba(75, 0, 130, 0.8);
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            height: 100vh;
+            overflow: scroll;
+            background-color: #fff;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ffffff, #dcdcdc);
+            filter: blur(15px);
+            z-index: -1;
+        }
+
+        .gif-container {
+            position: fixed;
+            top: 0px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .gif-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 300px;
+            padding: 10px 40px 30px 40px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(138, 43, 226, 0.6);
+            border-radius: 5px;
+            margin: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(173, 216, 230, 0.7);
+            transform: scale(1.1);
+        }
+
+        .navbar a:active {
+            background: rgba(144, 238, 144, 0.6);
+        }
+            
+        .navbar-logo-container {
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .navbar-logo {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #home {
+            background-color: #bdffff;
+        }
+
+        #support, #discord {
+            background-color: #E0FFFF;
+            padding: 90px;
+            border-radius: 10px;
+            color: #000000;
+        }
+
+        h1, h2 {
+            color: #000000;
+        }
+
+        .faq-section {
+            margin-top: 100px;
+            text-align: center;
+            border-top: 2px solid #000000;
+            padding-top: 20px;
+            padding-bottom: 60px;
+            background-color: #a3c7c9;
+            border-radius: 10px;
+            height: 600px;
+        }
+
+        .faq-question {
+            background: linear-gradient(45deg, rgba(255, 99, 71, 0.4), rgba(255, 165, 0, 0.4));
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(255, 165, 0, 0.4), rgba(255, 99, 71, 0.4));
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: center;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 50px;
+        }
+
+        .social-links a {
+            margin-right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-10px);
+        }
+
+        .social-links img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .verification-seal {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none;
+            width: 250px;
+            height: 100px;
+        }
+
+        .verification-seal img {
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .navbar a {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .gif-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-container {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body>
+
     <div class="background"></div>
 
     <div class="gif-container">
@@ -19,7 +273,14 @@
     </div>
 
     <div class="navbar">
-        <!-- Conteúdo original da barra de navegação -->
+        <div class="navbar-links">
+            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+            <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
+            <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a>
+        </div>
+        <div class="navbar-logo-container">
+            <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
+        </div>
     </div>
 
     <div id="home" class="tab-content">
@@ -28,7 +289,49 @@
     </div>
 
     <div id="support" class="tab-content">
-        <!-- Conteúdo original de suporte -->
+        <h1>Suporte</h1>
+        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
+        <p><strong>suporte@lojajogos.com</strong></p>
+
+        <div class="faq-section">
+            <h2>Perguntas Frequentes</h2>
+
+            <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> É seguro comprar por aqui?
+        </div>
+        <div class="faq-answer">Sim! Nossa loja utiliza tecnologias de segurança avançadas para garantir a proteção dos seus dados e transações. Compras realizadas aqui são 100% seguras.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Quais métodos de pagamento vocês aceitam?
+        </div>
+        <div class="faq-answer">Aceitamos diversos métodos de pagamento, incluindo cartões de crédito, débito, boleto bancário, e outras opções de pagamento digital.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Como funciona a entrega dos jogos?
+        </div>
+        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
+      
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Quais plataformas vocês atendem?
+        </div>
+        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Vocês oferecem descontos ou promoções?
+        </div>
+        <div class="faq-answer">Sim! Fique de olho nas nossas promoções periódicas e descontos especiais em determinados jogos. Inscreva-se na nossa newsletter para receber as ofertas diretamente no seu e-mail!</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Como posso entrar em contato com o suporte?
+        </div>
+        <div class="faq-answer">Se precisar de ajuda, nosso time de suporte está à disposição. Você pode nos contatar via e-mail em <strong>suporte@lojajogos.com</strong> ou através do nosso chat ao vivo.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> O que faço se o jogo não funcionar?
+        </div>
+        <div class="faq-answer">Se o jogo não estiver funcionando corretamente, entre em contato com o suporte técnico. Estamos prontos para ajudar com qualquer problema técnico e garantir que você possa jogar sem problemas.</div>
+</div>
+
     </div>
 
     <div id="discord" class="tab-content">
@@ -42,13 +345,19 @@
     </div>
 
     <button id="sendMessageBtn">Enviar Mensagem para o Discord</button>
+</div>
 
     <div class="social-links">
-        <!-- Seus links sociais originais -->
+        <a href="https://www.instagram.com" target="_blank">
+            <img src="https://i.postimg.cc/GppfcRGb/transferir.png" alt="Instagram">
+        </a>
+        <a href="https://discord.com" target="_blank">
+            <img src="https://i.postimg.cc/8PtSSN0z/download.png" alt="Discord">
+        </a>
     </div>
 
     <div class="verification-seal">
-        <!-- Selo de verificação original -->
+        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Verificação">
     </div>
 
     <script>
@@ -62,14 +371,6 @@
             const answer = questionElement.nextElementSibling;
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
-
-        document.getElementById('sendMessageBtn').addEventListener('click', () => {
-            const message = prompt("Digite a mensagem que você gostaria de enviar ao Discord:");
-            if (message) {
-                alert(`Mensagem enviada: "${message}"`);
-                // Aqui você pode implementar a lógica de envio para um webhook, se necessário.
-            }
-        });
 
         window.onload = () => openTab('home');
     </script>
