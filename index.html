@@ -42,7 +42,15 @@
             height: 100%;
             object-fit: cover;
         }
-
+        .arrow {
+            margin-right: 10px;
+            font-size: 18px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .faq-question.open .arrow {
+            transform: rotate(90deg); /* Gira a seta ao abrir */
+        
         .navbar {
             display: flex;
             justify-content: space-between; /* Isso distribui os itens com o máximo de espaço entre eles */
@@ -148,6 +156,9 @@
             max-width: 600px; /* Limita a largura */
             margin-left: auto; /* Centraliza */
             margin-right: auto; /* Centraliza */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .faq-question:hover {
@@ -339,6 +350,20 @@
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
 
+        function toggleAnswer(questionElement) {
+            const answer = questionElement.nextElementSibling;
+            const arrow = questionElement.querySelector('.arrow');
+
+        // Alterna a exibição da resposta
+        if (answer.style.display === 'block') {
+            answer.style.display = 'none';
+            arrow.style.transform = 'rotate(0deg)'; // Volta à posição inicial
+        } else {
+            answer.style.display = 'block';
+            arrow.style.transform = 'rotate(90deg)'; // Gira a seta
+        }
+}
+        
         window.onload = () => openTab('home'); // Mudar de 'support' para 'home'
     </script>
 </body>
