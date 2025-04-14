@@ -121,12 +121,28 @@
             margin-right: auto; /* Centraliza */
         }
 
+        .faq-question {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            max-width: 600px; /* Limita a largura */
+            margin-left: auto; /* Centraliza */
+            margin-right: auto; /* Centraliza */
+            color: white;
+            text-align: center;
+        }
+
         .faq-question:hover {
             background: rgba(255, 255, 255, 0.2);
         }
 
+
         .faq-answer {
-            display: none;
+            display: none; /* Mantém as respostas ocultas inicialmente */
             padding: 10px;
             background: rgba(0, 0, 255, 0.1);
             border-radius: 5px;
@@ -137,16 +153,6 @@
             margin-right: auto; /* Centraliza horizontalmente o contêiner */
             font-size: 14px; /* Diminui o tamanho do texto */
         }
-
-
-        .social-links {
-            display: flex;
-            justify-content: flex-start;
-            margin-top: 50px; /* Ajusta o espaçamento para baixo */
-        }
-
-        .faq-answer:hover {
-            background: rgba(0, 0, 255, 0.3);  /* Destaca a resposta quando passa o mouse sobre ela */
 
         .social-links a {
             margin-right: 20px;
@@ -239,29 +245,30 @@
         <p><strong>suporte@lojajogos.com</strong></p>
 
     <div class="faq-section">
-            <h2>Perguntas Frequentes</h2>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                É seguro comprar por aqui?
-                </div>
-        <div class="faq-answer">
-            Sim! Nossa loja é 100% segura e confiável...
-            </div>
+        <h2>Perguntas Frequentes</h2>
 
         <div class="faq-question" onclick="toggleAnswer(this)">
-            Quais métodos de pagamento vocês aceitam?
+            Clique para ver a resposta 1
         </div>
         <div class="faq-answer">
-            Aceitamos cartões de crédito, boleto bancário...
-            </div>
+            Esta é a resposta 1. Aqui está o conteúdo da resposta.
+        </div>
 
         <div class="faq-question" onclick="toggleAnswer(this)">
-            Como funciona a entrega dos jogos?
-            </div>
-        <div class="faq-answer">
-            A entrega é automática e imediata...
-            </div>
+            Clique para ver a resposta 2
         </div>
+        <div class="faq-answer">
+            Esta é a resposta 2. Mais informações estão aqui.
+        </div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            Clique para ver a resposta 3
+        </div>
+        <div class="faq-answer">
+            Esta é a resposta 3. Tudo o que você precisa saber está aqui.
+    </div>
+</div>
+
         
     </div>
 
