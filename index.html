@@ -34,6 +34,7 @@
             border-radius: 8px;
             overflow: hidden;
             z-index: 9999;
+            pointer-events: none; /* Evita interação do mouse */
         }
 
         .gif-container video {
@@ -216,7 +217,7 @@
     <div class="background"></div>
 
     <div class="gif-container">
-        <video id="gifVideo" muted loop autoplay>
+        <video autoplay loop muted>
             <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
             Seu navegador não suporta vídeos HTML5.
         </video>
