@@ -365,6 +365,13 @@
             const answer = questionElement.nextElementSibling;
             answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
+        
+        function openTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+
+
 
         window.onload = () => openTab('home'); // Mudar de 'support' para 'home'
     </script>
