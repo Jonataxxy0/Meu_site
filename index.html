@@ -124,24 +124,24 @@
         .c
         }
 
-        .faq-question:hover {
-            background: rgba(0, 0, 0, 0.7);  /* Cor de fundo escura */
-            padding: 15px;  /* Aumenta o espaçamento interno */
+        .faq-question {
+            background: rgba(0, 0, 0, 0.6); /* Cor de fundo escura, mais visível */
+            padding: 15px; /* Aumenta o espaçamento interno */
             margin: 10px 0;
-            border-radius: 10px;  /* Borda arredondada */
+            border-radius: 10px; /* Bordas arredondadas */
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            border: 2px solid rgba(255, 255, 255, 0.6);  /* Adiciona o retângulo com borda */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);  /* Adiciona sombra para destacar mais */
+            border: 2px solid rgba(255, 255, 255, 0.6); /* Borda clara ao redor da pergunta */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra para destacar mais */
         }
 
         .faq-question:hover {
-    background: rgba(255, 255, 255, 0.2);  /* Muda o fundo quando o mouse passa por cima */
-    transform: scale(1.05);  /* Um pequeno efeito de zoom para melhorar a interação */
+            background: rgba(255, 255, 255, 0.2);  /* Fundo levemente mais claro quando o mouse passa */
+            transform: scale(1.05);  /* Aumenta ligeiramente o tamanho da pergunta para dar um efeito de zoom */
         }
 
         .faq-answer {
@@ -165,7 +165,11 @@
             opacity: 1;
             transform: translateY(0);  /* Resposta desce suavemente */
         }
-        
+
+        .faq-answer:hover {
+            background: rgba(0, 0, 255, 0.3);  /* Destaca a resposta quando passa o mouse sobre ela */
+        }
+
         .social-links {
             display: flex;
             justify-content: flex-start;
