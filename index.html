@@ -45,7 +45,7 @@
 
         .navbar {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Isso distribui os itens com o máximo de espaço entre eles */
             align-items: center;
             background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
             background-size: cover;
@@ -75,22 +75,26 @@
             transform: scale(1.1);
         }
 
+        .navbar a:active {
+            background: rgba(144, 238, 144, 0.6); /* Verde claro com transparência */
+        }
+            
         .navbar-logo-container {
-            flex-shrink: 0;
-            margin-left: auto;
+            flex-shrink: 0; /* Impede que a logo encolha */
+            margin-left: auto; /* Adiciona espaço entre a logo e os links */
         }
 
         .navbar-logo {
-            max-width: 150px;
-            height: auto;
-            border-radius: 50%;
-            cursor: pointer;
+            max-width: 150px; /* Define o tamanho da logo */
+            height: auto; /* Mantém a proporção da imagem */
+            border-radius: 50%; /* Torna a logo completamente arredondada (circulando a imagem) */
+            cursor: pointer; /* Muda o cursor para a mãozinha */
         }
 
         .navbar-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
+            display: flex;  /* Flexbox para alinhar os links na horizontal */
+            gap: 20px; /* Espaço entre os links */
+            justify-content: center; /* Centraliza os links na barra */
         }
 
         .tab-content {
@@ -104,25 +108,81 @@
         }
 
         #home {
-            background-color: #bdffff;
+            background-color: #bdffff
         }
 
         #support {
-            background-color: #E0FFFF;
+            background-color: #E0FFFF; /* Cinza mais claro para a seção de suporte */
             padding: 90px;
             border-radius: 10px;
+            color: #000000; /* Mudando a cor do texto para preto, caso necessário */
+        }
+
+        h1, h2 {
             color: #000000;
+        }
+
+        .faq-section {
+            margin-top: 100px; /* Aumenta o espaçamento em relação à seção de suporte */
+            text-align: center;
+            border-top: 2px solid #000000;
+            padding-top: 20px;
+            padding-bottom: 60px; /* Aumentando o padding inferior */
+            background-color: #a3c7c9; /* Cinza claro para a seção de Perguntas Frequentes */
+            border-radius: 10px;
+            height: 600px; /* Define uma altura fixa para o fundo */
+        }
+
+        .faq-section h2 {
+            color: #c3f7f7; /* Preto mais claro */
+        }
+
+        .faq-question {
+            background: linear-gradient(45deg, rgba(255, 99, 71, 0.4), rgba(255, 165, 0, 0.4)); /* Gradiente de vermelho e laranja fraco */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            max-width: 600px; /* Limita a largura */
+            margin-left: auto; /* Centraliza */
+            margin-right: auto; /* Centraliza */
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(255, 165, 0, 0.4), rgba(255, 99, 71, 0.4)); /* Gradiente de laranja fraco seguido de vermelho fraco */
+
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: center; /* Centraliza o texto */
+            width: 50%; /* Define a largura da resposta */
+            margin-left: auto; /* Centraliza horizontalmente o contêiner */
+            margin-right: auto; /* Centraliza horizontalmente o contêiner */
+            font-size: 14px; /* Diminui o tamanho do texto */
+        }
+        
+        .navbar-logo {
+            max-width: 150px; /* Define a largura máxima */
+            height: auto; /* Mantém a proporção da imagem */
+            margin-right: 150px; /* Adiciona espaço entre a logo e os links */
         }
 
         .social-links {
             display: flex;
             justify-content: flex-start;
-            margin-top: 50px;
+            margin-top: 50px; /* Ajusta o espaçamento para baixo */
         }
 
         .social-links a {
             margin-right: 20px;
-            width: 40px;
+            width: 40px; /* Reduz o tamanho dos ícones */
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
@@ -131,29 +191,30 @@
         }
 
         .social-links a:hover {
-            transform: translateY(-10px);
-        }
-
+            transform: translateY(-10px); /* Faz o ícone flutuar */
+            }
+        
         .social-links img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .verification-seal {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            pointer-events: none;
-            width: 250px;
-            height: 100px;
-        }
+        /* Selo de verificação */
+  .verification-seal {
+    position: fixed;
+    bottom: 20px; /* Distância do fundo da tela */
+    left: 50%; /* Centraliza horizontalmente na tela */
+    transform: translateX(-50%); /* Ajuste para centralizar exatamente */
+    z-index: 9999; /* Certifique-se de que o selo está acima de outros elementos */
+    pointer-events: none; /* Impede a interação com o selo */
+    width: 250px; /* Defina a largura que você quer para o selo */
+    height: 100; /* Mantém a altura proporcional da imagem */
+}
 
-        .verification-seal img {
-            width: 100%;
-            height: auto;
+.verification-seal img {
+    width: 100%; /* Ajusta a largura da imagem para ocupar todo o contêiner */
+    height: auto; /* Mantém a altura proporcional à largura */
         }
 
         @media (max-width: 768px) {
@@ -197,11 +258,11 @@
         <div class="navbar-links">
             <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
             <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-            <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a> <!-- Adicionando o Discord aqui -->
+            <a href="https://discord.com" target="_blank">Entrar no Discord</a> <!-- Link adicionado -->
         </div>
-        <div class="navbar-logo-container">
-            <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
-        </div>
+    <div class="navbar-logo-container">
+        <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
+    </div>
     </div>
 
     <div id="home" class="tab-content">
@@ -213,13 +274,45 @@
         <h1>Suporte</h1>
         <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
         <p><strong>suporte@lojajogos.com</strong></p>
-    </div>
 
-    <!-- Conteúdo da aba Discord -->
-    <div id="discord" class="tab-content">
-        <h1>Bem-vindo ao Discord!</h1>
-        <p>Junte-se à nossa comunidade no Discord para conversar com outros jogadores e obter suporte!</p>
-        <a href="https://discord.com" target="_blank">Acesse nosso Discord</a>
+        <div class="faq-section">
+            <h2>Perguntas Frequentes</h2>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> É seguro comprar por aqui?
+        </div>
+        <div class="faq-answer">Sim! Nossa loja utiliza tecnologias de segurança avançadas para garantir a proteção dos seus dados e transações. Compras realizadas aqui são 100% seguras.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Quais métodos de pagamento vocês aceitam?
+        </div>
+        <div class="faq-answer">Aceitamos diversos métodos de pagamento, incluindo cartões de crédito, débito, boleto bancário, e outras opções de pagamento digital.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Como funciona a entrega dos jogos?
+        </div>
+        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
+      
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Quais plataformas vocês atendem?
+        </div>
+        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Vocês oferecem descontos ou promoções?
+        </div>
+        <div class="faq-answer">Sim! Fique de olho nas nossas promoções periódicas e descontos especiais em determinados jogos. Inscreva-se na nossa newsletter para receber as ofertas diretamente no seu e-mail!</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> Como posso entrar em contato com o suporte?
+        </div>
+        <div class="faq-answer">Se precisar de ajuda, nosso time de suporte está à disposição. Você pode nos contatar via e-mail em <strong>suporte@lojajogos.com</strong> ou através do nosso chat ao vivo.</div>
+
+        <div class="faq-question" onclick="toggleAnswer(this)">
+            <span class="arrow">▼</span> O que faço se o jogo não funcionar?
+        </div>
+        <div class="faq-answer">Se o jogo não estiver funcionando corretamente, entre em contato com o suporte técnico. Estamos prontos para ajudar com qualquer problema técnico e garantir que você possa jogar sem problemas.</div>
+</div>
     </div>
 
     <div class="social-links">
@@ -242,8 +335,12 @@
             document.getElementById(tabName).style.display = 'block';
         }
 
-        window.onload = () => openTab('home');
-    </script>
+        function toggleAnswer(questionElement) {
+            const answer = questionElement.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
 
+        window.onload = () => openTab('home'); // Mudar de 'support' para 'home'
+    </script>
 </body>
 </html>
