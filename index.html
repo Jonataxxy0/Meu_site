@@ -5,6 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 250px;
+            transition: transform 0.2s;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .game-card h3 {
+            margin: 15px;
+            font-size: 18px;
+        }
+
+        .game-card p {
+            margin: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .game-card button {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 0 auto 15px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .game-card button:hover {
+            background: #0056b3;
+        }
+        
         #discord a {
             transform: rotate(0deg);
             transform-origin: center;
@@ -262,6 +348,44 @@
     </style>
 </head>
 <body>
+     <div class="navbar">
+        <a href="#">Início</a>
+        <a href="#">Jogos</a>
+        <a href="#">Contato</a>
+    </div>
+
+    <div class="container">
+        <h1>Jogos em Alta</h1>
+        <div class="game-list">
+            <div class="game-card">
+                <img src="https://via.placeholder.com/250x150" alt="Jogo 1">
+                <h3>Jogo 1</h3>
+                <p>Ação emocionante e gráficos incríveis.</p>
+                <button>Ver Mais</button>
+            </div>
+
+            <div class="game-card">
+                <img src="https://via.placeholder.com/250x150" alt="Jogo 2">
+                <h3>Jogo 2</h3>
+                <p>Aventura épica para todas as idades.</p>
+                <button>Ver Mais</button>
+            </div>
+
+            <div class="game-card">
+                <img src="https://via.placeholder.com/250x150" alt="Jogo 3">
+                <h3>Jogo 3</h3>
+                <p>Desafios intensos e diversão garantida.</p>
+                <button>Ver Mais</button>
+            </div>
+
+            <div class="game-card">
+                <img src="https://via.placeholder.com/250x150" alt="Jogo 4">
+                <h3>Jogo 4</h3>
+                <p>Entretenimento para toda a família.</p>
+                <button>Ver Mais</button>
+            </div>
+        </div>
+    </div>
 
     <div class="background"></div>
 
