@@ -8,9 +8,9 @@
         #discord a {
             transform: rotate(0deg);
             transform-origin: center;
-            white-space: nowrap; /* Garante que o texto não quebre */
-            display: inline-block; /* Permite que o elemento seja tratado como um bloco para rodar */
-            margin-top: 20px; /* Ajuste para dar um espaço de alinhamento se necessário */
+            white-space: nowrap;
+            display: inline-block;
+            margin-top: 20px;
         }
 
         .discord-button {
@@ -35,7 +35,7 @@
             transform: scale(1);
             box-shadow: 0 0 10px rgba(75, 0, 130, 0.8);
         }
-        
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -109,7 +109,7 @@
         .navbar a:active {
             background: rgba(144, 238, 144, 0.6);
         }
-            
+
         .navbar-logo-container {
             flex-shrink: 0;
             margin-left: auto;
@@ -235,30 +235,43 @@
             height: auto;
         }
 
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-            }
-
-            .navbar a {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .gif-container {
-                width: 80px;
-                height: 80px;
-            }
+        .jogos-venda {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        @media (max-width: 480px) {
-            .gif-container {
-                width: 60px;
-                height: 60px;
-            }
+        .jogo {
+            border: 2px solid #ccc;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .jogo img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .comprar-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .comprar-btn:hover {
+            background-color: #218838;
+        }
+        
     </style>
 </head>
 <body>
@@ -284,94 +297,45 @@
     </div>
 
     <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+        <h1>Bem-vindo à nossa loja de jogos!</h1>
+        <div class="jogos-venda">
+            <div class="jogo">
+                <img src="https://via.placeholder.com/150" alt="Jogo 1">
+                <h3>Jogo 1</h3>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="jogo">
+                <img src="https://via.placeholder.com/150" alt="Jogo 2">
+                <h3>Jogo 2</h3>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="jogo">
+                <img src="https://via.placeholder.com/150" alt="Jogo 3">
+                <h3>Jogo 3</h3>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+        </div>
     </div>
 
     <div id="support" class="tab-content">
-        <h1>Suporte</h1>
-        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
-        <p><strong>suporte@lojajogos.com</strong></p>
-
-        <div class="faq-section">
-            <h2>Perguntas Frequentes</h2>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> É seguro comprar por aqui?
-        </div>
-        <div class="faq-answer">Sim! Nossa loja utiliza tecnologias de segurança avançadas para garantir a proteção dos seus dados e transações. Compras realizadas aqui são 100% seguras.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Quais métodos de pagamento vocês aceitam?
-        </div>
-        <div class="faq-answer">Aceitamos diversos métodos de pagamento, incluindo cartões de crédito, débito, boleto bancário, e outras opções de pagamento digital.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Como funciona a entrega dos jogos?
-        </div>
-        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
-      
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Quais plataformas vocês atendem?
-        </div>
-        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Vocês oferecem descontos ou promoções?
-        </div>
-        <div class="faq-answer">Sim! Fique de olho nas nossas promoções periódicas e descontos especiais em determinados jogos. Inscreva-se na nossa newsletter para receber as ofertas diretamente no seu e-mail!</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Como posso entrar em contato com o suporte?
-        </div>
-        <div class="faq-answer">Se precisar de ajuda, nosso time de suporte está à disposição. Você pode nos contatar via e-mail em <strong>suporte@lojajogos.com</strong> ou através do nosso chat ao vivo.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> O que faço se o jogo não funcionar?
-        </div>
-        <div class="faq-answer">Se o jogo não estiver funcionando corretamente, entre em contato com o suporte técnico. Estamos prontos para ajudar com qualquer problema técnico e garantir que você possa jogar sem problemas.</div>
-</div>
-
+        <h2>Suporte</h2>
+        <p>Entre em contato conosco através do nosso chat online.</p>
     </div>
 
     <div id="discord" class="tab-content">
-         <h1>Entre na Comunidade!</h1>
-         <p>Junte-se ao nosso servidor no Discord para suporte, bate-papo geral, e muito mais!</p>
-         <div style="display: flex; justify-content: center; margin-top: 20px;">
-            <a href="https://discord.com/channels/1361445857735741520/1361445858796769574" target="_blank" class="discord-button">
-                <span>Entre na nossa comunidade</span>
-            </a>
-        </div>
-    </div>
-
-</div>
-
-    <div class="social-links">
-        <a href="https://www.instagram.com" target="_blank">
-            <img src="https://i.postimg.cc/GppfcRGb/transferir.png" alt="Instagram">
-        </a>
-        <a href="https://discord.com/channels/1361445857735741520/1361445858796769574" target="_blank">
-            <img src="https://i.postimg.cc/8PtSSN0z/download.png" alt="Discord">
-        </a>
-    </div>
-
-    <div class="verification-seal">
-        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Verificação">
+        <h2>Entre no nosso Discord!</h2>
+        <a href="https://discord.gg/seulink" class="discord-button">Entrar no Discord</a>
     </div>
 
     <script>
-        function openTab(tabName) {
+        function openTab(tabId) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
+            document.getElementById(tabId).style.display = 'block';
         }
 
-        function toggleAnswer(questionElement) {
-            const answer = questionElement.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        }
-
-        window.onload = () => openTab('home');
+        openTab('home');
     </script>
+
 </body>
 </html>
