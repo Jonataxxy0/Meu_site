@@ -285,6 +285,31 @@
 </head>
 <body>
 
+    <div class="background"></div>
+
+    <div class="gif-container">
+        <video autoplay loop muted>
+            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
+    </div>
+
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
+            <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
+            <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a>
+        </div>
+        <div class="navbar-logo-container">
+            <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
+        </div>
+    </div>
+
+    <div id="home" class="tab-content">
+        <h1>Bem-vindo à Loja de Jogos!</h1>
+        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
+    </div>
+
     <div class="games-section">
     <div class="game-card">
         <img src="https://via.placeholder.com/250x150" alt="Jogo 1">
@@ -314,41 +339,6 @@
         </div>
     </div>
 </div>
-
-    <div class="background"></div>
-
-    <div class="gif-container">
-        <video autoplay loop muted>
-            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-    </div>
-
-    <div class="navbar">
-        <div class="navbar-links">
-            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-            <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-            <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a>
-        </div>
-        <div class="navbar-logo-container">
-            <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
-        </div>
-    </div>
-
-    <div class="game-card">
-        <img src="https://i.postimg.cc/YSXq2N2B/image.png" alt="Left 4 Dead 2">
-        </div><class="game-card-content">
-            <h3>Left 4 Dead 2</h3>
-            <p>R$ 1,99</p>
-            <button>Comprar</button>
-    </div>
-</div>
-
-
-    <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-    </div>
 
     <div id="support" class="tab-content">
         <h1>Suporte</h1>
