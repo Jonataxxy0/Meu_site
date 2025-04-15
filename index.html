@@ -128,6 +128,28 @@
             justify-content: center;
         }
 
+                .games-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .game-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+        }
+        .game-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+        }
+        .game-card h3 {
+            margin: 10px 0;
+        }
+
         .tab-content {
             display: none;
             padding: 20px;
