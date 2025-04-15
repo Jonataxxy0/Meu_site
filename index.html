@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
     <style>
-         .game-options {
+        .game-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* Dois jogos por linha */
             gap: 20px;
@@ -19,24 +19,28 @@
             border-radius: 5px;
             padding: 10px;
             width: 100%;
-            max-width: 400px;
+            max-width: 300px;
+            text-align: center;
         }
 
+        .game-option img {
+            width: 100%; /* Faz a imagem ocupar 100% da largura disponível */
+            max-width: 250px; /* Define um tamanho máximo para as imagens */
+            height: auto; /* Ajusta a altura para manter a proporção da imagem */
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
         .game-option h3 {
             margin: 0;
             font-size: 18px;
             color: #333;
         }
 
-        .game-option p {
-            background-color: #32cd32;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+       .game-option p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
         }
 
         .game-option button {
@@ -54,7 +58,7 @@
             background-color: #228b22;
         }
 
-        /* Ajuste para o terceiro jogo, para ficar abaixo dos dois primeiros */
+       /* Ajuste para o terceiro jogo, para ficar abaixo dos dois primeiros */
         .game-options .game-option:nth-child(3) {
             grid-column: span 2; /* Faz o terceiro jogo ocupar as duas colunas */
         }
