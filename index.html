@@ -7,10 +7,12 @@
     <style>
                 /* Estilos para a seção de opções de jogos */
         .game-options {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dois jogos por linha */
             flex-direction: column;
             align-items: flex-start;
-            gap: 10px;
+            gap: 20px;
+            justify-items: center; /* Alinha os itens no centro */
             margin-top: 20px;
         }
 
@@ -50,6 +52,11 @@
             background-color: #228b22;
         }
 
+        /* Ajuste para o terceiro jogo, para ficar abaixo dos dois primeiros */
+        .game-options .game-option:nth-child(3) {
+            grid-column: span 2; /* Faz o terceiro jogo ocupar as duas colunas */
+        }
+        
         /* Outros estilos do site podem estar aqui */
         #discord a {
             transform: rotate(0deg);
