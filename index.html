@@ -76,34 +76,29 @@
 
         .navbar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
-            height: 200px; /* Ajuste menor */
-            text-align: center;
-            padding: 10px 20px;
+            background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 300px;
+            padding: 10px 40px 30px 40px;
+            z-index: 2;
+            position: relative;
         }
 
         .navbar a {
-            margin: 0 20px; /* Mais espaçamento entre links */
-            font-size: 24px; /* Texto maior */
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 30px;
             font-weight: bold;
-        }
-
-        .category {
-            flex-direction: column; /* Centraliza os itens verticalmente */
-            padding: 40px; /* Mais espaçamento interno */
-            max-width: 400px; /* Tamanho maior dos cartões */
-            }
-
-        .game-card {
-            max-width: 400px; /* Ajusta para uma aparência mais centralizada */
-        }
-
-        .game-card-content button {
-            width: 100%; /* Botão ocupa toda a largura do card */
-            margin-top: 10px;
-            font-size: 16px; /* Texto maior */
+            cursor: pointer;
+            background: rgba(138, 43, 226, 0.6);
+            border-radius: 5px;
+            margin: 5px;
+            transition: all 0.3s ease-in-out;
         }
 
         .navbar a:hover {
