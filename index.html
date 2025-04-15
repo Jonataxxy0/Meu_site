@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Jogos</title>
     <style>
+                /* Estilos para a seção de opções de jogos */
+        .game-options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .game-option {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .game-option h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .game-option p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .game-option button {
+            background-color: #32cd32;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .game-option button:hover {
+            background-color: #228b22;
+        }
+
+        /* Outros estilos do site podem estar aqui */
         #discord a {
             transform: rotate(0deg);
             transform-origin: center;
