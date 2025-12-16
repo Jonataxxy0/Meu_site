@@ -3,211 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Carro Simples</title>
+    <title>Mini GTA 2D - Top Down</title>
     <style>
-        /* Estilos CSS */
+        /* Estilos CSS para o Jogo */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #333;
+            background-color: #1a1a1a;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
         }
 
-        #game-container {
-            width: 300px;
+        #game-map {
+            width: 500px;
             height: 500px;
-            background-color: #222;
+            background-color: #333; /* Cor do fundo da cidade/rua */
             border: 5px solid #555;
-            position: relative; /* Essencial para posicionamento absoluto dos elementos */
-            overflow: hidden; /* Garante que os obstáculos só apareçam dentro do container */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
         }
 
-        #car {
-            width: 50px;
-            height: 80px;
-            background-color: red;
+        #player {
+            width: 30px;
+            height: 30px;
+            background-color: #ff0000; /* Carro Vermelho/Player */
             position: absolute;
-            bottom: 10px;
-            left: 125px; /* Posição inicial no centro */
+            top: 235px;
+            left: 235px;
             border-radius: 5px;
-        }
-
-        .obstacle {
-            width: 40px;
-            height: 40px;
-            background-color: blue;
-            position: absolute;
-            top: -40px; /* Começa acima do topo */
-            border-radius: 5px;
+            z-index: 10;
             transition: background-color 0.1s;
         }
 
-        #score {
-            margin-top: 10px;
-            font-size: 1.5em;
+        .road {
+            background-color: #444;
+            position: absolute;
+            z-index: 1;
         }
 
-        #controls {
-            margin-top: 20px;
+        .vertical {
+            width: 100px;
+            height: 500px;
+        }
+
+        .horizontal {
+            width: 500px;
+            height: 100px;
+        }
+        
+        /* Obstáculos (prédios) */
+        .building {
+            width: 80px;
+            height: 80px;
+            background-color: #0056b3; /* Cor dos Prédios */
+            position: absolute;
+            border: 2px solid #003a72;
+            z-index: 5;
+            border-radius: 3px;
+        }
+
+        /* Item para coletar (Dinheiro/Power-up) */
+        .collectible {
+            width: 20px;
+            height: 20px;
+            background-color: gold;
+            position: absolute;
+            border-radius: 50%;
+            z-index: 8;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        #info {
+            margin-top: 15px;
+            font-size: 1.2em;
             display: flex;
-            gap: 20px;
+            gap: 40px;
         }
 
-        .control-btn {
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        #status-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #ffcc00;
         }
     </style>
 </head>
 <body>
 
-    <h1>Jogo de Desvio de Carro</h1>
+    <h1>Mini GTA 2D: City Driver</h1>
 
-    <div id="game-container">
-        <div id="car"></div>
+    <div id="game-map">
+        <div class="road vertical" style="left: 200px; top: 0;"></div>
+        <div class="road horizontal" style="left: 0; top: 200px;"></div>
+
+        <div class="building" id="b1" style="left: 50px; top: 50px;"></div>
+        <div class="building" id="b2" style="left: 370px; top: 50px;"></div>
+        <div class="building" id="b3" style="left: 50px; top: 370px;"></div>
+        <div class="building" id="b4" style="left: 370px; top: 370px;"></div>
+
+        <div id="player"></div>
     </div>
 
-    <div id="score">Pontuação: 0</div>
-    <div id="controls">
-        <button class="control-btn" id="left-btn">← Esquerda</button>
-        <button class="control-btn" id="right-btn">Direita →</button>
+    <div id="info">
+        <div id="score">💰 Dinheiro: 0</div>
+        <div id="health">❤️ Vida: 100%</div>
     </div>
-
-    <p>Use as teclas 'A' e 'D' ou os botões para mover o carro.</p>
+    
+    <div id="status-message">Use W, A, S, D para Mover</div>
 
     <script>
-        // Lógica JavaScript
-        const gameContainer = document.getElementById('game-container');
-        const car = document.getElementById('car');
+        const player = document.getElementById('player');
+        const gameMap = document.getElementById('game-map');
         const scoreDisplay = document.getElementById('score');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
-
-        let carX = 125; // Posição X inicial do carro
-        const carWidth = 50;
-        const containerWidth = 300;
-        const moveSpeed = 15;
+        const healthDisplay = document.getElementById('health');
+        const statusMessage = document.getElementById('status-message');
+        
+        let playerX = 235;
+        let playerY = 235;
+        const playerSize = 30;
+        const speed = 5;
         let score = 0;
-        let gameInterval;
-        let obstacleInterval;
-        let isPlaying = true;
+        let health = 100;
 
-        // --- Funções de Movimento do Carro ---
+        const mapWidth = 500;
+        const mapHeight = 500;
+        
+        let keys = {};
+        let gameLoopInterval;
 
-        function updateCarPosition() {
-            car.style.left = carX + 'px';
-        }
-
-        function moveCar(direction) {
-            if (!isPlaying) return;
-
-            if (direction === 'left') {
-                carX = Math.max(0, carX - moveSpeed);
-            } else if (direction === 'right') {
-                carX = Math.min(containerWidth - carWidth, carX + moveSpeed);
-            }
-            updateCarPosition();
-        }
-
-        // --- Event Listeners para Teclado e Botões ---
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'A' || e.key === 'a') {
-                moveCar('left');
-            } else if (e.key === 'D' || e.key === 'd') {
-                moveCar('right');
-            }
+        // --- Configuração dos Obstáculos (Prédios) ---
+        const obstacles = [];
+        document.querySelectorAll('.building').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            // Calcula a posição relativa ao mapa
+            const mapRect = gameMap.getBoundingClientRect();
+            obstacles.push({
+                x: el.offsetLeft,
+                y: el.offsetTop,
+                width: el.offsetWidth,
+                height: el.offsetHeight
+            });
         });
 
-        leftBtn.addEventListener('click', () => moveCar('left'));
-        rightBtn.addEventListener('click', () => moveCar('right'));
+        // --- Funções Principais ---
 
-        // --- Funções de Obstáculos e Lógica do Jogo ---
-
-        function createObstacle() {
-            if (!isPlaying) return;
-
-            const obstacle = document.createElement('div');
-            obstacle.classList.add('obstacle');
-            
-            // Posição X aleatória dentro dos limites
-            const randomX = Math.floor(Math.random() * (containerWidth - 40)); 
-            obstacle.style.left = randomX + 'px';
-            
-            gameContainer.appendChild(obstacle);
+        function updatePlayerPosition() {
+            player.style.left = playerX + 'px';
+            player.style.top = playerY + 'px';
         }
 
-        function updateGame() {
-            if (!isPlaying) return;
+        function isColliding(newX, newY, obstaclesList) {
+            const playerRect = {
+                left: newX,
+                top: newY,
+                right: newX + playerSize,
+                bottom: newY + playerSize
+            };
 
-            const obstacles = document.querySelectorAll('.obstacle');
-            const carRect = car.getBoundingClientRect();
-            const containerRect = gameContainer.getBoundingClientRect();
+            for (const obs of obstaclesList) {
+                const obsRect = {
+                    left: obs.x,
+                    top: obs.y,
+                    right: obs.x + obs.width,
+                    bottom: obs.y + obs.height
+                };
 
-            obstacles.forEach(obstacle => {
-                let obstacleY = parseFloat(obstacle.style.top);
-                obstacleY += 5; // Velocidade de queda
+                // Detecção de colisão AABB (Axis-Aligned Bounding Box)
+                if (playerRect.left < obsRect.right &&
+                    playerRect.right > obsRect.left &&
+                    playerRect.top < obsRect.bottom &&
+                    playerRect.bottom > obsRect.top) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-                // Verifica se o obstáculo passou do limite inferior
-                if (obstacleY > gameContainer.clientHeight) {
-                    obstacle.remove();
-                    score++;
-                    scoreDisplay.textContent = `Pontuação: ${score}`;
-                } else {
-                    obstacle.style.top = obstacleY + 'px';
+        function checkBoundary(newX, newY) {
+            if (newX < 0 || newX > mapWidth - playerSize ||
+                newY < 0 || newY > mapHeight - playerSize) {
+                return false; // Colisão com o limite do mapa
+            }
+            return true;
+        }
 
-                    // Detecção de Colisão
-                    const obstacleRect = obstacle.getBoundingClientRect();
-                    
-                    // Colisão é detectada se houver sobreposição nos eixos X e Y
-                    const collision = !(
-                        carRect.right < obstacleRect.left ||
-                        carRect.left > obstacleRect.right ||
-                        carRect.bottom < obstacleRect.top ||
-                        carRect.top > obstacleRect.bottom
-                    );
+        function gameLoop() {
+            let newX = playerX;
+            let newY = playerY;
 
-                    if (collision) {
-                        endGame();
-                    }
+            if (keys['w'] || keys['W']) newY -= speed;
+            if (keys['s'] || keys['S']) newY += speed;
+            if (keys['a'] || keys['A']) newX -= speed;
+            if (keys['d'] || keys['D']) newX += speed;
+
+            // 1. Verificar Colisão com Prédios (Obstáculos Fixos)
+            if (!isColliding(newX, newY, obstacles) && checkBoundary(newX, newY)) {
+                playerX = newX;
+                playerY = newY;
+            } else {
+                // Colisão detectada: causar dano (simulando bater no prédio)
+                if (health > 0) {
+                    health = Math.max(0, health - 1);
+                    healthDisplay.textContent = `❤️ Vida: ${health}%`;
+                    player.style.backgroundColor = 'orange'; // Feedback visual de dano
+                    setTimeout(() => player.style.backgroundColor = 'red', 100);
+                }
+                if (health === 0) {
+                    endGame("Você bateu o carro demais! Jogo encerrado.");
+                }
+            }
+
+            // 2. Checar Coletáveis
+            document.querySelectorAll('.collectible').forEach(collectible => {
+                const colX = collectible.offsetLeft;
+                const colY = collectible.offsetTop;
+                const colSize = 20;
+
+                const dx = playerX - colX;
+                const dy = playerY - colY;
+                
+                // Distância simples para checar colisão com coletável
+                if (Math.abs(dx) < playerSize && Math.abs(dy) < playerSize) {
+                    score += 10;
+                    scoreDisplay.textContent = `💰 Dinheiro: ${score}`;
+                    collectible.remove();
+                    // Gera um novo coletável
+                    setTimeout(spawnCollectible, 500);
                 }
             });
+
+            updatePlayerPosition();
         }
+
+        function spawnCollectible() {
+            const collectible = document.createElement('div');
+            collectible.classList.add('collectible');
+            
+            let randomX, randomY;
+            let isSafe = false;
+            
+            // Loop para garantir que o coletável não spawne dentro de um prédio
+            while (!isSafe) {
+                randomX = Math.floor(Math.random() * (mapWidth - 20));
+                randomY = Math.floor(Math.random() * (mapHeight - 20));
+                
+                if (!isColliding(randomX, randomY, obstacles)) {
+                    isSafe = true;
+                }
+            }
+
+            collectible.style.left = randomX + 'px';
+            collectible.style.top = randomY + 'px';
+            gameMap.appendChild(collectible);
+        }
+
+        function endGame(message) {
+            clearInterval(gameLoopInterval);
+            statusMessage.textContent = `FIM DE JOGO! ${message} | Pontuação final: ${score}`;
+            alert(statusMessage.textContent);
+        }
+
+        // --- Event Listeners ---
+
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        // --- Início do Jogo ---
 
         function startGame() {
-            if (isPlaying) return;
-            // Resetar estado do jogo
-            score = 0;
-            scoreDisplay.textContent = `Pontuação: 0`;
-            carX = 125;
-            updateCarPosition();
-            document.querySelectorAll('.obstacle').forEach(o => o.remove());
-            isPlaying = true;
-
-            // Inicia os loops do jogo
-            gameInterval = setInterval(updateGame, 20); // Loop principal do jogo
-            obstacleInterval = setInterval(createObstacle, 1500); // Cria um novo obstáculo
+            updatePlayerPosition();
+            spawnCollectible(); // Começa com um item para coletar
+            gameLoopInterval = setInterval(gameLoop, 20); // 50 FPS
         }
 
-        function endGame() {
-            isPlaying = false;
-            clearInterval(gameInterval);
-            clearInterval(obstacleInterval);
-            alert(`Fim de Jogo! Sua pontuação final foi: ${score}`);
-        }
-
-        // Inicia o jogo automaticamente ao carregar
         startGame();
-
     </script>
 </body>
 </html>
