@@ -3,462 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja de Jogos</title>
+    <title>Jogo de Carro Simples</title>
     <style>
-        .game-grid {
-            display: flex;
-            justify-content: space-between; /* Faz as imagens ficarem lado a lado */
-            gap: 20px; /* Espaçamento entre as imagens */
-            padding: 20px;
-        }
-
-        .game-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Dois jogos por linha */
-            gap: 20px;
-            justify-items: center; /* Alinha os itens no centro */
-            margin-top: 20px;
-        }
-
-        .game-option {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            width: 100%;
-            max-width: 300px;
-            text-align: center;
-        }
-
-        .game-option img {
-            width: 100%; /* Faz a imagem ocupar 100% da largura disponível */
-            max-width: 250px; /* Define um tamanho máximo para as imagens */
-            height: auto; /* Ajusta a altura para manter a proporção da imagem */
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .game-option h3 {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .game-option p {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #666;
-        }
-
-        .game-option button {
-            background-color: #32cd32;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .game-option button:hover {
-            background-color: #228b22;
-        }
-
-        /* Ajuste para o terceiro jogo, para ficar abaixo dos dois primeiros */
-        .game-options .game-option:nth-child(3) {
-            grid-column: span 2; /* Faz o terceiro jogo ocupar as duas colunas */
-        }
-            
-        /* Outros estilos do site podem estar aqui */
-        #discord a {
-            transform: rotate(0deg);
-            transform-origin: center;
-            white-space: nowrap; /* Garante que o texto não quebre */
-            display: inline-block; /* Permite que o elemento seja tratado como um bloco para rodar */
-            margin-top: 20px; /* Ajuste para dar um espaço de alinhamento se necessário */
-        }
-
-        .discord-button {
-            display: inline-block;
-            padding: 15px 25px;
-            background: linear-gradient(45deg, rgba(138, 43, 226, 0.8), rgba(75, 0, 130, 0.8));
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 8px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .discord-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
-        }
-
-        .discord-button:active {
-            transform: scale(1);
-            box-shadow: 0 0 10px rgba(75, 0, 130, 0.8);
-        }
-        
+        /* Estilos CSS */
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            height: 100vh;
-            overflow: scroll;
-            background-color: #fff;
-        }
-
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ffffff, #dcdcdc);
-            filter: blur(15px);
-            z-index: -1;
-        }
-
-        .gif-container {
-            position: fixed;
-            top: 0px;
-            left: 10px;
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        .gif-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .navbar {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            background-image: url('https://i.postimg.cc/N0T0SGtc/Black-White-Minimalist-Gaming-Banner-Landscape-1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 300px;
-            padding: 10px 40px 30px 40px;
-            z-index: 2;
-            position: relative;
-        }
-
-        .navbar a {
+            background-color: #333;
             color: white;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            background: rgba(138, 43, 226, 0.6);
-            border-radius: 5px;
-            margin: 5px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .navbar a:hover {
-            background-color: rgba(173, 216, 230, 0.7);
-            transform: scale(1.1);
-        }
-
-        .navbar a:active {
-            background: rgba(144, 238, 144, 0.6);
-        }
-            
-        .navbar-logo-container {
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .navbar-logo {
-            max-width: 150px;
-            height: auto;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .navbar-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .tab-content {
-            display: none;
+            font-family: Arial, sans-serif;
+            margin: 0;
             padding: 20px;
-            text-align: center;
-            color: #fff;
-            border-radius: 10px;
-            margin-top: 20px;
         }
 
-        #home {
-            background-color: #bdffff;
+        #game-container {
+            width: 300px;
+            height: 500px;
+            background-color: #222;
+            border: 5px solid #555;
+            position: relative; /* Essencial para posicionamento absoluto dos elementos */
+            overflow: hidden; /* Garante que os obstáculos só apareçam dentro do container */
         }
 
-        #support, #discord {
-            background-color: #E0FFFF;
-            padding: 90px;
-            border-radius: 10px;
-            color: #000000;
-        }
-
-        h1, h2 {
-            color: #000000;
-        }
-
-        .faq-section {
-            margin-top: 100px;
-            text-align: center;
-            border-top: 2px solid #000000;
-            padding-top: 20px;
-            padding-bottom: 60px;
-            background-color: #a3c7c9;
-            border-radius: 10px;
-            height: 600px;
-        }
-
-        .faq-question {
-            background: linear-gradient(45deg, rgba(255, 99, 71, 0.4), rgba(255, 165, 0, 0.4));
-            padding: 10px;
-            margin: 10px 0;
+        #car {
+            width: 50px;
+            height: 80px;
+            background-color: red;
+            position: absolute;
+            bottom: 10px;
+            left: 125px; /* Posição inicial no centro */
             border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        .faq-question:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .faq-answer {
-            display: none;
-            padding: 10px;
-            background: linear-gradient(45deg, rgba(255, 165, 0, 0.4), rgba(255, 99, 71, 0.4));
-            border-radius: 5px;
-            margin-top: 5px;
-            text-align: center;
-            width: 50%;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 14px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: flex-start;
-            margin-top: 50px;
-        }
-
-        .social-links a {
-            margin-right: 20px;
+        .obstacle {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: inline-block;
-            transition: transform 0.3s ease-in-out;
+            background-color: blue;
+            position: absolute;
+            top: -40px; /* Começa acima do topo */
+            border-radius: 5px;
+            transition: background-color 0.1s;
         }
 
-        .social-links a:hover {
-            transform: translateY(-10px);
+        #score {
+            margin-top: 10px;
+            font-size: 1.5em;
         }
 
-        .social-links img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
         }
 
-        .verification-seal {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            pointer-events: none;
-            width: 250px;
-            height: 100px;
-        }
-
-        .verification-seal img {
-            width: 100%;
-            height: auto;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-            }
-
-            .navbar a {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .gif-container {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gif-container {
-                width: 60px;
-                height: 60px;
-            }
+        .control-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="background"></div>
+    <h1>Jogo de Desvio de Carro</h1>
 
-    <div class="gif-container">
-        <video autoplay loop muted>
-            <source src="https://media.giphy.com/media/H2RUdxLy1K32zTfHY1/giphy.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
+    <div id="game-container">
+        <div id="car"></div>
     </div>
 
-    <div class="navbar">
-        <div class="navbar-links">
-            <a href="javascript:void(0)" onclick="openTab('home')">Início</a>
-            <a href="javascript:void(0)" onclick="openTab('support')">Suporte</a>
-            <a href="javascript:void(0)" onclick="openTab('discord')">Discord</a>
-        </div>
-        <div class="navbar-logo-container">
-            <img src="https://i.postimg.cc/Z50P9QkQ/Black-And-White-Illustrative-Gaming-Logo.png" alt="Logo" class="navbar-logo" onclick="openTab('home')">
-        </div>
+    <div id="score">Pontuação: 0</div>
+    <div id="controls">
+        <button class="control-btn" id="left-btn">← Esquerda</button>
+        <button class="control-btn" id="right-btn">Direita →</button>
     </div>
 
-    <div id="home" class="tab-content">
-        <h1>Bem-vindo à Loja de Jogos!</h1>
-        <p>Aqui você encontrará os melhores jogos para todas as plataformas!</p>
-
-        <div class="game-options">
-            <div class="game-option">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/550/header.jpg?t=1633608256" alt="Left 4 Dead 2">
-                <h3>Left 4 Dead 2</h3>
-                <p>R$ 1,99</p>
-                <button>Comprar</button>
-            </div>
-            <div class="game-option">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg?t=1633608256" alt="Forza Horizon 5">
-                <h3>Forza Horizon 5</h3>
-                <p>R$ 3,99</p>
-                <button>Comprar</button>
-            </div>
-            <div class="game-option">
-                <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/227300/header.jpg?t=1739871676 2">
-                <h3>Euro Truck Simulator 2</h3>
-                <p>R$ 2,99</p>
-                <button>Comprar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="support" class="tab-content">
-        <h1>Suporte</h1>
-        <p>Tem alguma dúvida? Fale conosco através do e-mail abaixo:</p>
-        <p><strong>suporte@lojajogos.com</strong></p>
-
-        <div class="faq-section">
-            <h2>Perguntas Frequentes</h2>
-
-            <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> É seguro comprar por aqui?
-        </div>
-        <div class="faq-answer">Sim! Nossa loja utiliza tecnologias de segurança avançadas para garantir a proteção dos seus dados e transações. Compras realizadas aqui são 100% seguras.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Quais métodos de pagamento vocês aceitam?
-        </div>
-        <div class="faq-answer">Aceitamos diversos métodos de pagamento, incluindo cartões de crédito, débito, boleto bancário, e outras opções de pagamento digital.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Como funciona a entrega dos jogos?
-        </div>
-        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
-      
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Quais plataformas vocês atendem?
-        </div>
-        <div class="faq-answer">Atendemos as principais plataformas de jogos, incluindo PC, PlayStation, Xbox e Nintendo Switch.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Vocês oferecem descontos ou promoções?
-        </div>
-        <div class="faq-answer">Sim! Fique de olho nas nossas promoções periódicas e descontos especiais em determinados jogos. Inscreva-se na nossa newsletter para receber as ofertas diretamente no seu e-mail!</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> Como posso entrar em contato com o suporte?
-        </div>
-        <div class="faq-answer">Se precisar de ajuda, nosso time de suporte está à disposição. Você pode nos contatar via e-mail em <strong>suporte@lojajogos.com</strong> ou através do nosso chat ao vivo.</div>
-
-        <div class="faq-question" onclick="toggleAnswer(this)">
-            <span class="arrow">▼</span> O que faço se o jogo não funcionar?
-        </div>
-        <div class="faq-answer">Se o jogo não estiver funcionando corretamente, entre em contato com o suporte técnico. Estamos prontos para ajudar com qualquer problema técnico e garantir que você possa jogar sem problemas.</div>
-</div>
-
-    </div>
-
-    <div id="discord" class="tab-content">
-         <h1>Entre na Comunidade!</h1>
-         <p>Junte-se ao nosso servidor no Discord para suporte, bate-papo geral, e muito mais!</p>
-         <div style="display: flex; justify-content: center; margin-top: 20px;">
-            <a href="https://discord.com/channels/1361445857735741520/1361445858796769574" target="_blank" class="discord-button">
-                <span>Entre na nossa comunidade</span>
-            </a>
-        </div>
-    </div>
-
-</div>
-
-    <div class="social-links">
-        <a href="https://www.instagram.com" target="_blank">
-            <img src="https://i.postimg.cc/GppfcRGb/transferir.png" alt="Instagram">
-        </a>
-        <a href="https://discord.com/channels/1361445857735741520/1361445858796769574" target="_blank">
-            <img src="https://i.postimg.cc/8PtSSN0z/download.png" alt="Discord">
-        </a>
-    </div>
-
-    <div class="verification-seal">
-        <img src="https://ehfogo.com.br/wp-content/uploads/2020/10/selo-google-safe.png" alt="Selo de Verificação">
-    </div>
+    <p>Use as teclas 'A' e 'D' ou os botões para mover o carro.</p>
 
     <script>
-        function openTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.style.display = 'none');
-            document.getElementById(tabName).style.display = 'block';
+        // Lógica JavaScript
+        const gameContainer = document.getElementById('game-container');
+        const car = document.getElementById('car');
+        const scoreDisplay = document.getElementById('score');
+        const leftBtn = document.getElementById('left-btn');
+        const rightBtn = document.getElementById('right-btn');
+
+        let carX = 125; // Posição X inicial do carro
+        const carWidth = 50;
+        const containerWidth = 300;
+        const moveSpeed = 15;
+        let score = 0;
+        let gameInterval;
+        let obstacleInterval;
+        let isPlaying = true;
+
+        // --- Funções de Movimento do Carro ---
+
+        function updateCarPosition() {
+            car.style.left = carX + 'px';
         }
 
-        function toggleAnswer(questionElement) {
-            const answer = questionElement.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        function moveCar(direction) {
+            if (!isPlaying) return;
+
+            if (direction === 'left') {
+                carX = Math.max(0, carX - moveSpeed);
+            } else if (direction === 'right') {
+                carX = Math.min(containerWidth - carWidth, carX + moveSpeed);
+            }
+            updateCarPosition();
         }
 
-        window.onload = () => openTab('home');
+        // --- Event Listeners para Teclado e Botões ---
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'A' || e.key === 'a') {
+                moveCar('left');
+            } else if (e.key === 'D' || e.key === 'd') {
+                moveCar('right');
+            }
+        });
+
+        leftBtn.addEventListener('click', () => moveCar('left'));
+        rightBtn.addEventListener('click', () => moveCar('right'));
+
+        // --- Funções de Obstáculos e Lógica do Jogo ---
+
+        function createObstacle() {
+            if (!isPlaying) return;
+
+            const obstacle = document.createElement('div');
+            obstacle.classList.add('obstacle');
+            
+            // Posição X aleatória dentro dos limites
+            const randomX = Math.floor(Math.random() * (containerWidth - 40)); 
+            obstacle.style.left = randomX + 'px';
+            
+            gameContainer.appendChild(obstacle);
+        }
+
+        function updateGame() {
+            if (!isPlaying) return;
+
+            const obstacles = document.querySelectorAll('.obstacle');
+            const carRect = car.getBoundingClientRect();
+            const containerRect = gameContainer.getBoundingClientRect();
+
+            obstacles.forEach(obstacle => {
+                let obstacleY = parseFloat(obstacle.style.top);
+                obstacleY += 5; // Velocidade de queda
+
+                // Verifica se o obstáculo passou do limite inferior
+                if (obstacleY > gameContainer.clientHeight) {
+                    obstacle.remove();
+                    score++;
+                    scoreDisplay.textContent = `Pontuação: ${score}`;
+                } else {
+                    obstacle.style.top = obstacleY + 'px';
+
+                    // Detecção de Colisão
+                    const obstacleRect = obstacle.getBoundingClientRect();
+                    
+                    // Colisão é detectada se houver sobreposição nos eixos X e Y
+                    const collision = !(
+                        carRect.right < obstacleRect.left ||
+                        carRect.left > obstacleRect.right ||
+                        carRect.bottom < obstacleRect.top ||
+                        carRect.top > obstacleRect.bottom
+                    );
+
+                    if (collision) {
+                        endGame();
+                    }
+                }
+            });
+        }
+
+        function startGame() {
+            if (isPlaying) return;
+            // Resetar estado do jogo
+            score = 0;
+            scoreDisplay.textContent = `Pontuação: 0`;
+            carX = 125;
+            updateCarPosition();
+            document.querySelectorAll('.obstacle').forEach(o => o.remove());
+            isPlaying = true;
+
+            // Inicia os loops do jogo
+            gameInterval = setInterval(updateGame, 20); // Loop principal do jogo
+            obstacleInterval = setInterval(createObstacle, 1500); // Cria um novo obstáculo
+        }
+
+        function endGame() {
+            isPlaying = false;
+            clearInterval(gameInterval);
+            clearInterval(obstacleInterval);
+            alert(`Fim de Jogo! Sua pontuação final foi: ${score}`);
+        }
+
+        // Inicia o jogo automaticamente ao carregar
+        startGame();
+
     </script>
 </body>
 </html>
