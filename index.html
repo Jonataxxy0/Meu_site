@@ -3,264 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Cobrinha (Snake Game)</title>
+    <title>Jogo Misterioso Clássico</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #2c3e50; /* Azul escuro */
+            background-color: #000;
             color: white;
-            font-family: 'Consolas', monospace;
+            font-family: Arial, sans-serif;
+            margin: 0;
             padding: 20px;
         }
 
-        h1 {
-            color: #f1c40f; /* Amarelo */
-        }
-
-        /* O elemento Canvas onde o jogo roda */
         #gameCanvas {
-            border: 5px solid #2ecc71; /* Borda verde */
-            background-color: #34495e; /* Fundo do mapa */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: #111;
+            border: 4px solid #fff;
+            cursor: none; /* O cursor será substituído pela raquete */
         }
 
         #scoreBoard {
-            margin-top: 15px;
-            font-size: 1.8em;
-            color: #ecf0f1;
+            margin: 15px 0;
+            font-size: 2em;
         }
 
-        #controls {
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #bdc3c7;
+        #instructions {
+            margin-top: 10px;
+            color: #ccc;
         }
 
         #message {
-            margin-top: 10px;
-            font-size: 1.5em;
-            color: #e74c3c; /* Vermelho para mensagens de Game Over */
-            height: 30px; /* Para evitar que a tela salte */
-        }
-        
-        .restart-btn {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .restart-btn:hover {
-            background-color: #27ae60;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: limegreen;
+            text-shadow: 0 0 10px #0f0;
+            z-index: 10;
+            user-select: none;
+            pointer-events: none;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>🐍 Jogo da Cobrinha</h1>
+    <h1>Jogo Clássico Misterioso</h1>
 
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-
-    <div id="scoreBoard">Pontuação: 0</div>
+    <div id="scoreBoard">0</div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="instructions">Mova o mouse para controlar o bloco inferior.</div>
     <div id="message"></div>
-    <button class="restart-btn" onclick="startGame()">Reiniciar</button>
-    <div id="controls">Use as setas (↑ ↓ ← →) ou W, A, S, D para Mover.</div>
 
     <script>
-        // --- Configurações do Jogo ---
+        // --- Configurações do Canvas e Contexto ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreBoard = document.getElementById('scoreBoard');
         const messageDisplay = document.getElementById('message');
 
-        const TILE_SIZE = 20; // Tamanho de cada bloco (20x20 pixels)
-        const TILE_COUNT = canvas.width / TILE_SIZE; // 400/20 = 20 blocos por linha/coluna
-        
-        let snake = [];
-        let food = {};
-        let velocityX = 0;
-        let velocityY = 0;
+        // --- Variáveis do Jogo ---
+        const gameWidth = canvas.width;
+        const gameHeight = canvas.height;
+
         let score = 0;
+        let lives = 3;
         let gameLoop;
-        let isDead = false;
-        let isChangingDirection = false; // Flag para evitar movimentos duplos por frame
+        let isRunning = false;
+        let isPaused = true;
 
-        // --- Inicialização do Jogo ---
+        // --- Configurações da Bola ---
+        let ball = {
+            x: gameWidth / 2,
+            y: gameHeight / 2,
+            radius: 8,
+            speed: 5,
+            dx: 5, // Velocidade X
+            dy: -5  // Velocidade Y (começa subindo)
+        };
 
-        function startGame() {
-            // Limpa o loop anterior se houver
-            clearInterval(gameLoop);
-            
-            // Reseta o estado do jogo
-            score = 0;
-            scoreBoard.textContent = `Pontuação: 0`;
-            messageDisplay.textContent = '';
-            isDead = false;
-            velocityX = 1; // Começa se movendo para a direita
-            velocityY = 0;
-            isChangingDirection = false;
+        // --- Configurações da Raquete (Paddle) ---
+        let paddle = {
+            height: 10,
+            width: 75,
+            x: (gameWidth - 75) / 2 // Posição inicial centralizada
+        };
 
-            // Cria a cobrinha inicial com 3 partes
-            snake = [
-                {x: 10, y: 10},
-                {x: 9, y: 10},
-                {x: 8, y: 10}
-            ];
+        // --- Configurações dos Blocos (Tijolos) ---
+        const brickInfo = {
+            width: 75,
+            height: 20,
+            padding: 10,
+            offsetTop: 30,
+            offsetLeft: 30,
+            visible: true
+        };
 
-            // Gera a primeira comida
-            spawnFood();
-            
-            // Inicia o loop do jogo (velocidade: 100ms por frame)
-            gameLoop = setInterval(updateGame, 100);
+        const brickRowCount = 5;
+        const brickColumnCount = 6;
+        const bricks = [];
+
+        // Inicializa a matriz de blocos
+        function initBricks() {
+            for (let c = 0; c < brickColumnCount; c++) {
+                bricks[c] = [];
+                for (let r = 0; r < brickRowCount; r++) {
+                    const x = c * (brickInfo.width + brickInfo.padding) + brickInfo.offsetLeft;
+                    const y = r * (brickInfo.height + brickInfo.padding) + brickInfo.offsetTop;
+                    bricks[c][r] = { x, y, ...brickInfo };
+                }
+            }
         }
 
-        // --- Lógica da Cobrinha e Comida ---
+        // --- Funções de Desenho ---
 
-        function spawnFood() {
-            let newX, newY;
-            let collision;
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#eee';
+            ctx.fill();
+            ctx.closePath();
+        }
 
-            do {
-                collision = false;
-                // Gera posições aleatórias dentro dos limites do TILE_COUNT (0 a 19)
-                newX = Math.floor(Math.random() * TILE_COUNT);
-                newY = Math.floor(Math.random() * TILE_COUNT);
+        function drawPaddle() {
+            ctx.fillStyle = 'cyan';
+            ctx.fillRect(paddle.x, gameHeight - paddle.height - 5, paddle.width, paddle.height);
+        }
 
-                // Garante que a comida não apareça em cima da cobrinha
-                for (let part of snake) {
-                    if (part.x === newX && part.y === newY) {
-                        collision = true;
+        function drawBricks() {
+            for (let c = 0; c < brickColumnCount; c++) {
+                for (let r = 0; r < brickRowCount; r++) {
+                    const brick = bricks[c][r];
+                    if (brick.visible) {
+                        ctx.fillStyle = `hsl(${r * 30 + c * 10}, 80%, 50%)`; // Cores Variadas
+                        ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+                        ctx.strokeStyle = '#000';
+                        ctx.strokeRect(brick.x, brick.y, brick.width, brick.height);
+                    }
+                }
+            }
+        }
+
+        // --- Funções de Movimento e Colisão ---
+
+        function moveBall() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Colisão com as Paredes (Esquerda/Direita)
+            if (ball.x + ball.radius > gameWidth || ball.x - ball.radius < 0) {
+                ball.dx *= -1; // Inverte direção X
+            }
+
+            // Colisão com o Teto
+            if (ball.y - ball.radius < 0) {
+                ball.dy *= -1; // Inverte direção Y
+            }
+
+            // Colisão com o Chão (Perde Vida)
+            if (ball.y + ball.radius > gameHeight) {
+                lives--;
+                if (lives === 0) {
+                    endGame("Game Over!");
+                } else {
+                    resetBallAndPaddle();
+                }
+            }
+
+            // Colisão com a Raquete
+            if (ball.y + ball.radius > gameHeight - paddle.height - 5 &&
+                ball.x > paddle.x &&
+                ball.x < paddle.x + paddle.width &&
+                ball.dy > 0 // Apenas se estiver caindo
+            ) {
+                ball.dy *= -1;
+            }
+
+            // Colisão com os Blocos
+            for (let c = 0; c < brickColumnCount; c++) {
+                for (let r = 0; r < brickRowCount; r++) {
+                    const brick = bricks[c][r];
+
+                    if (brick.visible) {
+                        if (
+                            ball.x - ball.radius < brick.x + brick.width && // Lado Esquerdo da Bola
+                            ball.x + ball.radius > brick.x &&             // Lado Direito da Bola
+                            ball.y - ball.radius < brick.y + brick.height && // Parte Superior da Bola
+                            ball.y + ball.radius > brick.y                  // Parte Inferior da Bola
+                        ) {
+                            ball.dy *= -1; // Inverte a direção vertical
+                            brick.visible = false;
+                            increaseScore();
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- Funções de Estado do Jogo ---
+
+        function increaseScore() {
+            score++;
+            scoreBoard.textContent = score;
+
+            // Checar se todos os blocos foram quebrados
+            let bricksLeft = false;
+            for (let c = 0; c < brickColumnCount; c++) {
+                for (let r = 0; r < brickRowCount; r++) {
+                    if (bricks[c][r].visible) {
+                        bricksLeft = true;
                         break;
                     }
                 }
-            } while (collision);
-
-            food = {x: newX, y: newY};
-        }
-
-        function changeDirection(event) {
-            if (isChangingDirection || isDead) return;
-
-            const key = event.key;
-            let newX = velocityX;
-            let newY = velocityY;
-
-            switch (key) {
-                // Setas
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    if (velocityY !== 1) { newX = 0; newY = -1; } // Não pode ir para trás
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    if (velocityY !== -1) { newX = 0; newY = 1; }
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    if (velocityX !== 1) { newX = -1; newY = 0; }
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    if (velocityX !== -1) { newX = 1; newY = 0; }
-                    break;
+                if (bricksLeft) break;
             }
-            
-            // Só atualiza a direção se houver mudança e se não for parado (0, 0)
-            if (newX !== velocityX || newY !== velocityY) {
-                 velocityX = newX;
-                 velocityY = newY;
-                 isChangingDirection = true; // Impede outra mudança até o próximo frame
+
+            if (!bricksLeft) {
+                endGame("Vitória! Próxima Fase!");
+                // Simplesmente reinicia o jogo, mas você poderia aumentar a dificuldade aqui
             }
         }
 
-        // --- Desenho e Atualização do Canvas ---
+        function draw() {
+            // Limpa o Canvas
+            ctx.clearRect(0, 0, gameWidth, gameHeight);
 
-        function drawGame() {
-            // Limpa o canvas para o próximo frame
-            ctx.fillStyle = '#34495e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            drawPaddle();
+            drawBricks();
 
-            // Desenha a Comida (Amarela)
-            ctx.fillStyle = '#f1c40f'; // Amarelo
-            ctx.fillRect(food.x * TILE_SIZE, food.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-
-            // Desenha a Cobrinha
-            ctx.fillStyle = '#2ecc71'; // Corpo Verde
-            ctx.strokeStyle = '#27ae60'; // Borda Verde Escura
-            for (let i = 0; i < snake.length; i++) {
-                ctx.fillRect(snake[i].x * TILE_SIZE, snake[i].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                ctx.strokeRect(snake[i].x * TILE_SIZE, snake[i].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-            }
+            // Adiciona informações de vidas na tela
+            ctx.fillStyle = '#fff';
+            ctx.font = '16px Arial';
+            ctx.fillText(`Vidas: ${lives}`, gameWidth - 80, gameHeight - 10);
         }
 
         function updateGame() {
-            if (isDead) return;
-            
-            // O movimento foi processado, a flag pode ser resetada
-            isChangingDirection = false; 
+            if (isPaused) return;
 
-            // 1. Calcula a Nova Cabeça
-            const head = {x: snake[0].x + velocityX, y: snake[0].y + velocityY};
+            moveBall();
+            draw();
 
-            // 2. Checa Colisões
-            
-            // Colisão com as Paredes
-            if (head.x < 0 || head.x >= TILE_COUNT || head.y < 0 || head.y >= TILE_COUNT) {
-                return endGame();
+            // O requestAnimationFrame permite um loop de animação mais suave e eficiente
+            if (isRunning) {
+                requestAnimationFrame(updateGame);
             }
-
-            // Colisão com o Próprio Corpo
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    return endGame();
-                }
-            }
-
-            // 3. Verifica se Comeu a Comida
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                scoreBoard.textContent = `Pontuação: ${score}`;
-                snake.unshift(head); // Adiciona a nova cabeça (corpo cresce)
-                spawnFood();         // Gera nova comida
-                // O corpo NÃO é removido no final, então a cobra aumenta.
-            } else {
-                snake.unshift(head); // Adiciona a nova cabeça
-                snake.pop();         // Remove a última parte do corpo (movimento normal)
-            }
-
-            // 4. Desenha o Jogo
-            drawGame();
         }
 
-        function endGame() {
-            isDead = true;
-            clearInterval(gameLoop);
-            messageDisplay.textContent = `FIM DE JOGO! Você fez ${score} pontos.`;
-            // Deixa a cabeça da cobra vermelha para indicar o fim
-            if (snake.length > 0) {
-                 ctx.fillStyle = '#e74c3c'; // Vermelho
-                 ctx.fillRect(snake[0].x * TILE_SIZE, snake[0].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                 ctx.strokeRect(snake[0].x * TILE_SIZE, snake[0].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        function resetBallAndPaddle() {
+            isPaused = true;
+            ball.x = gameWidth / 2;
+            ball.y = gameHeight / 2;
+            ball.dx = 5;
+            ball.dy = -5;
+            paddle.x = (gameWidth - paddle.width) / 2;
+
+            messageDisplay.textContent = `Clique para começar (Vidas: ${lives})`;
+            messageDisplay.style.display = 'block';
+        }
+
+        function startGame() {
+            if (isRunning) return;
+            
+            // Estado inicial completo
+            score = 0;
+            lives = 3;
+            scoreBoard.textContent = '0';
+            initBricks();
+            
+            messageDisplay.style.display = 'none';
+            isRunning = true;
+            resetBallAndPaddle(); // Prepara o estado
+            
+            // O jogo realmente começa no primeiro clique
+        }
+
+        function resumeGame() {
+             if (isRunning && isPaused) {
+                isPaused = false;
+                messageDisplay.style.display = 'none';
+                updateGame();
             }
+        }
+
+        function endGame(msg) {
+            isRunning = false;
+            messageDisplay.textContent = msg;
+            messageDisplay.style.display = 'block';
+            messageDisplay.onclick = startGame; // Permite reiniciar clicando na mensagem
         }
 
         // --- Event Listeners ---
-        document.addEventListener('keydown', changeDirection);
 
-        // Inicia o jogo quando a página carrega
+        // Controla a raquete com o movimento do mouse
+        canvas.addEventListener('mousemove', (e) => {
+            const relativeX = e.clientX - canvas.getBoundingClientRect().left;
+            
+            if (relativeX > 0 && relativeX < gameWidth) {
+                // Centraliza a raquete onde o mouse está, mantendo-a dentro dos limites
+                paddle.x = Math.min(gameWidth - paddle.width, Math.max(0, relativeX - paddle.width / 2));
+            }
+        });
+
+        // Inicia/Continua o jogo ao clicar
+        canvas.addEventListener('click', resumeGame);
+
+        // --- Inicia a Configuração Inicial ---
         startGame();
-
     </script>
 </body>
 </html>
