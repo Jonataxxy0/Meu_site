@@ -3,45 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ping Pong com Física</title>
+    <title>Rocket League 2D Simplificado</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #0d1a26; /* Azul Escuro */
+            background-color: #1a1a1a;
             color: white;
-            font-family: 'Consolas', monospace;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
         }
 
         h1 {
-            color: #2ecc71;
+            color: #4CAF50; /* Verde do campo */
         }
 
         #gameCanvas {
-            background-color: #1a334d; /* Cor da mesa */
-            border: 4px solid #f39c12; /* Borda laranja/mesa */
+            background-color: #2e7d32; /* Campo de futebol verde escuro */
+            border: 5px solid #555;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
         }
 
         #scoreBoard {
-            margin: 15px 0;
-            font-size: 2.5em;
-            color: #ecf0f1;
+            margin-top: 15px;
+            font-size: 2em;
+            color: #FFC107; /* Amarelo */
         }
 
         #message {
             margin-top: 10px;
             font-size: 1.5em;
-            color: #e74c3c;
-            height: 30px;
+            color: #FF5722; /* Laranja/vermelho para mensagens */
+            height: 30px; /* Para evitar que a tela salte */
         }
-        
+
         .restart-btn {
             padding: 10px 20px;
             font-size: 1.2em;
-            background-color: #3498db;
+            background-color: #03A9F4; /* Azul para botão */
             color: white;
             border: none;
             border-radius: 5px;
@@ -50,21 +51,32 @@
             transition: background-color 0.3s;
         }
         .restart-btn:hover {
-            background-color: #2980b9;
+            background-color: #0288D1;
+        }
+        
+        #controls-info {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #BDBDBD;
         }
     </style>
 </head>
 <body>
 
-    <h1>🏓 Ping Pong com Física</h1>
+    <h1>Rocket League 2D Simplificado</h1>
 
     <div id="scoreBoard">Jogador 0 - 0 Computador</div>
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
-    <div id="message">Clique para Iniciar</div>
-    <button class="restart-btn" onclick="startGame()">Reiniciar</button>
+    <canvas id="gameCanvas" width="800" height="450"></canvas>
+    <div id="message">Pressione ENTER para Começar!</div>
+    <button class="restart-btn" onclick="startGame()">Reiniciar Jogo</button>
+    <div id="controls-info">
+        Controles: <br>
+        Setas (↑ ↓ ← →) ou W, A, S, D para Mover o Carro.<br>
+        Barra de Espaços para Impulso (Boost)!
+    </div>
 
     <script>
-        // --- 1. Configuração do Canvas e Contexto ---
+        // --- 1. Configurações do Canvas ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreBoard = document.getElementById('scoreBoard');
@@ -73,229 +85,369 @@
         const GAME_WIDTH = canvas.width;
         const GAME_HEIGHT = canvas.height;
 
-        // --- 2. Variáveis de Jogo e Física ---
-        
-        // Objeto da Bola
+        // --- 2. Variáveis do Jogo ---
+
+        // Carro do Jogador
+        let playerCar = {
+            x: GAME_WIDTH / 4,
+            y: GAME_HEIGHT / 2,
+            width: 30,
+            height: 50,
+            angle: 0, // Ângulo de rotação em radianos
+            speed: 0,
+            maxSpeed: 4,
+            boostSpeed: 8,
+            rotationSpeed: 0.05,
+            friction: 0.97, // Atrito para desacelerar
+            boostTimer: 0 // Contador para o boost
+        };
+
+        // Carro do Computador (IA simples)
+        let computerCar = {
+            x: GAME_WIDTH * 3 / 4,
+            y: GAME_HEIGHT / 2,
+            width: 30,
+            height: 50,
+            angle: Math.PI, // Começa virado para a esquerda
+            speed: 0,
+            maxSpeed: 3.5,
+            rotationSpeed: 0.04,
+            friction: 0.97
+        };
+
+        // Bola
         let ball = {
             x: GAME_WIDTH / 2,
             y: GAME_HEIGHT / 2,
-            radius: 8,
-            speed: 5, // Velocidade base (mínima)
-            maxSpeed: 15, // Limite de velocidade para o realismo
+            radius: 15,
             velocityX: 0,
-            velocityY: 0
+            velocityY: 0,
+            friction: 0.98, // Atrito para a bola
+            speedMultiplier: 0.8 // Quanto da velocidade do carro é transferida para a bola
         };
 
-        // Raquete do Jogador (Esquerda)
-        let player = {
-            width: 10,
-            height: 80,
-            x: 10,
-            y: (GAME_HEIGHT - 80) / 2,
-            score: 0,
-            speed: 10 // Velocidade de movimento da raquete
-        };
+        // Gols
+        const GOAL_WIDTH = 30;
+        const GOAL_HEIGHT = 100;
 
-        // Raquete do Computador (Direita)
-        let computer = {
-            width: 10,
-            height: 80,
-            x: GAME_WIDTH - 20,
-            y: (GAME_HEIGHT - 80) / 2,
-            score: 0,
-            speed: 6 // Velocidade do movimento da IA (deve ser menor que a do jogador)
-        };
+        let playerGoal = { x: 0, y: (GAME_HEIGHT - GOAL_HEIGHT) / 2, width: GOAL_WIDTH, height: GOAL_HEIGHT };
+        let computerGoal = { x: GAME_WIDTH - GOAL_WIDTH, y: (GAME_HEIGHT - GOAL_HEIGHT) / 2, width: GOAL_WIDTH, height: GOAL_HEIGHT };
 
+        let score = { player: 0, computer: 0 };
         let keys = {};
         let gameLoop;
-        let isPaused = true;
+        let isGamePaused = true;
 
         // --- 3. Funções de Desenho ---
 
-        function drawRect(x, y, w, h, color) {
+        function drawCar(car, color) {
+            ctx.save(); // Salva o estado atual do canvas
+            ctx.translate(car.x, car.y); // Move o centro de rotação para o centro do carro
+            ctx.rotate(car.angle); // Rotaciona o carro
             ctx.fillStyle = color;
-            ctx.fillRect(x, y, w, h);
+            ctx.fillRect(-car.width / 2, -car.height / 2, car.width, car.height);
+            ctx.restore(); // Restaura o estado anterior do canvas
         }
 
-        function drawCircle(x, y, r, color) {
-            ctx.fillStyle = color;
+        function drawBall(b) {
             ctx.beginPath();
-            ctx.arc(x, y, r, 0, Math.PI * 2, false);
-            ctx.closePath();
+            ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFF'; // Bola branca
             ctx.fill();
+            ctx.strokeStyle = '#BBB';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.closePath();
         }
 
-        function drawNet() {
-            // Linha Central Pontilhada
-            for (let i = 0; i < GAME_HEIGHT; i += 15) {
-                drawRect(GAME_WIDTH / 2 - 1, i, 2, 8, '#ccc');
+        function drawGoals() {
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'; // Gol do jogador (verde translúcido)
+            ctx.fillRect(playerGoal.x, playerGoal.y, playerGoal.width, playerGoal.height);
+
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.3)'; // Gol do computador (vermelho translúcido)
+            ctx.fillRect(computerGoal.x, computerGoal.y, computerGoal.width, computerGoal.height);
+
+            // Linhas brancas das goleiras
+            ctx.strokeStyle = '#FFF';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(playerGoal.x + GOAL_WIDTH, playerGoal.y);
+            ctx.lineTo(playerGoal.x + GOAL_WIDTH, playerGoal.y + GOAL_HEIGHT);
+            ctx.moveTo(computerGoal.x, computerGoal.y);
+            ctx.lineTo(computerGoal.x, computerGoal.y + GOAL_HEIGHT);
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function drawField() {
+            ctx.fillStyle = '#2e7d32'; // Campo verde escuro
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+            ctx.strokeStyle = '#FFF';
+            ctx.lineWidth = 2;
+
+            // Linhas laterais
+            ctx.strokeRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+            // Linha central
+            ctx.beginPath();
+            ctx.moveTo(GAME_WIDTH / 2, 0);
+            ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT);
+            ctx.stroke();
+            ctx.closePath();
+
+            // Círculo central
+            ctx.beginPath();
+            ctx.arc(GAME_WIDTH / 2, GAME_HEIGHT / 2, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.closePath();
+
+            // Gols
+            drawGoals();
+        }
+
+        function draw() {
+            drawField();
+            drawCar(playerCar, '#03A9F4'); // Azul do jogador
+            drawCar(computerCar, '#FFEB3B'); // Amarelo do computador
+            drawBall(ball);
+        }
+
+        // --- 4. Lógica de Movimento e Colisão ---
+
+        function updateCar(car, isPlayer) {
+            // Rotação
+            if (isPlayer) {
+                if (keys['ArrowLeft'] || keys['a'] || keys['A']) car.angle -= car.rotationSpeed;
+                if (keys['ArrowRight'] || keys['d'] || keys['D']) car.angle += car.rotationSpeed;
             }
-        }
 
-        function drawGame() {
-            // Fundo
-            drawRect(0, 0, GAME_WIDTH, GAME_HEIGHT, '#1a334d');
-            
-            // Rede (Net)
-            drawNet();
+            // Aceleração/Desaceleração
+            if (isPlayer) {
+                if (keys['ArrowUp'] || keys['w'] || keys['W']) {
+                    car.speed = Math.min(car.maxSpeed, car.speed + 0.1);
+                } else if (keys['ArrowDown'] || keys['s'] || keys['S']) {
+                    car.speed = Math.max(-car.maxSpeed / 2, car.speed - 0.1); // Pode ir para trás mais lento
+                } else {
+                    car.speed *= car.friction; // Atrito natural
+                }
 
-            // Raquetes
-            drawRect(player.x, player.y, player.width, player.height, '#2ecc71');
-            drawRect(computer.x, computer.y, computer.width, computer.height, '#e74c3c');
+                // Boost do Jogador
+                if ((keys[' '] || keys['Spacebar']) && car.boostTimer <= 0) {
+                    car.speed = car.boostSpeed;
+                    car.boostTimer = 30; // 30 frames de boost
+                }
+                if (car.boostTimer > 0) car.boostTimer--;
 
-            // Bola
-            drawCircle(ball.x, ball.y, ball.radius, '#f1c40f');
-        }
+            } else { // IA do Computador
+                // IA simples: Tenta ir para a bola
+                let angleToBall = Math.atan2(ball.y - car.y, ball.x - car.x);
+                // Ajusta o ângulo para ficar de frente para a bola
+                let diffAngle = angleToBall - car.angle;
 
-        // --- 4. Lógica de Colisão e Movimento (O Realismo) ---
+                // Normaliza o ângulo para o menor caminho de rotação
+                if (diffAngle > Math.PI) diffAngle -= 2 * Math.PI;
+                if (diffAngle < -Math.PI) diffAngle += 2 * Math.PI;
 
-        function movePaddle() {
-            // Movimento do Jogador (Setas ou W/S)
-            if ((keys['ArrowUp'] || keys['w'] || keys['W']) && player.y > 0) {
-                player.y -= player.speed;
-            } else if ((keys['ArrowDown'] || keys['s'] || keys['S']) && player.y < GAME_HEIGHT - player.height) {
-                player.y += player.speed;
+                if (Math.abs(diffAngle) > 0.1) { // Se a diferença for grande, rotaciona
+                    car.angle += Math.sign(diffAngle) * car.rotationSpeed;
+                }
+                
+                // Sempre tentar acelerar um pouco
+                car.speed = Math.min(car.maxSpeed, car.speed + 0.05);
+                car.speed *= car.friction;
             }
+
+            // Atualiza posição do carro baseada na velocidade e ângulo
+            car.x += car.speed * Math.cos(car.angle);
+            car.y += car.speed * Math.sin(car.angle);
+
+            // Limites da tela para o carro
+            car.x = Math.max(car.width / 2, Math.min(GAME_WIDTH - car.width / 2, car.x));
+            car.y = Math.max(car.height / 2, Math.min(GAME_HEIGHT - car.height / 2, car.y));
         }
 
-        function moveComputer() {
-            // IA Simples: Segue a bola, mas com uma velocidade limitada (para não ser perfeita)
-            let targetY = ball.y - computer.height / 2;
-            
-            if (computer.y < targetY) {
-                computer.y = Math.min(computer.y + computer.speed, GAME_HEIGHT - computer.height);
-            } else if (computer.y > targetY) {
-                computer.y = Math.max(computer.y - computer.speed, 0);
-            }
-        }
-
-        function collisionDetection(b, p) {
-            // Colisão AABB simples
-            return b.x + b.radius > p.x &&
-                   b.x - b.radius < p.x + p.width &&
-                   b.y + b.radius > p.y &&
-                   b.y - b.radius < p.y + p.height;
-        }
-
-        function handleCollision(paddle) {
-            // 1. Calcula a Posição Relativa de Toque na Raquete
-            // Onde na raquete a bola tocou (0 = topo, 1 = base)
-            let collidePoint = ball.y - (paddle.y + paddle.height / 2);
-            collidePoint = collidePoint / (paddle.height / 2); // Normaliza entre -1 e 1
-
-            // 2. Calcula o Ângulo de Rebatida
-            // Quanto mais perto da extremidade, mais inclinado (mais efeito)
-            const angle = collidePoint * Math.PI / 4; // Ângulo máximo de 45 graus (PI/4)
-
-            // 3. Acelera a Bola (Aumenta o Realismo/Dificuldade)
-            ball.speed = Math.min(ball.maxSpeed, ball.speed + 1.5);
-
-            // 4. Aplica Nova Velocidade
-            // O sinal do paddle.x determina se a bola deve ir para direita (1) ou esquerda (-1)
-            const direction = (paddle === player) ? 1 : -1; 
-            
-            ball.velocityX = direction * ball.speed * Math.cos(angle);
-            ball.velocityY = ball.speed * Math.sin(angle);
-        }
-
-        function resetBall(direction) {
-            // Resetar a bola após um ponto ser marcado
-            ball.x = GAME_WIDTH / 2;
-            ball.y = GAME_HEIGHT / 2;
-            ball.speed = 5; 
-            
-            // Inicia a bola em direção ao jogador que perdeu o ponto
-            const startAngle = (Math.random() * (Math.PI/2)) - (Math.PI/4); // Ângulo aleatório entre -45 e +45 graus
-            ball.velocityX = direction * ball.speed * Math.cos(startAngle);
-            ball.velocityY = ball.speed * Math.sin(startAngle);
-            
-            // Pausa até o próximo clique
-            isPaused = true;
-            messageDisplay.textContent = 'Ponto! Clique para sacar.';
-        }
-
-        function updateGame() {
-            if (isPaused) return;
-
-            // 1. Movimento da Bola
+        function updateBall() {
             ball.x += ball.velocityX;
             ball.y += ball.velocityY;
 
-            // 2. Colisão com as Paredes Superior/Inferior
+            // Atrito da bola
+            ball.velocityX *= ball.friction;
+            ball.velocityY *= ball.friction;
+
+            // Colisão com as paredes do campo
+            if (ball.x + ball.radius > GAME_WIDTH || ball.x - ball.radius < 0) {
+                ball.velocityX *= -1; // Inverte direção X
+                // Garante que a bola não fique presa na parede
+                if (ball.x + ball.radius > GAME_WIDTH) ball.x = GAME_WIDTH - ball.radius;
+                if (ball.x - ball.radius < 0) ball.x = ball.radius;
+            }
             if (ball.y + ball.radius > GAME_HEIGHT || ball.y - ball.radius < 0) {
-                ball.velocityY *= -1;
+                ball.velocityY *= -1; // Inverte direção Y
+                if (ball.y + ball.radius > GAME_HEIGHT) ball.y = GAME_HEIGHT - ball.radius;
+                if (ball.y - ball.radius < 0) ball.y = ball.radius;
             }
-
-            // 3. Colisão com o GOL (Pontuação)
-            if (ball.x - ball.radius < 0) {
-                // Ponto para o Computador (Saiu pela esquerda)
-                computer.score++;
-                scoreBoard.textContent = `Jogador ${player.score} - ${computer.score} Computador`;
-                resetBall(-1); // Reseta a bola em direção ao perdedor (jogador)
-                return;
-            } else if (ball.x + ball.radius > GAME_WIDTH) {
-                // Ponto para o Jogador (Saiu pela direita)
-                player.score++;
-                scoreBoard.textContent = `Jogador ${player.score} - ${computer.score} Computador`;
-                resetBall(1); // Reseta a bola em direção ao perdedor (computador)
-                return;
-            }
-
-            // 4. Colisão com Raquetes
-            let paddle = (ball.x < GAME_WIDTH / 2) ? player : computer;
-            
-            if (collisionDetection(ball, paddle)) {
-                handleCollision(paddle);
-            }
-            
-            // 5. Movimento das Raquetes
-            movePaddle();
-            moveComputer();
-
-            drawGame();
-            requestAnimationFrame(updateGame);
         }
 
-        // --- 5. Funções de Controle ---
-
-        function startGame() {
-            player.score = 0;
-            computer.score = 0;
-            scoreBoard.textContent = `Jogador 0 - 0 Computador`;
+        function checkCollision(car, b) {
+            // Simplificação para colisão carro-bola (círculo e retângulo rotacionado é complexo)
+            // Aqui vamos tratar o carro como um círculo grande para simplicidade,
+            // ou um retângulo fixo por enquanto. A solução perfeita é complexa.
             
-            player.y = (GAME_HEIGHT - player.height) / 2;
-            computer.y = (GAME_HEIGHT - computer.height) / 2;
+            // Para esta versão, tratamos o carro como um retângulo ALINHADO para colisão
+            // e transferimos a velocidade do carro para a bola
+            const carRect = {
+                x: car.x - car.width / 2,
+                y: car.y - car.height / 2,
+                width: car.width,
+                height: car.height
+            };
 
-            // Inicia o saque aleatoriamente
-            resetBall(Math.random() < 0.5 ? 1 : -1); 
-            
-            messageDisplay.textContent = 'Clique para sacar.';
-            drawGame();
+            const dx = Math.abs(b.x - car.x);
+            const dy = Math.abs(b.y - car.y);
+
+            if (dx > (car.width / 2 + b.radius)) return false;
+            if (dy > (car.height / 2 + b.radius)) return false;
+
+            if (dx <= (car.width / 2)) return true;
+            if (dy <= (car.height / 2)) return true;
+
+            const cornerDistanceSq = (dx - car.width / 2) ** 2 + (dy - car.height / 2) ** 2;
+            return (cornerDistanceSq <= (b.radius ** 2));
         }
         
-        function resumeGame(event) {
-            // Só resume se o clique estiver dentro da área de jogo
-            if (isPaused && event.target === canvas) {
-                isPaused = false;
-                messageDisplay.textContent = '';
-                requestAnimationFrame(updateGame);
+        function handleBallCarCollision(car, b) {
+            // Se houver colisão
+            if (checkCollision(car, b)) {
+                // Calcula o vetor de direção do carro
+                const carDirX = Math.cos(car.angle);
+                const carDirY = Math.sin(car.angle);
+
+                // Transfere parte da velocidade do carro para a bola
+                let impulseX = car.speed * carDirX * ball.speedMultiplier;
+                let impulseY = car.speed * carDirY * ball.speedMultiplier;
+
+                // Garante que a bola não fique presa, e adiciona o impulso
+                b.velocityX = impulseX;
+                b.velocityY = impulseY;
+                
+                // Empurra a bola para fora do carro para evitar "grudar"
+                const overlap = b.radius + car.width/2 - Math.hypot(b.x - car.x, b.y - car.y); // Simplificação
+                if (overlap > 0) {
+                    const angleBetween = Math.atan2(b.y - car.y, b.x - car.x);
+                    b.x += Math.cos(angleBetween) * overlap;
+                    b.y += Math.sin(angleBetween) * overlap;
+                }
+            }
+        }
+
+        function checkGoal(b) {
+            // Gol do Jogador (saiu pela direita, no gol do computador)
+            if (b.x + b.radius > computerGoal.x &&
+                b.y > computerGoal.y && b.y < computerGoal.y + computerGoal.height) {
+                score.player++;
+                updateScoreBoard();
+                resetRound('Jogador Marcou!');
+                return true;
+            }
+
+            // Gol do Computador (saiu pela esquerda, no gol do jogador)
+            if (b.x - b.radius < playerGoal.x + playerGoal.width &&
+                b.y > playerGoal.y && b.y < playerGoal.y + playerGoal.height) {
+                score.computer++;
+                updateScoreBoard();
+                resetRound('Computador Marcou!');
+                return true;
+            }
+            return false;
+        }
+
+        // --- 5. Funções de Estado do Jogo ---
+
+        function updateScoreBoard() {
+            scoreBoard.textContent = `Jogador ${score.player} - ${score.computer} Computador`;
+        }
+
+        function resetRound(message) {
+            isGamePaused = true;
+            messageDisplay.textContent = message + ' Pressione ENTER para Recomeçar.';
+
+            // Resetar posições
+            playerCar.x = GAME_WIDTH / 4;
+            playerCar.y = GAME_HEIGHT / 2;
+            playerCar.angle = 0;
+            playerCar.speed = 0;
+
+            computerCar.x = GAME_WIDTH * 3 / 4;
+            computerCar.y = GAME_HEIGHT / 2;
+            computerCar.angle = Math.PI;
+            computerCar.speed = 0;
+
+            ball.x = GAME_WIDTH / 2;
+            ball.y = GAME_HEIGHT / 2;
+            ball.velocityX = 0;
+            ball.velocityY = 0;
+
+            draw(); // Desenha a tela resetada
+        }
+
+        function gameLoop() {
+            if (isGamePaused) {
+                draw(); // Continua desenhando mesmo pausado para mostrar o estado inicial/reset
+                return;
+            }
+
+            updateCar(playerCar, true);
+            updateCar(computerCar, false);
+            updateBall();
+
+            handleBallCarCollision(playerCar, ball);
+            handleBallCarCollision(computerCar, ball); // IA também interage com a bola
+
+            if (!checkGoal(ball)) {
+                draw();
+            } else {
+                // Gol foi marcado, resetRound já lida com o desenho e pausa
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function startGame() {
+            score.player = 0;
+            score.computer = 0;
+            updateScoreBoard();
+            resetRound('Pressione ENTER para Começar!'); // Prepara o jogo, mas deixa pausado
+            isGamePaused = true; // Garante que esteja pausado no início
+
+            // Garante que o gameLoop esteja rodando
+            if (!gameLoop) {
+                gameLoop = requestAnimationFrame(gameLoop);
             }
         }
 
         // --- 6. Event Listeners ---
         document.addEventListener('keydown', (e) => {
             keys[e.key] = true;
+            if (e.key === 'Enter' && isGamePaused) {
+                isGamePaused = false;
+                messageDisplay.textContent = '';
+                // Se o gameLoop já não estiver rodando (primeira vez), inicia
+                if (!gameLoop) { 
+                    gameLoop = requestAnimationFrame(gameLoop);
+                } else { // Se já estava rodando, apenas despausa
+                    requestAnimationFrame(gameLoop);
+                }
+            }
         });
 
         document.addEventListener('keyup', (e) => {
             keys[e.key] = false;
         });
 
-        // Clique no Canvas para sacar
-        canvas.addEventListener('click', resumeGame);
-
-        // Inicializa o jogo ao carregar a página
+        // Inicia o jogo na carga da página
         startGame();
+
     </script>
 </body>
 </html>
