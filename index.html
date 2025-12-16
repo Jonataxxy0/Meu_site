@@ -3,314 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo Misterioso Clássico</title>
+    <title>OutRun Simplificado (3D com Three.js)</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+        body { margin: 0; overflow: hidden; background-color: #333; color: white; font-family: sans-serif; }
+        #gameInfo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5em;
+            background-color: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 10;
         }
-
-        #gameCanvas {
-            background-color: #111;
-            border: 4px solid #fff;
-            cursor: none; /* O cursor será substituído pela raquete */
-        }
-
-        #scoreBoard {
-            margin: 15px 0;
-            font-size: 2em;
-        }
-
-        #instructions {
-            margin-top: 10px;
-            color: #ccc;
-        }
-
         #message {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 3em;
-            color: limegreen;
-            text-shadow: 0 0 10px #0f0;
-            z-index: 10;
-            user-select: none;
-            pointer-events: none;
+            color: yellow;
+            text-shadow: 0 0 10px orange;
+            z-index: 11;
             display: none;
+            text-align: center;
         }
+        canvas { display: block; }
     </style>
 </head>
 <body>
+    <div id="gameInfo">
+        Velocidade: <span id="speedDisplay">0</span> km/h<br>
+        Curva: <span id="curveDisplay">0</span>
+    </div>
+    <div id="message">Clique para Iniciar!</div>
 
-    <h1>Jogo Clássico Misterioso</h1>
-
-    <div id="scoreBoard">0</div>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
-    <div id="instructions">Mova o mouse para controlar o bloco inferior.</div>
-    <div id="message"></div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    
     <script>
-        // --- Configurações do Canvas e Contexto ---
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreBoard = document.getElementById('scoreBoard');
-        const messageDisplay = document.getElementById('message');
+        // --- 1. Configuração Básica do Three.js ---
+        let scene, camera, renderer;
+        let roadGeometry, roadMaterial, roadMesh;
+        let sunLight, ambientLight;
 
-        // --- Variáveis do Jogo ---
-        const gameWidth = canvas.width;
-        const gameHeight = canvas.height;
+        const speedDisplay = document.getElementById('speedDisplay');
+        const curveDisplay = document.getElementById('curveDisplay');
+        const messageElement = document.getElementById('message');
 
-        let score = 0;
-        let lives = 3;
-        let gameLoop;
-        let isRunning = false;
+        // --- 2. Variáveis do Jogo ---
+        const ROAD_WIDTH = 300;
+        const SEGMENT_LENGTH = 20; // Comprimento de cada segmento da estrada
+        const NUM_SEGMENTS = 200; // Quantidade de segmentos visíveis
+        const MAX_CURVE_ANGLE = 0.05; // Curva máxima por segmento
+        const CURVE_CHANGE_RATE = 0.0005; // Quão rápido a curva muda
+        const PLAYER_Z_OFFSET = -100; // Posição Z da câmera em relação ao "chão"
+
+        let segments = []; // Array que armazena os segmentos da estrada
+        let currentSpeed = 0;
+        const MAX_SPEED = 20;
+        const ACCELERATION = 0.1;
+        const DECELERATION = 0.2;
+        const FRICTION = 0.05;
+
+        let currentRoadCurve = 0; // Curva atual da estrada
+        let targetRoadCurve = 0; // Curva que a estrada está tentando alcançar
+        let totalDistance = 0; // Distância total percorrida
+        let isGameRunning = false;
         let isPaused = true;
 
-        // --- Configurações da Bola ---
-        let ball = {
-            x: gameWidth / 2,
-            y: gameHeight / 2,
-            radius: 8,
-            speed: 5,
-            dx: 5, // Velocidade X
-            dy: -5  // Velocidade Y (começa subindo)
+        let keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false
         };
 
-        // --- Configurações da Raquete (Paddle) ---
-        let paddle = {
-            height: 10,
-            width: 75,
-            x: (gameWidth - 75) / 2 // Posição inicial centralizada
-        };
+        // --- 3. Inicialização do Cenário ---
+        function init() {
+            // Cena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87ceeb); // Cor do céu
 
-        // --- Configurações dos Blocos (Tijolos) ---
-        const brickInfo = {
-            width: 75,
-            height: 20,
-            padding: 10,
-            offsetTop: 30,
-            offsetLeft: 30,
-            visible: true
-        };
+            // Câmera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 50, PLAYER_Z_OFFSET); // Posição inicial da câmera
 
-        const brickRowCount = 5;
-        const brickColumnCount = 6;
-        const bricks = [];
+            // Renderizador
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-        // Inicializa a matriz de blocos
-        function initBricks() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                bricks[c] = [];
-                for (let r = 0; r < brickRowCount; r++) {
-                    const x = c * (brickInfo.width + brickInfo.padding) + brickInfo.offsetLeft;
-                    const y = r * (brickInfo.height + brickInfo.padding) + brickInfo.offsetTop;
-                    bricks[c][r] = { x, y, ...brickInfo };
+            // Luzes
+            sunLight = new THREE.DirectionalLight(0xffffff, 1);
+            sunLight.position.set(0, 200, 100);
+            scene.add(sunLight);
+
+            ambientLight = new THREE.AmbientLight(0x404040); // Luz ambiente fraca
+            scene.add(ambientLight);
+
+            // Criação da Estrada (inicialmente plana)
+            createRoadSegments();
+            
+            // Event Listeners
+            window.addEventListener('resize', onWindowResize);
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+            renderer.domElement.addEventListener('click', startGame);
+
+            messageElement.style.display = 'block';
+            messageElement.textContent = 'Clique para Iniciar a Corrida!';
+        }
+
+        // --- 4. Geração e Atualização da Estrada ---
+        function createRoadSegments() {
+            // Limpa segmentos anteriores se houver
+            segments.forEach(seg => {
+                if (seg.mesh) {
+                    scene.remove(seg.mesh);
+                    seg.mesh.geometry.dispose();
+                    seg.mesh.material.dispose();
                 }
+            });
+            segments = [];
+
+            let lastX = 0; // Posição X do final do segmento anterior
+            let lastY = 0; // Posição Y do final do segmento anterior (elevação)
+            let lastCurve = 0; // Curva do segmento anterior
+
+            for (let i = 0; i < NUM_SEGMENTS; i++) {
+                // Cada segmento tem sua própria curva, que varia suavemente
+                const curve = Math.sin(i * 0.1 + totalDistance * 0.001) * MAX_CURVE_ANGLE; // Uma curva mais natural
+                const segment = {
+                    x: lastX,
+                    y: lastY,
+                    curve: curve,
+                    roadMaterial: new THREE.MeshLambertMaterial({ color: (i % 2 === 0) ? 0x666666 : 0x555555 }) // Cores alternadas para simular faixas
+                };
+                
+                // Cria a geometria do plano para o segmento
+                const geometry = new THREE.PlaneGeometry(ROAD_WIDTH, SEGMENT_LENGTH, 1, 1);
+                // Move o pivô para a parte inferior do plano
+                geometry.translate(0, 0, -SEGMENT_LENGTH / 2);
+
+                const mesh = new THREE.Mesh(geometry, segment.roadMaterial);
+                mesh.position.set(lastX, lastY, -i * SEGMENT_LENGTH); // Posição Z recuada
+                
+                // Aplica a rotação no eixo Y para simular a curva
+                mesh.rotation.y = curve;
+
+                scene.add(mesh);
+                segment.mesh = mesh;
+                segments.push(segment);
+
+                // Atualiza a posição para o próximo segmento
+                lastX += Math.sin(curve) * SEGMENT_LENGTH;
+                lastY += 0; // Manter estrada plana por simplicidade
+                lastCurve = curve;
             }
         }
 
-        // --- Funções de Desenho ---
+        // Atualiza a posição e curva dos segmentos da estrada
+        function updateRoad() {
+            // Remove o segmento mais distante e adiciona um novo na frente
+            const oldestSegment = segments.pop();
+            if (oldestSegment && oldestSegment.mesh) {
+                scene.remove(oldestSegment.mesh);
+                oldestSegment.mesh.geometry.dispose();
+                oldestSegment.mesh.material.dispose();
+            }
 
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#eee';
-            ctx.fill();
-            ctx.closePath();
+            // Gerar nova curva alvo suavemente
+            if (Math.random() < 0.01) { // Chance de 1% de mudar a curva alvo a cada frame
+                targetRoadCurve = (Math.random() - 0.5) * MAX_CURVE_ANGLE * 2;
+            }
+            currentRoadCurve += (targetRoadCurve - currentRoadCurve) * CURVE_CHANGE_RATE * currentSpeed;
+
+            // Cria um novo segmento na frente
+            const firstSegment = segments[0];
+            const newSegment = {
+                x: firstSegment.x - Math.sin(firstSegment.curve) * SEGMENT_LENGTH,
+                y: firstSegment.y, // Por simplicidade, mantemos Y constante
+                curve: currentRoadCurve,
+                roadMaterial: new THREE.MeshLambertMaterial({ color: (segments.length % 2 === 0) ? 0x666666 : 0x555555 })
+            };
+
+            const geometry = new THREE.PlaneGeometry(ROAD_WIDTH, SEGMENT_LENGTH, 1, 1);
+            geometry.translate(0, 0, -SEGMENT_LENGTH / 2);
+            const mesh = new THREE.Mesh(geometry, newSegment.roadMaterial);
+            mesh.position.set(newSegment.x, newSegment.y, firstSegment.mesh.position.z - SEGMENT_LENGTH);
+            mesh.rotation.y = newSegment.curve;
+            scene.add(mesh);
+            newSegment.mesh = mesh;
+            segments.unshift(newSegment);
+
+            // Ajusta a posição Z de todos os segmentos para simular rolagem
+            segments.forEach((seg, index) => {
+                seg.mesh.position.z = (PLAYER_Z_OFFSET - (index * SEGMENT_LENGTH)) + (totalDistance % SEGMENT_LENGTH);
+                seg.mesh.position.x = segments[0].x - Math.sin(segments[0].curve) * index * SEGMENT_LENGTH;
+            });
+            
+            // Move a câmera lateralmente com base na curva da estrada para simular o carro virando
+            camera.position.x = currentRoadCurve * 1500; // Multiplicador para tornar a curva mais perceptível
+            camera.rotation.z = -currentRoadCurve * 0.5; // Inclinar a câmera para dar sensação de curva
         }
 
-        function drawPaddle() {
-            ctx.fillStyle = 'cyan';
-            ctx.fillRect(paddle.x, gameHeight - paddle.height - 5, paddle.width, paddle.height);
+
+        // --- 5. Game Loop (Animação) ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (!isGameRunning || isPaused) {
+                renderer.render(scene, camera);
+                return;
+            }
+
+            // Aceleração / Desaceleração
+            if (keys.ArrowUp) {
+                currentSpeed = Math.min(MAX_SPEED, currentSpeed + ACCELERATION);
+            } else if (keys.ArrowDown) {
+                currentSpeed = Math.max(0, currentSpeed - DECELERATION);
+            } else {
+                currentSpeed = Math.max(0, currentSpeed - FRICTION); // Fricção natural
+            }
+
+            // Atualiza a distância percorrida
+            totalDistance += currentSpeed;
+
+            // Atualiza a estrada a cada "passo" de rolagem
+            if (currentSpeed > 0) {
+                 updateRoad();
+            }
+
+            // Atualiza o HUD
+            speedDisplay.textContent = Math.floor(currentSpeed * 10); // Escalando para um valor mais realista
+            curveDisplay.textContent = currentRoadCurve.toFixed(3);
+
+            renderer.render(scene, camera);
         }
 
-        function drawBricks() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    const brick = bricks[c][r];
-                    if (brick.visible) {
-                        ctx.fillStyle = `hsl(${r * 30 + c * 10}, 80%, 50%)`; // Cores Variadas
-                        ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
-                        ctx.strokeStyle = '#000';
-                        ctx.strokeRect(brick.x, brick.y, brick.width, brick.height);
-                    }
-                }
-            }
+        // --- 6. Event Handlers ---
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // --- Funções de Movimento e Colisão ---
-
-        function moveBall() {
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            // Colisão com as Paredes (Esquerda/Direita)
-            if (ball.x + ball.radius > gameWidth || ball.x - ball.radius < 0) {
-                ball.dx *= -1; // Inverte direção X
-            }
-
-            // Colisão com o Teto
-            if (ball.y - ball.radius < 0) {
-                ball.dy *= -1; // Inverte direção Y
-            }
-
-            // Colisão com o Chão (Perde Vida)
-            if (ball.y + ball.radius > gameHeight) {
-                lives--;
-                if (lives === 0) {
-                    endGame("Game Over!");
-                } else {
-                    resetBallAndPaddle();
-                }
-            }
-
-            // Colisão com a Raquete
-            if (ball.y + ball.radius > gameHeight - paddle.height - 5 &&
-                ball.x > paddle.x &&
-                ball.x < paddle.x + paddle.width &&
-                ball.dy > 0 // Apenas se estiver caindo
-            ) {
-                ball.dy *= -1;
-            }
-
-            // Colisão com os Blocos
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    const brick = bricks[c][r];
-
-                    if (brick.visible) {
-                        if (
-                            ball.x - ball.radius < brick.x + brick.width && // Lado Esquerdo da Bola
-                            ball.x + ball.radius > brick.x &&             // Lado Direito da Bola
-                            ball.y - ball.radius < brick.y + brick.height && // Parte Superior da Bola
-                            ball.y + ball.radius > brick.y                  // Parte Inferior da Bola
-                        ) {
-                            ball.dy *= -1; // Inverte a direção vertical
-                            brick.visible = false;
-                            increaseScore();
-                        }
-                    }
-                }
-            }
+        function onKeyDown(event) {
+            keys[event.key] = true;
         }
 
-        // --- Funções de Estado do Jogo ---
-
-        function increaseScore() {
-            score++;
-            scoreBoard.textContent = score;
-
-            // Checar se todos os blocos foram quebrados
-            let bricksLeft = false;
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    if (bricks[c][r].visible) {
-                        bricksLeft = true;
-                        break;
-                    }
-                }
-                if (bricksLeft) break;
-            }
-
-            if (!bricksLeft) {
-                endGame("Vitória! Próxima Fase!");
-                // Simplesmente reinicia o jogo, mas você poderia aumentar a dificuldade aqui
-            }
-        }
-
-        function draw() {
-            // Limpa o Canvas
-            ctx.clearRect(0, 0, gameWidth, gameHeight);
-
-            drawBall();
-            drawPaddle();
-            drawBricks();
-
-            // Adiciona informações de vidas na tela
-            ctx.fillStyle = '#fff';
-            ctx.font = '16px Arial';
-            ctx.fillText(`Vidas: ${lives}`, gameWidth - 80, gameHeight - 10);
-        }
-
-        function updateGame() {
-            if (isPaused) return;
-
-            moveBall();
-            draw();
-
-            // O requestAnimationFrame permite um loop de animação mais suave e eficiente
-            if (isRunning) {
-                requestAnimationFrame(updateGame);
-            }
-        }
-
-        function resetBallAndPaddle() {
-            isPaused = true;
-            ball.x = gameWidth / 2;
-            ball.y = gameHeight / 2;
-            ball.dx = 5;
-            ball.dy = -5;
-            paddle.x = (gameWidth - paddle.width) / 2;
-
-            messageDisplay.textContent = `Clique para começar (Vidas: ${lives})`;
-            messageDisplay.style.display = 'block';
+        function onKeyUp(event) {
+            keys[event.key] = false;
         }
 
         function startGame() {
-            if (isRunning) return;
-            
-            // Estado inicial completo
-            score = 0;
-            lives = 3;
-            scoreBoard.textContent = '0';
-            initBricks();
-            
-            messageDisplay.style.display = 'none';
-            isRunning = true;
-            resetBallAndPaddle(); // Prepara o estado
-            
-            // O jogo realmente começa no primeiro clique
-        }
-
-        function resumeGame() {
-             if (isRunning && isPaused) {
+            if (!isGameRunning) {
+                isGameRunning = true;
+                currentSpeed = 0;
+                totalDistance = 0;
+                createRoadSegments(); // Reinicia a estrada
+            }
+            if (isPaused) {
                 isPaused = false;
-                messageDisplay.style.display = 'none';
-                updateGame();
+                messageElement.style.display = 'none';
             }
         }
 
-        function endGame(msg) {
-            isRunning = false;
-            messageDisplay.textContent = msg;
-            messageDisplay.style.display = 'block';
-            messageDisplay.onclick = startGame; // Permite reiniciar clicando na mensagem
-        }
-
-        // --- Event Listeners ---
-
-        // Controla a raquete com o movimento do mouse
-        canvas.addEventListener('mousemove', (e) => {
-            const relativeX = e.clientX - canvas.getBoundingClientRect().left;
-            
-            if (relativeX > 0 && relativeX < gameWidth) {
-                // Centraliza a raquete onde o mouse está, mantendo-a dentro dos limites
-                paddle.x = Math.min(gameWidth - paddle.width, Math.max(0, relativeX - paddle.width / 2));
-            }
-        });
-
-        // Inicia/Continua o jogo ao clicar
-        canvas.addEventListener('click', resumeGame);
-
-        // --- Inicia a Configuração Inicial ---
-        startGame();
+        // --- Iniciar o Jogo ---
+        init();
+        animate(); // Começa o loop de animação, mesmo que pausado
     </script>
 </body>
 </html>
