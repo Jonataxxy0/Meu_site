@@ -3,293 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini GTA 2D - Top Down</title>
+    <title>Jogo da Cobrinha (Snake Game)</title>
     <style>
-        /* Estilos CSS para o Jogo */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #1a1a1a;
+            background-color: #2c3e50; /* Azul escuro */
             color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
+            font-family: 'Consolas', monospace;
             padding: 20px;
         }
 
-        #game-map {
-            width: 500px;
-            height: 500px;
-            background-color: #333; /* Cor do fundo da cidade/rua */
-            border: 5px solid #555;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        h1 {
+            color: #f1c40f; /* Amarelo */
         }
 
-        #player {
-            width: 30px;
-            height: 30px;
-            background-color: #ff0000; /* Carro Vermelho/Player */
-            position: absolute;
-            top: 235px;
-            left: 235px;
-            border-radius: 5px;
-            z-index: 10;
-            transition: background-color 0.1s;
+        /* O elemento Canvas onde o jogo roda */
+        #gameCanvas {
+            border: 5px solid #2ecc71; /* Borda verde */
+            background-color: #34495e; /* Fundo do mapa */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        .road {
-            background-color: #444;
-            position: absolute;
-            z-index: 1;
+        #scoreBoard {
+            margin-top: 15px;
+            font-size: 1.8em;
+            color: #ecf0f1;
         }
 
-        .vertical {
-            width: 100px;
-            height: 500px;
+        #controls {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #bdc3c7;
         }
 
-        .horizontal {
-            width: 500px;
-            height: 100px;
+        #message {
+            margin-top: 10px;
+            font-size: 1.5em;
+            color: #e74c3c; /* Vermelho para mensagens de Game Over */
+            height: 30px; /* Para evitar que a tela salte */
         }
         
-        /* Obstáculos (prédios) */
-        .building {
-            width: 80px;
-            height: 80px;
-            background-color: #0056b3; /* Cor dos Prédios */
-            position: absolute;
-            border: 2px solid #003a72;
-            z-index: 5;
-            border-radius: 3px;
-        }
-
-        /* Item para coletar (Dinheiro/Power-up) */
-        .collectible {
-            width: 20px;
-            height: 20px;
-            background-color: gold;
-            position: absolute;
-            border-radius: 50%;
-            z-index: 8;
-            animation: pulse 1s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
-
-        #info {
-            margin-top: 15px;
+        .restart-btn {
+            padding: 10px 20px;
             font-size: 1.2em;
-            display: flex;
-            gap: 40px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
         }
 
-        #status-message {
-            margin-top: 20px;
-            font-size: 1.5em;
-            color: #ffcc00;
+        .restart-btn:hover {
+            background-color: #27ae60;
         }
     </style>
 </head>
 <body>
 
-    <h1>Mini GTA 2D: City Driver</h1>
+    <h1>🐍 Jogo da Cobrinha</h1>
 
-    <div id="game-map">
-        <div class="road vertical" style="left: 200px; top: 0;"></div>
-        <div class="road horizontal" style="left: 0; top: 200px;"></div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
 
-        <div class="building" id="b1" style="left: 50px; top: 50px;"></div>
-        <div class="building" id="b2" style="left: 370px; top: 50px;"></div>
-        <div class="building" id="b3" style="left: 50px; top: 370px;"></div>
-        <div class="building" id="b4" style="left: 370px; top: 370px;"></div>
-
-        <div id="player"></div>
-    </div>
-
-    <div id="info">
-        <div id="score">💰 Dinheiro: 0</div>
-        <div id="health">❤️ Vida: 100%</div>
-    </div>
-    
-    <div id="status-message">Use W, A, S, D para Mover</div>
+    <div id="scoreBoard">Pontuação: 0</div>
+    <div id="message"></div>
+    <button class="restart-btn" onclick="startGame()">Reiniciar</button>
+    <div id="controls">Use as setas (↑ ↓ ← →) ou W, A, S, D para Mover.</div>
 
     <script>
-        const player = document.getElementById('player');
-        const gameMap = document.getElementById('game-map');
-        const scoreDisplay = document.getElementById('score');
-        const healthDisplay = document.getElementById('health');
-        const statusMessage = document.getElementById('status-message');
+        // --- Configurações do Jogo ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const messageDisplay = document.getElementById('message');
+
+        const TILE_SIZE = 20; // Tamanho de cada bloco (20x20 pixels)
+        const TILE_COUNT = canvas.width / TILE_SIZE; // 400/20 = 20 blocos por linha/coluna
         
-        let playerX = 235;
-        let playerY = 235;
-        const playerSize = 30;
-        const speed = 5;
+        let snake = [];
+        let food = {};
+        let velocityX = 0;
+        let velocityY = 0;
         let score = 0;
-        let health = 100;
+        let gameLoop;
+        let isDead = false;
+        let isChangingDirection = false; // Flag para evitar movimentos duplos por frame
 
-        const mapWidth = 500;
-        const mapHeight = 500;
-        
-        let keys = {};
-        let gameLoopInterval;
+        // --- Inicialização do Jogo ---
 
-        // --- Configuração dos Obstáculos (Prédios) ---
-        const obstacles = [];
-        document.querySelectorAll('.building').forEach(el => {
-            const rect = el.getBoundingClientRect();
-            // Calcula a posição relativa ao mapa
-            const mapRect = gameMap.getBoundingClientRect();
-            obstacles.push({
-                x: el.offsetLeft,
-                y: el.offsetTop,
-                width: el.offsetWidth,
-                height: el.offsetHeight
-            });
-        });
+        function startGame() {
+            // Limpa o loop anterior se houver
+            clearInterval(gameLoop);
+            
+            // Reseta o estado do jogo
+            score = 0;
+            scoreBoard.textContent = `Pontuação: 0`;
+            messageDisplay.textContent = '';
+            isDead = false;
+            velocityX = 1; // Começa se movendo para a direita
+            velocityY = 0;
+            isChangingDirection = false;
 
-        // --- Funções Principais ---
+            // Cria a cobrinha inicial com 3 partes
+            snake = [
+                {x: 10, y: 10},
+                {x: 9, y: 10},
+                {x: 8, y: 10}
+            ];
 
-        function updatePlayerPosition() {
-            player.style.left = playerX + 'px';
-            player.style.top = playerY + 'px';
+            // Gera a primeira comida
+            spawnFood();
+            
+            // Inicia o loop do jogo (velocidade: 100ms por frame)
+            gameLoop = setInterval(updateGame, 100);
         }
 
-        function isColliding(newX, newY, obstaclesList) {
-            const playerRect = {
-                left: newX,
-                top: newY,
-                right: newX + playerSize,
-                bottom: newY + playerSize
-            };
+        // --- Lógica da Cobrinha e Comida ---
 
-            for (const obs of obstaclesList) {
-                const obsRect = {
-                    left: obs.x,
-                    top: obs.y,
-                    right: obs.x + obs.width,
-                    bottom: obs.y + obs.height
-                };
+        function spawnFood() {
+            let newX, newY;
+            let collision;
 
-                // Detecção de colisão AABB (Axis-Aligned Bounding Box)
-                if (playerRect.left < obsRect.right &&
-                    playerRect.right > obsRect.left &&
-                    playerRect.top < obsRect.bottom &&
-                    playerRect.bottom > obsRect.top) {
-                    return true;
+            do {
+                collision = false;
+                // Gera posições aleatórias dentro dos limites do TILE_COUNT (0 a 19)
+                newX = Math.floor(Math.random() * TILE_COUNT);
+                newY = Math.floor(Math.random() * TILE_COUNT);
+
+                // Garante que a comida não apareça em cima da cobrinha
+                for (let part of snake) {
+                    if (part.x === newX && part.y === newY) {
+                        collision = true;
+                        break;
+                    }
+                }
+            } while (collision);
+
+            food = {x: newX, y: newY};
+        }
+
+        function changeDirection(event) {
+            if (isChangingDirection || isDead) return;
+
+            const key = event.key;
+            let newX = velocityX;
+            let newY = velocityY;
+
+            switch (key) {
+                // Setas
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    if (velocityY !== 1) { newX = 0; newY = -1; } // Não pode ir para trás
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    if (velocityY !== -1) { newX = 0; newY = 1; }
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    if (velocityX !== 1) { newX = -1; newY = 0; }
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    if (velocityX !== -1) { newX = 1; newY = 0; }
+                    break;
+            }
+            
+            // Só atualiza a direção se houver mudança e se não for parado (0, 0)
+            if (newX !== velocityX || newY !== velocityY) {
+                 velocityX = newX;
+                 velocityY = newY;
+                 isChangingDirection = true; // Impede outra mudança até o próximo frame
+            }
+        }
+
+        // --- Desenho e Atualização do Canvas ---
+
+        function drawGame() {
+            // Limpa o canvas para o próximo frame
+            ctx.fillStyle = '#34495e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Desenha a Comida (Amarela)
+            ctx.fillStyle = '#f1c40f'; // Amarelo
+            ctx.fillRect(food.x * TILE_SIZE, food.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+
+            // Desenha a Cobrinha
+            ctx.fillStyle = '#2ecc71'; // Corpo Verde
+            ctx.strokeStyle = '#27ae60'; // Borda Verde Escura
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillRect(snake[i].x * TILE_SIZE, snake[i].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                ctx.strokeRect(snake[i].x * TILE_SIZE, snake[i].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            }
+        }
+
+        function updateGame() {
+            if (isDead) return;
+            
+            // O movimento foi processado, a flag pode ser resetada
+            isChangingDirection = false; 
+
+            // 1. Calcula a Nova Cabeça
+            const head = {x: snake[0].x + velocityX, y: snake[0].y + velocityY};
+
+            // 2. Checa Colisões
+            
+            // Colisão com as Paredes
+            if (head.x < 0 || head.x >= TILE_COUNT || head.y < 0 || head.y >= TILE_COUNT) {
+                return endGame();
+            }
+
+            // Colisão com o Próprio Corpo
+            for (let i = 1; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    return endGame();
                 }
             }
-            return false;
-        }
 
-        function checkBoundary(newX, newY) {
-            if (newX < 0 || newX > mapWidth - playerSize ||
-                newY < 0 || newY > mapHeight - playerSize) {
-                return false; // Colisão com o limite do mapa
-            }
-            return true;
-        }
-
-        function gameLoop() {
-            let newX = playerX;
-            let newY = playerY;
-
-            if (keys['w'] || keys['W']) newY -= speed;
-            if (keys['s'] || keys['S']) newY += speed;
-            if (keys['a'] || keys['A']) newX -= speed;
-            if (keys['d'] || keys['D']) newX += speed;
-
-            // 1. Verificar Colisão com Prédios (Obstáculos Fixos)
-            if (!isColliding(newX, newY, obstacles) && checkBoundary(newX, newY)) {
-                playerX = newX;
-                playerY = newY;
+            // 3. Verifica se Comeu a Comida
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreBoard.textContent = `Pontuação: ${score}`;
+                snake.unshift(head); // Adiciona a nova cabeça (corpo cresce)
+                spawnFood();         // Gera nova comida
+                // O corpo NÃO é removido no final, então a cobra aumenta.
             } else {
-                // Colisão detectada: causar dano (simulando bater no prédio)
-                if (health > 0) {
-                    health = Math.max(0, health - 1);
-                    healthDisplay.textContent = `❤️ Vida: ${health}%`;
-                    player.style.backgroundColor = 'orange'; // Feedback visual de dano
-                    setTimeout(() => player.style.backgroundColor = 'red', 100);
-                }
-                if (health === 0) {
-                    endGame("Você bateu o carro demais! Jogo encerrado.");
-                }
+                snake.unshift(head); // Adiciona a nova cabeça
+                snake.pop();         // Remove a última parte do corpo (movimento normal)
             }
 
-            // 2. Checar Coletáveis
-            document.querySelectorAll('.collectible').forEach(collectible => {
-                const colX = collectible.offsetLeft;
-                const colY = collectible.offsetTop;
-                const colSize = 20;
-
-                const dx = playerX - colX;
-                const dy = playerY - colY;
-                
-                // Distância simples para checar colisão com coletável
-                if (Math.abs(dx) < playerSize && Math.abs(dy) < playerSize) {
-                    score += 10;
-                    scoreDisplay.textContent = `💰 Dinheiro: ${score}`;
-                    collectible.remove();
-                    // Gera um novo coletável
-                    setTimeout(spawnCollectible, 500);
-                }
-            });
-
-            updatePlayerPosition();
+            // 4. Desenha o Jogo
+            drawGame();
         }
 
-        function spawnCollectible() {
-            const collectible = document.createElement('div');
-            collectible.classList.add('collectible');
-            
-            let randomX, randomY;
-            let isSafe = false;
-            
-            // Loop para garantir que o coletável não spawne dentro de um prédio
-            while (!isSafe) {
-                randomX = Math.floor(Math.random() * (mapWidth - 20));
-                randomY = Math.floor(Math.random() * (mapHeight - 20));
-                
-                if (!isColliding(randomX, randomY, obstacles)) {
-                    isSafe = true;
-                }
+        function endGame() {
+            isDead = true;
+            clearInterval(gameLoop);
+            messageDisplay.textContent = `FIM DE JOGO! Você fez ${score} pontos.`;
+            // Deixa a cabeça da cobra vermelha para indicar o fim
+            if (snake.length > 0) {
+                 ctx.fillStyle = '#e74c3c'; // Vermelho
+                 ctx.fillRect(snake[0].x * TILE_SIZE, snake[0].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                 ctx.strokeRect(snake[0].x * TILE_SIZE, snake[0].y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
-
-            collectible.style.left = randomX + 'px';
-            collectible.style.top = randomY + 'px';
-            gameMap.appendChild(collectible);
-        }
-
-        function endGame(message) {
-            clearInterval(gameLoopInterval);
-            statusMessage.textContent = `FIM DE JOGO! ${message} | Pontuação final: ${score}`;
-            alert(statusMessage.textContent);
         }
 
         // --- Event Listeners ---
+        document.addEventListener('keydown', changeDirection);
 
-        document.addEventListener('keydown', (e) => {
-            keys[e.key] = true;
-        });
-
-        document.addEventListener('keyup', (e) => {
-            keys[e.key] = false;
-        });
-
-        // --- Início do Jogo ---
-
-        function startGame() {
-            updatePlayerPosition();
-            spawnCollectible(); // Começa com um item para coletar
-            gameLoopInterval = setInterval(gameLoop, 20); // 50 FPS
-        }
-
+        // Inicia o jogo quando a página carrega
         startGame();
+
     </script>
 </body>
 </html>
