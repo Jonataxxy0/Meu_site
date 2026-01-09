@@ -3,284 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Horizon | Explore o Cosmos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <title>SSM Marmoraria | Jaraguá do Sul - Pedras e Acabamentos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --glow-color: #00d4ff;
-            --accent: #bc13fe;
-            --bg-deep: #020617;
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary: #2c3e50; /* Cinza Nobre */
+            --accent: #d4af37;  /* Dourado para luxo */
+            --bg-light: #f9f9f9;
+            --text: #333;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: crosshair;
+            font-family: 'Montserrat', sans-serif;
         }
 
         body {
-            background-color: var(--bg-deep);
+            background-color: #fff;
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--primary);
             color: white;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            padding: 10px 5%;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* Fundo de Estrelas Animado */
-        #stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Header Futurista */
+        /* Header */
         header {
-            padding: 25px 5%;
+            padding: 20px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            color: var(--glow-color);
-            text-shadow: 0 0 10px var(--glow-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
         }
 
-        /* Hero Visual */
+        .logo span { color: var(--accent); }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        /* Banner Principal */
         .hero {
-            height: 60vh;
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            color: white;
+            padding: 0 20px;
         }
 
         .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 8vw, 5rem);
-            background: linear-gradient(to right, #fff, var(--glow-color), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             margin-bottom: 20px;
         }
 
-        /* Grid de Cards Interativos */
-        .grid-container {
+        .btn-cta {
+            background: var(--accent);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-cta:hover { background: #b8962d; transform: scale(1.05); }
+
+        /* Seção Sobre */
+        .section { padding: 80px 10%; text-align: center; }
+
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background: var(--accent);
+            display: block;
+            margin: 15px auto;
+        }
+
+        /* Galeria de Pias e Pedras */
+        .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 50px 10%;
-            perspective: 1000px;
+            gap: 20px;
         }
 
-        .card {
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        .gallery-item {
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
+            border-radius: 8px;
+            height: 350px;
         }
 
-        .card:hover {
-            transform: translateY(-15px) rotateX(10deg) rotateY(-5deg);
-            border-color: var(--glow-color);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
         }
 
-        .card h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--glow-color);
-            margin-bottom: 15px;
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            text-align: left;
         }
 
-        .status-light {
-            width: 10px;
-            height: 10px;
-            background: #0f0;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 10px #0f0;
-            animation: pulse 2s infinite;
+        /* Contato / Jaraguá do Sul */
+        .contact-box {
+            background: var(--bg-light);
+            padding: 50px;
+            border-radius: 15px;
+            margin-top: 50px;
         }
 
-        /* Painel de Controle (Interação) */
-        .control-panel {
-            background: rgba(0, 0, 0, 0.5);
-            margin: 50px 10%;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px dashed var(--glow-color);
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 40px 5%;
             text-align: center;
         }
 
-        .btn-action {
-            padding: 15px 40px;
-            font-family: 'Orbitron', sans-serif;
-            background: transparent;
-            color: var(--glow-color);
-            border: 2px solid var(--glow-color);
-            border-radius: 50px;
-            transition: 0.3s;
-            margin-top: 20px;
-            text-transform: uppercase;
-            font-weight: bold;
+        /* Botão WhatsApp Fixo */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-decoration: none;
+            z-index: 1000;
         }
 
-        .btn-action:hover {
-            background: var(--glow-color);
-            color: black;
-            box-shadow: 0 0 30px var(--glow-color);
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero h1 { font-size: 2rem; }
         }
-
-        /* Notificações */
-        #console-log {
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-            padding: 15px;
-            margin-top: 20px;
-            height: 100px;
-            overflow-y: auto;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 0.8rem;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-
     </style>
 </head>
 <body>
 
-    <canvas id="stars-container"></canvas>
+    <div class="top-bar">
+        <span>📍 Atendendo Jaraguá do Sul e Região</span>
+        <span>📞 (47) 99999-9999</span>
+    </div>
 
     <header>
-        <div class="logo">NOVA HORIZON</div>
-        <div class="nav-links">PROTOCOL: v.4.0.2</div>
+        <div class="logo">SSM <span>MARMORARIA</span></div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Pedras</a>
+            <a href="#galeria">Projetos</a>
+            <a href="#contato">Contato</a>
+        </nav>
     </header>
 
-    <section class="hero">
-        <h1>BEYOND REALITY</h1>
-        <p>Sistema de Gerenciamento de Exploração Intergaláctica</p>
+    <section class="hero" id="inicio">
+        <h1>Elegância em cada detalhe.</h1>
+        <p>Mármores, Granitos e Quartzos de alto padrão em Jaraguá do Sul.</p><br>
+        <a href="#contato" class="btn-cta">Solicitar Orçamento</a>
     </section>
 
-    <div class="grid-container">
-        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
-            <span class="status-light"></span>
-            <h2>MARTE-7</h2>
-            <p>Status atmosférico: Estável</p>
-            <p>População atual: 14,203 drones</p>
-            <button class="btn-action" onclick="logAction('Mars-7 Link Established')">Conectar</button>
+    <section class="section" id="produtos">
+        <h2>Nossas Pedras</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1590371391572-9d3298ec6099?auto=format&fit=crop&w=500&q=60" alt="Mármore Branco">
+                <div class="item-overlay"><h3>Mármores Clássicos</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1628592102173-b7a89e42951b?auto=format&fit=crop&w=500&q=60" alt="Granito Preto">
+                <div class="item-overlay"><h3>Granitos Duráveis</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=60" alt="Quartzo">
+                <div class="item-overlay"><h3>Quartzos Modernos</h3></div>
+            </div>
         </div>
+    </section>
 
-        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
-            <span class="status-light" style="background: #f00; box-shadow: 0 0 10px #f00;"></span>
-            <h2>NEBULOSA X</h2>
-            <p>Anomalia gravitacional detectada</p>
-            <p>Nível de radiação: Crítico</p>
-            <button class="btn-action" onclick="logAction('Nebula X Alert: Radiation High')">Sonda</button>
+    <section class="section" id="galeria" style="background: var(--bg-light);">
+        <h2>Pias e Ambientes Montados</h2>
+        <p style="margin-bottom: 40px;">Confira alguns dos nossos trabalhos realizados em Jaraguá do Sul.</p>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=60" alt="Pia de Cozinha">
+                <div class="item-overlay"><h3>Bancadas de Cozinha</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1507652313519-d451e1240432?auto=format&fit=crop&w=500&q=60" alt="Banheiro Mármore">
+                <div class="item-overlay"><h3>Banheiros de Luxo</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1620626011761-9963d7521476?auto=format&fit=crop&w=500&q=60" alt="Escada de Pedra">
+                <div class="item-overlay"><h3>Escadas Revestidas</h3></div>
+            </div>
         </div>
+    </section>
 
-        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
-            <span class="status-light" style="background: #0af; box-shadow: 0 0 10px #0af;"></span>
-            <h2>BASE LUNAR</h2>
-            <p>Oxigênio: 98%</p>
-            <p>Próximo suprimento: 48h</p>
-            <button class="btn-action" onclick="logAction('Lunar Base: Supplies requested')">Info</button>
+    <section class="section" id="contato">
+        <div class="contact-box">
+            <h2>Fale Conosco</h2>
+            <p>Rua Exemplo, 123 - Bairro Centro, Jaraguá do Sul - SC</p>
+            <p>Email: contato@ssmmarmoraria.com.br</p>
+            <br>
+            <a href="https://wa.me/5547999999999" class="btn-cta" style="background: #25d366;">Enviar Mensagem no WhatsApp</a>
         </div>
-    </div>
+    </section>
 
-    <div class="control-panel">
-        <h3>CENTRAL DE COMANDO</h3>
-        <p>Interaja com os terminais acima para receber dados em tempo real.</p>
-        <div id="console-log">> Sistema iniciado. Aguardando comandos...</div>
-    </div>
+    <footer>
+        <p>&copy; 2024 SSM Marmoraria - Qualidade que perdura. <br> Jaraguá do Sul - SC</p>
+    </footer>
 
-    <script>
-        // Sistema de Estrelas (Canvas)
-        const canvas = document.getElementById('stars-container');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
+    <a href="https://wa.me/5547999999999" class="whatsapp-float" target="_blank">
+        <span style="font-family: Arial;">W</span>
+    </a>
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        for(let i=0; i<200; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2,
-                speed: Math.random() * 0.5
-            });
-        }
-
-        function drawStars() {
-            ctx.clearRect(0,0, canvas.width, canvas.height);
-            ctx.fillStyle = "white";
-            stars.forEach(s => {
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
-                ctx.fill();
-                s.y += s.speed;
-                if(s.y > canvas.height) s.y = 0;
-            });
-            requestAnimationFrame(drawStars);
-        }
-        drawStars();
-
-        // Interação de Mouse nos Cards (Efeito Parallax 3D)
-        function handleCardMove(e, card) {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const xPercent = (x / rect.width - 0.5) * 20;
-            const yPercent = (y / rect.height - 0.5) * 20;
-            
-            card.style.transform = `rotateY(${xPercent}deg) rotateX(${-yPercent}deg) translateY(-15px)`;
-        }
-
-        function resetCard(card) {
-            card.style.transform = `rotateY(0deg) rotateX(0deg) translateY(0)`;
-        }
-
-        // Sistema de Logs
-        function logAction(msg) {
-            const consoleBox = document.getElementById('console-log');
-            const now = new Date().toLocaleTimeString();
-            consoleBox.innerHTML += `<br>> [${now}] ${msg}`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }
-    </script>
 </body>
 </html>
