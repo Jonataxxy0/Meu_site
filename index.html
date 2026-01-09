@@ -3,507 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stellaris Nexus | Estação de Comando</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
+    <title>IA 3D Simulator - Deep Learning Concept</title>
     <style>
-        :root {
-            --main-bg: #0d0c1d;
-            --panel-bg: #1a192e;
-            --accent-glow: #00e6ff;
-            --red-alert: #ff4d4d;
-            --green-status: #4dff4d;
-            --font-mono: 'Share Tech Mono', monospace;
-            --font-display: 'Orbitron', sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--main-bg);
-            color: white;
-            font-family: var(--font-mono);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* Container Principal */
-        .console-container {
-            width: 95vw;
-            height: 95vh;
-            background: #0d0c1d;
-            border: 2px solid var(--accent-glow);
-            box-shadow: 0 0 50px var(--accent-glow);
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: 2fr 1fr; /* Painel principal e lateral */
-            grid-template-rows: 1fr 150px; /* Monitores e Terminal */
-            gap: 15px;
-            padding: 20px;
-            position: relative;
-        }
-
-        /* Header Console */
-        .console-header {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            color: var(--accent-glow);
-            text-shadow: 0 0 15px var(--accent-glow);
-            letter-spacing: 5px;
-            border-bottom: 1px solid rgba(0, 230, 255, 0.3);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        /* Monitor Principal */
-        .main-screen {
-            background: var(--panel-bg);
-            border: 1px solid rgba(0, 230, 255, 0.5);
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .main-screen h2 {
-            font-family: var(--font-display);
-            color: var(--accent-glow);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            text-shadow: 0 0 5px var(--accent-glow);
-        }
-
-        .system-status {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-        .status-item { margin: 10px 0; }
-        .status-value { color: var(--green-status); font-size: 1.5rem; }
-        .alert-value { color: var(--red-alert); font-size: 1.5rem; animation: blink 1s infinite; }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Painel de Controles */
-        .control-panel {
-            background: var(--panel-bg);
-            border: 1px solid rgba(0, 230, 255, 0.5);
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .control-panel h3 {
-            font-family: var(--font-display);
-            color: var(--accent-glow);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            text-shadow: 0 0 3px var(--accent-glow);
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .control-btn {
-            background: #2a2942;
-            border: 1px solid var(--accent-glow);
-            color: white;
-            padding: 15px 10px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            font-size: 0.9rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .control-btn::before {
-            content: '';
+        body { margin: 0; overflow: hidden; background: #000; font-family: sans-serif; }
+        #ui {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--accent-glow);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 0;
-        }
-
-        .control-btn:hover::before {
-            opacity: 0.2;
-        }
-
-        .control-btn.active {
-            background: var(--accent-glow);
-            color: var(--main-bg);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        /* Terminal de IA */
-        .terminal {
-            grid-column: 1 / -1;
-            background: #000;
-            border: 1px solid #0f0;
-            border-radius: 10px;
+            top: 20px;
+            left: 20px;
+            color: #00ff00;
+            background: rgba(0,0,0,0.7);
             padding: 15px;
-            display: flex;
-            flex-direction: column;
-            font-size: 0.9rem;
-            max-height: 150px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .terminal-output {
-            flex-grow: 1;
-            color: #0f0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            padding-right: 10px; /* Para o scrollbar */
-        }
-
-        .terminal-input-line {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .terminal-input-line span {
-            color: var(--accent-glow);
-            margin-right: 5px;
-        }
-
-        .terminal-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            flex-grow: 1;
-            caret-color: #0f0; /* Cor do cursor */
-        }
-
-        /* Efeito de glitch no texto do terminal */
-        .glitch-text {
-            animation: glitch 1s infinite alternate;
-        }
-
-        @keyframes glitch {
-            0% { text-shadow: 1px 0 0 red, -1px 0 0 blue; }
-            50% { text-shadow: -1px 0 0 red, 1px 0 0 blue; }
-            100% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
-        }
-
-        /* Mapa Estelar (apenas um placeholder visual) */
-        .star-map {
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1506703953457-410a6245d654?auto=format&fit=crop&w=800&q=60') center center / cover;
-            border-radius: 8px;
-            opacity: 0.8;
-            filter: grayscale(100%) brightness(150%) hue-rotate(180deg);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            animation: panBackground 60s linear infinite alternate;
-        }
-        @keyframes panBackground {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
-        }
-        
-        /* Modal de Acesso Negado */
-        .modal {
-            display: none;
-            position: absolute;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--panel-bg);
-            border: 2px solid var(--red-alert);
-            box-shadow: 0 0 20px var(--red-alert);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .modal-content h2 {
-            color: var(--red-alert);
-            font-family: var(--font-display);
-            margin-bottom: 20px;
-        }
-
-        .modal-content input {
-            background: #000;
-            border: 1px solid var(--red-alert);
-            color: white;
-            padding: 10px;
-            margin-bottom: 15px;
-            width: 200px;
+            border: 1px solid #00ff00;
             border-radius: 5px;
+            pointer-events: none;
         }
-
-        .modal-content button {
-            background: var(--red-alert);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .modal-content button:hover {
-            background: #cc0000;
-        }
-
+        .controls { color: #fff; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="console-container">
-        <div class="console-header">STELLARIS NEXUS COMMAND</div>
-
-        <div class="main-screen">
-            <div class="star-map"></div>
-            <h2>MONITOR PRINCIPAL</h2>
-            <div class="system-status">
-                <div class="status-item">ENERGIA: <span id="powerStatus" class="status-value">100%</span></div>
-                <div class="status-item">SHIELDS: <span id="shieldStatus" class="status-value">ATIVOS</span></div>
-                <div class="status-item">TEMP CORE: <span id="tempStatus" class="status-value">25°C</span></div>
-            </div>
-        </div>
-
-        <div class="control-panel">
-            <h3>PAINEL DE CONTROLE</h3>
-            <div class="controls-grid">
-                <button class="control-btn" id="btnPower" onclick="togglePower()">ENERGIA</button>
-                <button class="control-btn" id="btnShields" onclick="toggleShields()">SHIELDS</button>
-                <button class="control-btn" id="btnNavigation" onclick="logToTerminal('Navegação iniciada.')">NAVEGAÇÃO</button>
-                <button class="control-btn" id="btnComms" onclick="logToTerminal('Comunicações ativas.')">COMMS</button>
-                <button class="control-btn" id="btnLockdown" onclick="toggleLockdown()">LOCKDOWN</button>
-                <button class="control-btn" id="btnSelfDestruct" onclick="openModal('selfDestructModal')">AUTO-DESTRUIR</button>
-            </div>
-            <br>
-            <p style="font-size: 0.8rem; text-align: center; color: #aaa;">Último comando: <span id="lastCommand" style="color: var(--accent-glow);">Nenhum</span></p>
-        </div>
-
-        <div class="terminal">
-            <div class="terminal-output" id="terminalOutput">
-                &gt; Booting Stellaris Nexus OS v3.1...<br>
-                &gt; AI System: ONLINE.<br>
-                &gt; Ready for commands, Commander.
-            </div>
-            <div class="terminal-input-line">
-                <span class="glitch-text">&gt;_</span>
-                <input type="text" class="terminal-input" id="terminalInput" onkeydown="handleTerminalInput(event)">
-            </div>
-        </div>
+    <div id="ui">
+        <strong>SISTEMA DE IA: ATIVO</strong><br>
+        Status: <span id="ia-status">Rastreando Alvo...</span><br>
+        Distância: <span id="distancia">0</span>
+        <div class="controls">Use WASD ou Setas para fugir da IA</div>
     </div>
 
-    <div id="selfDestructModal" class="modal">
-        <div class="modal-content">
-            <h2>ACESSO NEGADO</h2>
-            <p style="color: #ccc; margin-bottom: 20px;">Insira a senha de emergência para prosseguir.</p>
-            <input type="password" id="destructPassword" placeholder="Senha">
-            <button onclick="checkDestructPassword()">Confirmar</button>
-            <button style="background: #555; margin-left: 10px;" onclick="closeModal('selfDestructModal')">Cancelar</button>
-        </div>
-    </div>
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
 
-    <script>
-        let powerOn = true;
-        let shieldsActive = true;
-        let lockdownActive = false;
-        let terminalHistory = [];
-        let historyIndex = -1;
+        // 1. Configuração da Cena
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-        // Funções de interação dos botões
-        function logToTerminal(message) {
-            const output = document.getElementById('terminalOutput');
-            output.innerHTML += `<br>> ${message}`;
-            output.scrollTop = output.scrollHeight; // Rolar para o final
-            document.getElementById('lastCommand').innerText = message.split(':')[0].trim();
-        }
+        // Iluminação
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
 
-        function togglePower() {
-            powerOn = !powerOn;
-            const btn = document.getElementById('btnPower');
-            const powerStatus = document.getElementById('powerStatus');
-            if (powerOn) {
-                btn.classList.add('active');
-                powerStatus.innerText = '100%';
-                powerStatus.style.color = 'var(--green-status)';
-                logToTerminal('Sistema de Energia: ONLINE.');
+        // Chão (Grid)
+        const grid = new THREE.GridHelper(100, 50, 0x00ff00, 0x222222);
+        scene.add(grid);
+
+        // 2. O Jogador (Esfera Azul)
+        const playerGeo = new THREE.SphereGeometry(0.5, 32, 32);
+        const playerMat = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+        const player = new THREE.Mesh(playerGeo, playerMat);
+        player.position.y = 0.5;
+        scene.add(player);
+
+        // 3. A Inteligência Artificial (Cubo Vermelho)
+        const iaGeo = new THREE.BoxGeometry(1, 1, 1);
+        const iaMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const enemyIA = new THREE.Mesh(iaGeo, iaMat);
+        enemyIA.position.set(5, 0.5, 5);
+        scene.add(enemyIA);
+
+        camera.position.set(0, 10, 15);
+        camera.lookAt(0, 0, 0);
+
+        // Controles do Jogador
+        const keys = {};
+        window.addEventListener('keydown', (e) => keys[e.key.toLowerCase()] = true);
+        window.addEventListener('keyup', (e) => keys[e.key.toLowerCase()] = false);
+
+        // 4. Lógica da IA (Algoritmo de Perseguição)
+        function updateIA() {
+            const speed = 0.03;
+            
+            // A IA calcula a direção do vetor entre ela e o jogador
+            const direction = new THREE.Vector3();
+            direction.subVectors(player.position, enemyIA.position).normalize();
+            
+            // Aplica o movimento
+            enemyIA.position.addScaledVector(direction, speed);
+            
+            // Faz o cubo "olhar" para o jogador
+            enemyIA.lookAt(player.position);
+
+            // Atualiza Interface
+            const dist = enemyIA.position.distanceTo(player.position);
+            document.getElementById('distancia').innerText = dist.toFixed(2);
+            
+            if(dist < 1) {
+                document.getElementById('ia-status').innerText = "ALVO CAPTURADO!";
+                document.getElementById('ia-status').style.color = "red";
             } else {
-                btn.classList.remove('active');
-                powerStatus.innerText = 'OFFLINE';
-                powerStatus.style.color = 'var(--red-alert)';
-                logToTerminal('Sistema de Energia: OFFLINE. (Crítico!)');
+                document.getElementById('ia-status').innerText = "Rastreando Alvo...";
+                document.getElementById('ia-status').style.color = "#00ff00";
             }
         }
 
-        function toggleShields() {
-            shieldsActive = !shieldsActive;
-            const btn = document.getElementById('btnShields');
-            const shieldStatus = document.getElementById('shieldStatus');
-            if (shieldsActive) {
-                btn.classList.add('active');
-                shieldStatus.innerText = 'ATIVOS';
-                shieldStatus.style.color = 'var(--green-status)';
-                logToTerminal('Shields: ATIVADOS.');
-            } else {
-                btn.classList.remove('active');
-                shieldStatus.innerText = 'INATIVOS';
-                shieldStatus.style.color = 'var(--red-alert)';
-                logToTerminal('Shields: DESATIVADOS. Vulnerabilidade detectada!');
-            }
+        // Loop de Animação
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Movimento do Jogador
+            const pSpeed = 0.15;
+            if (keys['w'] || keys['arrowup']) player.position.z -= pSpeed;
+            if (keys['s'] || keys['arrowdown']) player.position.z += pSpeed;
+            if (keys['a'] || keys['arrowleft']) player.position.x -= pSpeed;
+            if (keys['d'] || keys['arrowright']) player.position.x += pSpeed;
+
+            // IA raciocinando
+            updateIA();
+
+            // Câmera segue levemente o jogador
+            camera.position.x += (player.position.x - camera.position.x) * 0.05;
+            camera.position.z += (player.position.z + 15 - camera.position.z) * 0.05;
+
+            renderer.render(scene, camera);
         }
 
-        function toggleLockdown() {
-            lockdownActive = !lockdownActive;
-            const btn = document.getElementById('btnLockdown');
-            if (lockdownActive) {
-                btn.classList.add('active');
-                logToTerminal('Protocolo LOCKDOWN: ATIVADO. Todas as saídas seladas.');
-            } else {
-                btn.classList.remove('active');
-                logToTerminal('Protocolo LOCKDOWN: DESATIVADO. Acesso normal restaurado.');
-            }
-        }
-
-        // Funções do Terminal de IA
-        function handleTerminalInput(event) {
-            if (event.key === 'Enter') {
-                const inputField = document.getElementById('terminalInput');
-                const command = inputField.value.trim().toLowerCase();
-                logToTerminal(`&gt; ${command}`); // Echo do comando
-
-                terminalHistory.unshift(command); // Adiciona ao histórico
-                historyIndex = -1; // Reseta o índice ao adicionar novo comando
-
-                inputField.value = '';
-                processCommand(command);
-            } else if (event.key === 'ArrowUp') {
-                if (terminalHistory.length > 0 && historyIndex < terminalHistory.length - 1) {
-                    historyIndex++;
-                    document.getElementById('terminalInput').value = terminalHistory[historyIndex];
-                }
-            } else if (event.key === 'ArrowDown') {
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    document.getElementById('terminalInput').value = terminalHistory[historyIndex];
-                } else if (historyIndex === 0) {
-                    historyIndex = -1;
-                    document.getElementById('terminalInput').value = '';
-                }
-            }
-        }
-
-        function processCommand(command) {
-            let response = '';
-            if (command === 'status') {
-                response = `&gt; Sistema Operacional: OK\n&gt; Energia: ${powerOn ? '100% ONLINE' : 'CRÍTICO OFFLINE'}\n&gt; Shields: ${shieldsActive ? 'ATIVOS' : 'INATIVOS'}\n&gt; Temperatura Core: 25°C`;
-            } else if (command === 'ajuda') {
-                response = '&gt; Comandos disponíveis: status, energia on/off, shields on/off, lockdown, info [assunto], sair.';
-            } else if (command === 'energia on') {
-                if (!powerOn) togglePower();
-                response = '&gt; Energia ativada.';
-            } else if (command === 'energia off') {
-                if (powerOn) togglePower();
-                response = '&gt; Energia desativada.';
-            } else if (command === 'shields on') {
-                if (!shieldsActive) toggleShields();
-                response = '&gt; Shields ativados.';
-            } else if (command === 'shields off') {
-                if (shieldsActive) toggleShields();
-                response = '&gt; Shields desativados.';
-            } else if (command === 'lockdown') {
-                toggleLockdown();
-                response = `&gt; Lockdown ${lockdownActive ? 'ATIVADO' : 'DESATIVADO'}.`;
-            } else if (command.startsWith('info')) {
-                const topic = command.split(' ')[1];
-                if (topic === 'nexus') {
-                    response = '&gt; Stellaris Nexus: Estação de pesquisa e defesa de classe Omega.';
-                } else if (topic === 'ia') {
-                    response = '&gt; AI-543: Unidade de Inteligência Artificial para suporte operacional.';
-                } else {
-                    response = '&gt; Tópico de informação desconhecido. Tente "info nexus" ou "info ia".';
-                }
-            } else if (command === 'sair') {
-                response = '&gt; Encerrando sessão... Adeus, Comandante.';
-                setTimeout(() => window.location.href = 'about:blank', 2000); // Redireciona para uma página em branco
-            }
-            else {
-                response = `&gt; Comando '${command}' não reconhecido. Digite 'ajuda' para uma lista de comandos.`;
-            }
-            logToTerminal(response);
-        }
-
-        // Funções para Modais (Acesso Negado)
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        function checkDestructPassword() {
-            const password = document.getElementById('destructPassword').value;
-            if (password === 'nexus7') { // Senha secreta
-                logToTerminal('&gt; Senha correta. Iniciando sequência de auto-destruição... Tenha um bom dia, Comandante.');
-                closeModal('selfDestructModal');
-                // Simulação de destruição
-                setTimeout(() => {
-                    document.body.style.animation = 'flashRed 0.5s infinite';
-                    document.body.innerHTML = '<div style="text-align: center; color: red; font-size: 5rem; margin-top: 20vh; font-family: var(--font-display);">DESTRUIÇÃO ATIVADA</div>';
-                    setTimeout(() => window.location.href = 'about:blank', 3000);
-                }, 2000);
-            } else {
-                logToTerminal('&gt; Senha incorreta. Acesso negado. Tente novamente.');
-                document.getElementById('destructPassword').value = '';
-            }
-        }
-        
-        // Ativar estado inicial dos botões
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('btnPower').classList.add('active');
-            document.getElementById('btnShields').classList.add('active');
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+        animate();
     </script>
 </body>
 </html>
