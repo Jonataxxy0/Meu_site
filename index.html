@@ -2,130 +2,124 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IA 3D Simulator - Deep Learning Concept</title>
+    <title>Meu Parkour HTML</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #000; font-family: sans-serif; }
-        #ui {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #00ff00;
-            background: rgba(0,0,0,0.7);
-            padding: 15px;
-            border: 1px solid #00ff00;
-            border-radius: 5px;
-            pointer-events: none;
-        }
-        .controls { color: #fff; font-size: 12px; margin-top: 10px; }
+        body { margin: 0; overflow: hidden; background: #87CEEB; font-family: sans-serif; }
+        canvas { display: block; background: #f0f0f0; border: 5px solid #333; margin: 20px auto; }
+        .instrucoes { text-align: center; color: #333; }
     </style>
 </head>
 <body>
-
-    <div id="ui">
-        <strong>SISTEMA DE IA: ATIVO</strong><br>
-        Status: <span id="ia-status">Rastreando Alvo...</span><br>
-        Distância: <span id="distancia">0</span>
-        <div class="controls">Use WASD ou Setas para fugir da IA</div>
+    <div class="instrucoes">
+        <h1>Parkour 2D</h1>
+        <p>Use as <b>Setas</b> ou <b>A/D</b> para mover | <b>Espaço</b> ou <b>Seta Cima</b> para Pular</p>
     </div>
+    <canvas id="gameCanvas"></canvas>
 
-    <script type="module">
-        import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
 
-        // 1. Configuração da Cena
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        canvas.width = 800;
+        canvas.height = 400;
 
-        // Iluminação
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(10, 10, 10);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
+        // Configurações do Jogador
+        const player = {
+            x: 50,
+            y: 300,
+            width: 30,
+            height: 30,
+            color: "#007bff",
+            speed: 5,
+            xVelocity: 0,
+            yVelocity: 0,
+            jumping: true,
+            jumpStrength: -15
+        };
 
-        // Chão (Grid)
-        const grid = new THREE.GridHelper(100, 50, 0x00ff00, 0x222222);
-        scene.add(grid);
-
-        // 2. O Jogador (Esfera Azul)
-        const playerGeo = new THREE.SphereGeometry(0.5, 32, 32);
-        const playerMat = new THREE.MeshStandardMaterial({ color: 0x0077ff });
-        const player = new THREE.Mesh(playerGeo, playerMat);
-        player.position.y = 0.5;
-        scene.add(player);
-
-        // 3. A Inteligência Artificial (Cubo Vermelho)
-        const iaGeo = new THREE.BoxGeometry(1, 1, 1);
-        const iaMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        const enemyIA = new THREE.Mesh(iaGeo, iaMat);
-        enemyIA.position.set(5, 0.5, 5);
-        scene.add(enemyIA);
-
-        camera.position.set(0, 10, 15);
-        camera.lookAt(0, 0, 0);
-
-        // Controles do Jogador
+        const gravity = 0.8;
         const keys = {};
-        window.addEventListener('keydown', (e) => keys[e.key.toLowerCase()] = true);
-        window.addEventListener('keyup', (e) => keys[e.key.toLowerCase()] = false);
 
-        // 4. Lógica da IA (Algoritmo de Perseguição)
-        function updateIA() {
-            const speed = 0.03;
-            
-            // A IA calcula a direção do vetor entre ela e o jogador
-            const direction = new THREE.Vector3();
-            direction.subVectors(player.position, enemyIA.position).normalize();
-            
-            // Aplica o movimento
-            enemyIA.position.addScaledVector(direction, speed);
-            
-            // Faz o cubo "olhar" para o jogador
-            enemyIA.lookAt(player.position);
+        // Plataformas (x, y, largura, altura)
+        const platforms = [
+            { x: 0, y: 380, w: 200, h: 20 },   // Chão inicial
+            { x: 250, y: 300, w: 100, h: 20 }, // Plataforma 1
+            { x: 400, y: 220, w: 100, h: 20 }, // Plataforma 2
+            { x: 550, y: 150, w: 100, h: 20 }, // Plataforma 3
+            { x: 700, y: 100, w: 50, h: 10, goal: true } // OBJETIVO FINAL (Verde)
+        ];
 
-            // Atualiza Interface
-            const dist = enemyIA.position.distanceTo(player.position);
-            document.getElementById('distancia').innerText = dist.toFixed(2);
-            
-            if(dist < 1) {
-                document.getElementById('ia-status').innerText = "ALVO CAPTURADO!";
-                document.getElementById('ia-status').style.color = "red";
-            } else {
-                document.getElementById('ia-status').innerText = "Rastreando Alvo...";
-                document.getElementById('ia-status').style.color = "#00ff00";
+        window.addEventListener("keydown", e => keys[e.code] = true);
+        window.addEventListener("keyup", e => keys[e.code] = false);
+
+        function update() {
+            // Movimento lateral
+            if (keys["ArrowRight"] || keys["KeyD"]) player.xVelocity = player.speed;
+            else if (keys["ArrowLeft"] || keys["KeyA"]) player.xVelocity = -player.speed;
+            else player.xVelocity = 0;
+
+            // Pulo
+            if ((keys["Space"] || keys["ArrowUp"] || keys["KeyW"]) && !player.jumping) {
+                player.yVelocity = player.jumpStrength;
+                player.jumping = true;
             }
+
+            // Gravidade
+            player.yVelocity += gravity;
+            player.x += player.xVelocity;
+            player.y += player.yVelocity;
+
+            // Colisão com plataformas
+            player.jumping = true;
+            for (let plat of platforms) {
+                if (player.x < plat.x + plat.w &&
+                    player.x + player.width > plat.x &&
+                    player.y < plat.y + plat.h &&
+                    player.y + player.height > plat.y) {
+                    
+                    // Se tocar na plataforma verde, venceu
+                    if(plat.goal) {
+                        alert("Você venceu!");
+                        resetGame();
+                    }
+
+                    // Impedir cair através da plataforma
+                    if (player.yVelocity > 0) {
+                        player.jumping = false;
+                        player.y = plat.y - player.height;
+                        player.yVelocity = 0;
+                    }
+                }
+            }
+
+            // Resetar se cair no buraco
+            if (player.y > canvas.height) resetGame();
+
+            draw();
+            requestAnimationFrame(update);
         }
 
-        // Loop de Animação
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Movimento do Jogador
-            const pSpeed = 0.15;
-            if (keys['w'] || keys['arrowup']) player.position.z -= pSpeed;
-            if (keys['s'] || keys['arrowdown']) player.position.z += pSpeed;
-            if (keys['a'] || keys['arrowleft']) player.position.x -= pSpeed;
-            if (keys['d'] || keys['arrowright']) player.position.x += pSpeed;
-
-            // IA raciocinando
-            updateIA();
-
-            // Câmera segue levemente o jogador
-            camera.position.x += (player.position.x - camera.position.x) * 0.05;
-            camera.position.z += (player.position.z + 15 - camera.position.z) * 0.05;
-
-            renderer.render(scene, camera);
+        function resetGame() {
+            player.x = 50;
+            player.y = 300;
+            player.yVelocity = 0;
         }
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        animate();
+            // Desenhar plataformas
+            platforms.forEach(plat => {
+                ctx.fillStyle = plat.goal ? "#28a745" : "#555";
+                ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+            });
+
+            // Desenhar jogador
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        update();
     </script>
 </body>
 </html>
