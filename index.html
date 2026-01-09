@@ -3,294 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MineHub | Seeds, Mods e Texturas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Nova Horizon | Explore o Cosmos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --mc-green: #52ad32;
-            --mc-dark-green: #387a22;
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #e0e0e0;
+            --glow-color: #00d4ff;
+            --accent: #bc13fe;
+            --bg-deep: #020617;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            cursor: crosshair;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            background-color: var(--bg-deep);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
         }
 
-        /* Header e Logo */
+        /* Fundo de Estrelas Animado */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header Futurista */
         header {
-            background: #000;
-            padding: 15px 5%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 4px solid var(--mc-green);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--mc-green);
-            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            color: var(--glow-color);
+            text-shadow: 0 0 10px var(--glow-color);
         }
 
-        .logo span { color: #fff; }
-
-        .search-box {
-            background: #2a2a2a;
-            border-radius: 5px;
-            padding: 5px 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 8px;
-            outline: none;
-            width: 250px;
-        }
-
-        /* Banner */
+        /* Hero Visual */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 350px;
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-        }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px #000; }
-        .hero p { color: var(--mc-green); font-weight: 600; font-size: 1.2rem; }
-
-        /* Categorias */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--mc-dark-green);
-            color: white;
-            padding: 8px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--mc-green);
-            transform: translateY(-3px);
-        }
-
-        /* Grid de Conteúdo */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
         }
 
-        .content-grid {
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 5rem);
+            background: linear-gradient(to right, #fff, var(--glow-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        /* Grid de Cards Interativos */
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 10%;
+            perspective: 1000px;
         }
 
-        .item-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            border-bottom: 5px solid transparent;
-            transition: 0.3s;
-        }
-
-        .item-card:hover {
-            border-bottom: 5px solid var(--mc-green);
-            transform: scale(1.02);
-        }
-
-        .item-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #333;
-        }
-
-        .item-info {
-            padding: 20px;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            background: var(--mc-dark-green);
-            padding: 3px 8px;
-            border-radius: 3px;
-            text-transform: uppercase;
-        }
-
-        .item-info h3 { margin: 10px 0; font-size: 1.2rem; }
-
-        .seed-code {
-            background: #000;
-            padding: 5px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: var(--mc-green);
-            display: block;
-            margin: 10px 0;
-            text-align: center;
-        }
-
-        .btn-download {
-            display: block;
-            text-align: center;
-            background: var(--mc-green);
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .btn-download:hover { background: #fff; }
-
-        footer {
-            text-align: center;
+        .card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 40px;
-            margin-top: 50px;
-            background: #000;
-            color: #666;
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .search-box { display: none; }
+        .card:hover {
+            transform: translateY(-15px) rotateX(10deg) rotateY(-5deg);
+            border-color: var(--glow-color);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
         }
+
+        .card h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--glow-color);
+            margin-bottom: 15px;
+        }
+
+        .status-light {
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 10px #0f0;
+            animation: pulse 2s infinite;
+        }
+
+        /* Painel de Controle (Interação) */
+        .control-panel {
+            background: rgba(0, 0, 0, 0.5);
+            margin: 50px 10%;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px dashed var(--glow-color);
+            text-align: center;
+        }
+
+        .btn-action {
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            background: transparent;
+            color: var(--glow-color);
+            border: 2px solid var(--glow-color);
+            border-radius: 50px;
+            transition: 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn-action:hover {
+            background: var(--glow-color);
+            color: black;
+            box-shadow: 0 0 30px var(--glow-color);
+        }
+
+        /* Notificações */
+        #console-log {
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+            padding: 15px;
+            margin-top: 20px;
+            height: 100px;
+            overflow-y: auto;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 0.8rem;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
 
+    <canvas id="stars-container"></canvas>
+
     <header>
-        <div class="logo">MINE<span>HUB</span></div>
-        <div class="search-box">
-            <input type="text" id="mainSearch" placeholder="Ex: Seed de Vila, Mod de Carro..." onkeyup="search()">
-        </div>
+        <div class="logo">NOVA HORIZON</div>
+        <div class="nav-links">PROTOCOL: v.4.0.2</div>
     </header>
 
     <section class="hero">
-        <h1>EXPLORE O INFINITO</h1>
-        <p>As melhores Seeds e Mods para Minecraft PE & Java</p>
+        <h1>BEYOND REALITY</h1>
+        <p>Sistema de Gerenciamento de Exploração Intergaláctica</p>
     </section>
 
-    <div class="filters">
-        <button class="filter-btn active" onclick="filterType('todos')">Tudo</button>
-        <button class="filter-btn" onclick="filterType('seed')">Seeds</button>
-        <button class="filter-btn" onclick="filterType('mod')">Mods</button>
-        <button class="filter-btn" onclick="filterType('textura')">Texturas</button>
+    <div class="grid-container">
+        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
+            <span class="status-light"></span>
+            <h2>MARTE-7</h2>
+            <p>Status atmosférico: Estável</p>
+            <p>População atual: 14,203 drones</p>
+            <button class="btn-action" onclick="logAction('Mars-7 Link Established')">Conectar</button>
+        </div>
+
+        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
+            <span class="status-light" style="background: #f00; box-shadow: 0 0 10px #f00;"></span>
+            <h2>NEBULOSA X</h2>
+            <p>Anomalia gravitacional detectada</p>
+            <p>Nível de radiação: Crítico</p>
+            <button class="btn-action" onclick="logAction('Nebula X Alert: Radiation High')">Sonda</button>
+        </div>
+
+        <div class="card" onmousemove="handleCardMove(event, this)" onmouseleave="resetCard(this)">
+            <span class="status-light" style="background: #0af; box-shadow: 0 0 10px #0af;"></span>
+            <h2>BASE LUNAR</h2>
+            <p>Oxigênio: 98%</p>
+            <p>Próximo suprimento: 48h</p>
+            <button class="btn-action" onclick="logAction('Lunar Base: Supplies requested')">Info</button>
+        </div>
     </div>
 
-    <main class="container">
-        <div class="content-grid" id="contentGrid">
-            
-            <div class="item-card" data-type="seed" data-name="Mansão na Ilha">
-                <img src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=500&q=60" class="item-img">
-                <div class="item-info">
-                    <span class="tag">Seed (1.20+)</span>
-                    <h3>Mansão na Ilha Isolada</h3>
-                    <small>Dificuldade: Sobrevivência</small>
-                    <span class="seed-code">8827361920311</span>
-                    <a href="#" class="btn-download">Ver Detalhes</a>
-                </div>
-            </div>
-
-            <div class="item-card" data-type="mod" data-name="Móveis Modernos">
-                <img src="https://images.unsplash.com/photo-1587573089734-09cb69c0f2b4?auto=format&fit=crop&w=500&q=60" class="item-img">
-                <div class="item-info">
-                    <span class="tag">Mod / Addon</span>
-                    <h3>DecoraCraft Moderno</h3>
-                    <small>Versão: Bedrock & Java</small>
-                    <p style="margin: 10px 0; font-size: 0.9rem;">Adicione mais de 200 móveis ao seu jogo.</p>
-                    <a href="#" class="btn-download">Download .mcpack</a>
-                </div>
-            </div>
-
-            <div class="item-card" data-type="seed" data-name="Vila no Gelo">
-                <img src="https://images.unsplash.com/photo-1516912403145-637a00858201?auto=format&fit=crop&w=500&q=60" class="item-img">
-                <div class="item-info">
-                    <span class="tag">Seed (1.19)</span>
-                    <h3>Vila Nevada Rara</h3>
-                    <small>Bioma: Picos de Gelo</small>
-                    <span class="seed-code">-1102938475</span>
-                    <a href="#" class="btn-download">Ver Coordenadas</a>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 MineHub - Feito para mineradores de elite.</p>
-        <p>Não somos afiliados à Mojang AB.</p>
-    </footer>
+    <div class="control-panel">
+        <h3>CENTRAL DE COMANDO</h3>
+        <p>Interaja com os terminais acima para receber dados em tempo real.</p>
+        <div id="console-log">> Sistema iniciado. Aguardando comandos...</div>
+    </div>
 
     <script>
-        function filterType(type) {
-            let cards = document.getElementsByClassName('item-card');
-            let btns = document.getElementsByClassName('filter-btn');
-            
-            // Atualiza botões
-            for (let btn of btns) {
-                btn.classList.remove('active');
-                if(btn.innerText.toLowerCase() === type) btn.classList.add('active');
-            }
+        // Sistema de Estrelas (Canvas)
+        const canvas = document.getElementById('stars-container');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
 
-            // Filtra os cards
-            for (let card of cards) {
-                if (type === 'todos' || card.getAttribute('data-type') === type) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            }
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        function search() {
-            let input = document.getElementById('mainSearch').value.toLowerCase();
-            let cards = document.getElementsByClassName('item-card');
+        window.addEventListener('resize', resize);
+        resize();
 
-            for (let card of cards) {
-                let name = card.getAttribute('data-name').toLowerCase();
-                if (name.includes(input)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            }
+        for(let i=0; i<200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 0.5
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y += s.speed;
+                if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // Interação de Mouse nos Cards (Efeito Parallax 3D)
+        function handleCardMove(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const xPercent = (x / rect.width - 0.5) * 20;
+            const yPercent = (y / rect.height - 0.5) * 20;
+            
+            card.style.transform = `rotateY(${xPercent}deg) rotateX(${-yPercent}deg) translateY(-15px)`;
+        }
+
+        function resetCard(card) {
+            card.style.transform = `rotateY(0deg) rotateX(0deg) translateY(0)`;
+        }
+
+        // Sistema de Logs
+        function logAction(msg) {
+            const consoleBox = document.getElementById('console-log');
+            const now = new Date().toLocaleTimeString();
+            consoleBox.innerHTML += `<br>> [${now}] ${msg}`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
         }
     </script>
 </body>
