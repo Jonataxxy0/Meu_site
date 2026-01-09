@@ -2,124 +2,123 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Meu Parkour HTML</title>
+    <title>Roblox 3D Realista HTML</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #87CEEB; font-family: sans-serif; }
-        canvas { display: block; background: #f0f0f0; border: 5px solid #333; margin: 20px auto; }
-        .instrucoes { text-align: center; color: #333; }
+        body { margin: 0; overflow: hidden; background: #000; }
+        #ui { position: absolute; top: 10px; left: 10px; color: white; font-family: sans-serif; pointer-events: none; }
     </style>
 </head>
 <body>
-    <div class="instrucoes">
-        <h1>Parkour 2D</h1>
-        <p>Use as <b>Setas</b> ou <b>A/D</b> para mover | <b>Espaço</b> ou <b>Seta Cima</b> para Pular</p>
+    <div id="ui">
+        <h1>Parkour 3D</h1>
+        <p>WASD para mover | Espaço para pular</p>
     </div>
-    <canvas id="gameCanvas"></canvas>
 
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
 
-        canvas.width = 800;
-        canvas.height = 400;
+    <script type="module">
+        import * as THREE from 'three';
 
-        // Configurações do Jogador
-        const player = {
-            x: 50,
-            y: 300,
-            width: 30,
-            height: 30,
-            color: "#007bff",
-            speed: 5,
-            xVelocity: 0,
-            yVelocity: 0,
-            jumping: true,
-            jumpStrength: -15
-        };
+        // 1. Cena e Câmera
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87CEEB); // Céu azul
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true; // Ativa sombras realistas
+        document.body.appendChild(renderer.domElement);
 
-        const gravity = 0.8;
+        // 2. Luzes (O que dá o toque realista)
+        const light = new THREE.DirectionalLight(0xffffff, 1.5);
+        light.position.set(10, 20, 10);
+        light.castShadow = true;
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040, 2)); // Luz ambiente
+
+        // 3. Chão e Plataformas
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        
+        function createBox(x, y, z, w, h, d, color) {
+            const mat = new THREE.MeshStandardMaterial({ color: color });
+            const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+            mesh.position.set(x, y, z);
+            mesh.receiveShadow = true;
+            mesh.castShadow = true;
+            scene.add(mesh);
+            return mesh;
+        }
+
+        const floor = createBox(0, -1, 0, 20, 1, 20, 0x555555);
+        const plat1 = createBox(0, 1, -5, 3, 0.5, 3, 0xff0000);
+        const plat2 = createBox(5, 2.5, -8, 3, 0.5, 3, 0x00ff00);
+
+        // 4. Jogador
+        const playerGeo = new THREE.BoxGeometry(1, 1, 1);
+        const playerMat = new THREE.MeshStandardMaterial({ color: 0x007bff });
+        const player = new THREE.Mesh(playerGeo, playerMat);
+        player.castShadow = true;
+        player.position.y = 1;
+        scene.add(player);
+
+        // 5. Controles e Movimento
         const keys = {};
+        let velocityY = 0;
+        let isJumping = false;
 
-        // Plataformas (x, y, largura, altura)
-        const platforms = [
-            { x: 0, y: 380, w: 200, h: 20 },   // Chão inicial
-            { x: 250, y: 300, w: 100, h: 20 }, // Plataforma 1
-            { x: 400, y: 220, w: 100, h: 20 }, // Plataforma 2
-            { x: 550, y: 150, w: 100, h: 20 }, // Plataforma 3
-            { x: 700, y: 100, w: 50, h: 10, goal: true } // OBJETIVO FINAL (Verde)
-        ];
+        window.addEventListener('keydown', (e) => keys[e.code] = true);
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
 
-        window.addEventListener("keydown", e => keys[e.code] = true);
-        window.addEventListener("keyup", e => keys[e.code] = false);
+        camera.position.set(0, 5, 10);
+        camera.lookAt(player.position);
 
-        function update() {
-            // Movimento lateral
-            if (keys["ArrowRight"] || keys["KeyD"]) player.xVelocity = player.speed;
-            else if (keys["ArrowLeft"] || keys["KeyA"]) player.xVelocity = -player.speed;
-            else player.xVelocity = 0;
+        function animate() {
+            requestAnimationFrame(animate);
 
-            // Pulo
-            if ((keys["Space"] || keys["ArrowUp"] || keys["KeyW"]) && !player.jumping) {
-                player.yVelocity = player.jumpStrength;
-                player.jumping = true;
+            // Movimentação WASD
+            if (keys['KeyW']) player.position.z -= 0.1;
+            if (keys['KeyS']) player.position.z += 0.1;
+            if (keys['KeyA']) player.position.x -= 0.1;
+            if (keys['KeyD']) player.position.x += 0.1;
+
+            // Gravidade e Pulo
+            if (keys['Space'] && !isJumping) {
+                velocityY = 0.2;
+                isJumping = true;
             }
 
-            // Gravidade
-            player.yVelocity += gravity;
-            player.x += player.xVelocity;
-            player.y += player.yVelocity;
-
-            // Colisão com plataformas
-            player.jumping = true;
-            for (let plat of platforms) {
-                if (player.x < plat.x + plat.w &&
-                    player.x + player.width > plat.x &&
-                    player.y < plat.y + plat.h &&
-                    player.y + player.height > plat.y) {
-                    
-                    // Se tocar na plataforma verde, venceu
-                    if(plat.goal) {
-                        alert("Você venceu!");
-                        resetGame();
-                    }
-
-                    // Impedir cair através da plataforma
-                    if (player.yVelocity > 0) {
-                        player.jumping = false;
-                        player.y = plat.y - player.height;
-                        player.yVelocity = 0;
-                    }
-                }
+            player.position.y += velocityY;
+            
+            if (player.position.y > 0.5) {
+                velocityY -= 0.01; // Gravidade
+            } else {
+                player.position.y = 0.5;
+                velocityY = 0;
+                isJumping = false;
             }
 
-            // Resetar se cair no buraco
-            if (player.y > canvas.height) resetGame();
+            // Câmera segue o jogador
+            camera.position.x = player.position.x;
+            camera.position.z = player.position.z + 10;
+            camera.lookAt(player.position);
 
-            draw();
-            requestAnimationFrame(update);
+            renderer.render(scene, camera);
         }
 
-        function resetGame() {
-            player.x = 50;
-            player.y = 300;
-            player.yVelocity = 0;
-        }
+        animate();
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Desenhar plataformas
-            platforms.forEach(plat => {
-                ctx.fillStyle = plat.goal ? "#28a745" : "#555";
-                ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
-            });
-
-            // Desenhar jogador
-            ctx.fillStyle = player.color;
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-        }
-
-        update();
+        // Ajustar tela ao redimensionar
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
