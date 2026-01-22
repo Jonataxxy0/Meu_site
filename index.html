@@ -3,190 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marmoraria SSM - Qualidade em Pedras</title>
+    <title>Steam Free Games List</title>
     <style>
-        /* CSS Integrado para facilitar */
-        * {
+        body {
+            background-color: #1b2838;
+            color: #c7d5e0;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
         }
-
-        /* Navegação */
-        nav {
-            background-color: #1a1a1a;
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #d4af37; /* Tom dourado */
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #d4af37;
-        }
-
-        /* Seção Hero (Destaque) */
-        .hero {
-            height: 80vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
+        header {
+            background-color: #171a21;
+            padding: 20px;
             text-align: center;
-            padding-top: 60px;
+            border-bottom: 3px solid #66c0f4;
         }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; margin-bottom: 20px; }
-
-        .btn {
-            background-color: #d4af37;
-            color: black;
-            padding: 10px 25px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-
-        /* Seção de Serviços/Produtos */
-        .servicos {
-            padding: 50px 5%;
-            text-align: center;
-        }
-
-        .grid-servicos {
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            margin-top: 30px;
         }
-
-        .card {
-            border: 1px solid #ddd;
-            padding: 15px;
+        .game-card {
+            background-color: #2a475e;
             border-radius: 8px;
+            overflow: hidden;
             transition: transform 0.3s;
         }
-
-        .card:hover { transform: translateY(-5px); }
-
-        .card img {
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+        .game-card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
+            height: auto;
         }
-
-        /* Contato */
-        .contato {
-            background-color: #f4f4f4;
-            padding: 50px 5%;
+        .info {
+            padding: 15px;
         }
-
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
+        .title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
         }
-
-        input, textarea {
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ccc;
+        .price {
+            background-color: #4c6b22;
+            color: #beee11;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
         }
-
-        footer {
-            background: #1a1a1a;
-            color: white;
+        .btn {
+            display: block;
             text-align: center;
-            padding: 20px;
+            background-color: #66c0f4;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">MARMORARIA SSM</div>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#servicos">Produtos</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-    </nav>
+<header>
+    <h1>Catálogo Steam - Jogos Gratuitos</h1>
+</header>
 
-    <section class="hero" id="home">
-        <h1>Elegância em cada detalhe</h1>
-        <p>Granitos, Mármores e Quartzos com acabamento impecável.</p>
-        <a href="#contato" class="btn">Solicitar Orçamento</a>
-    </section>
-
-    <section class="servicos" id="servicos">
-        <h2>Nossos Materiais</h2>
-        <div class="grid-servicos">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1590373468157-19189280f2d4?auto=format&fit=crop&w=500&q=60" alt="Mármore">
-                <h3>Mármores</h3>
-                <p>O clássico luxuoso para interiores.</p>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1517486430290-3563dc23971e?auto=format&fit=crop&w=500&q=60" alt="Granito">
-                <h3>Granitos</h3>
-                <p>Resistência e durabilidade para sua cozinha.</p>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1620626011761-9963d7521476?auto=format&fit=crop&w=500&q=60" alt="Bancadas">
-                <h3>Bancadas</h3>
-                <p>Projetos personalizados sob medida.</p>
-            </div>
+<div class="container">
+    <div class="game-card">
+        <img src="https://via.placeholder.com/300x150" alt="Jogo">
+        <div class="info">
+            <div class="title">Título do Jogo 1</div>
+            <div class="price">Gratuito</div>
+            <a href="#" class="btn">Ver na Steam</a>
         </div>
-    </section>
+    </div>
 
-    <section class="contato" id="contato">
-        <h2 style="text-align: center; margin-bottom: 30px;">Fale Conosco</h2>
-        <form>
-            <input type="text" placeholder="Seu Nome" required>
-            <input type="email" placeholder="Seu E-mail" required>
-            <textarea rows="5" placeholder="Descreva seu projeto"></textarea>
-            <button type="submit" class="btn" style="border: none; cursor: pointer;">Enviar Mensagem</button>
-        </form>
-    </section>
+    <div class="game-card">
+        <img src="https://via.placeholder.com/300x150" alt="Jogo">
+        <div class="info">
+            <div class="title">Título do Jogo 2</div>
+            <div class="price">Gratuito</div>
+            <a href="#" class="btn">Ver na Steam</a>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2024 Marmoraria SSM - Todos os direitos reservados.</p>
-    </footer>
+    <div class="game-card">
+        <img src="https://via.placeholder.com/300x150" alt="Jogo">
+        <div class="info">
+            <div class="title">Título do Jogo 3</div>
+            <div class="price">Gratuito</div>
+            <a href="#" class="btn">Ver na Steam</a>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
