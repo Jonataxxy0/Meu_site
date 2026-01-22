@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Ultra Free Games - Live Background</title>
+    <title>Steam Ultra Free Games</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --steam-darker: #0b0e13;
             --steam-dark: #171a21;
             --steam-blue: #1b2838;
             --steam-focus: #1a9fff;
             --steam-green: #a4d007;
-            --steam-card-bg: rgba(22, 32, 45, 0.8);
-            --glow-color: rgba(102, 192, 244, 0.15);
+            --glow-color: rgba(26, 159, 255, 0.25);
         }
 
         * {
@@ -24,30 +22,30 @@
         }
 
         body {
-            background-color: var(--steam-darker);
+            background-color: #0b0e13;
             color: #c7d5e0;
-            font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
-            overflow-x: hidden;
+            font-family: "Motiva Sans", Arial, sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* O BRILHO QUE SEGUE O MOUSE */
+        /* BRILHO DINÂMICO QUE SEGUE O MOUSE */
         #mouse-glow {
-            position: fixed;
+            position: absolute; /* Mudado para absolute para seguir o scroll */
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100vw;
             height: 100%;
-            pointer-events: none; /* Não bloqueia cliques */
-            z-index: 1;
+            pointer-events: none;
+            z-index: 0;
             background: radial-gradient(
-                600px circle at var(--x, 50%) var(--y, 50%), 
-                rgba(26, 159, 255, 0.15), 
-                transparent 80%
+                600px circle at var(--x, 0px) var(--y, 0px), 
+                var(--glow-color), 
+                transparent 70%
             );
         }
 
-        /* Navbar */
+        /* Interface */
         nav {
             background-color: var(--steam-dark);
             padding: 0 5%;
@@ -57,8 +55,8 @@
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(102, 192, 244, 0.2);
+            z-index: 100;
+            border-bottom: 1px solid rgba(102, 192, 244, 0.1);
         }
 
         .logo {
@@ -73,62 +71,38 @@
 
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 20px;
         }
 
         .nav-links a {
             color: #dcdedf;
             text-decoration: none;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            transition: 0.3s;
             padding: 10px;
-            cursor: pointer;
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--steam-focus);
-            text-shadow: 0 0 10px var(--steam-focus);
         }
 
-        /* Hero Banner */
-        .hero {
-            position: relative;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: url('https://cdn.akamai.steamstatic.com/steam/apps/570/ss_86307672223849767676.1920x1080.jpg') center/cover;
-            z-index: 2;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent, var(--steam-darker));
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            color: white;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
-        }
-
-        /* Layout Principal */
+        /* Layout */
         .main-container {
             max-width: 1200px;
-            margin: -50px auto 50px;
+            margin: 40px auto;
             padding: 0 20px;
             position: relative;
             z-index: 10;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: white;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .game-grid {
@@ -137,36 +111,38 @@
             gap: 25px;
         }
 
-        /* Cards */
+        /* CARDS COM EFEITO DE CLAREAR */
         .card {
-            background: var(--steam-card-bg);
-            border-radius: 4px;
+            background: rgba(22, 32, 45, 0.7);
+            border-radius: 8px;
             overflow: hidden;
-            transition: 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(5px);
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            background: rgba(42, 71, 94, 0.4);
+            transform: translateY(-5px);
+            background: rgba(42, 71, 94, 0.5); /* Clareia o fundo do card */
             border-color: var(--steam-focus);
-            box-shadow: 0 0 30px rgba(26, 159, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .card img {
             width: 100%;
-            height: 150px;
+            height: 160px;
             object-fit: cover;
-            transition: 0.5s;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
         }
 
         .card:hover img {
             filter: brightness(1.2);
+            border-bottom-color: var(--steam-focus);
         }
 
         .card-content {
-            padding: 15px;
+            padding: 20px;
         }
 
         .card-title {
@@ -176,19 +152,21 @@
             font-size: 1.1rem;
         }
 
-        .free-tag {
+        .price-tag {
             background: var(--steam-green);
-            color: #000;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 2px 8px;
+            color: #1b2838;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 2px;
             display: inline-block;
         }
 
         footer {
-            padding: 50px;
+            padding: 60px;
             text-align: center;
-            background: var(--steam-dark);
+            background: rgba(0,0,0,0.3);
+            margin-top: 100px;
             position: relative;
             z-index: 10;
         }
@@ -199,34 +177,27 @@
     <div id="mouse-glow"></div>
 
     <nav>
-        <a href="#" class="logo"><i class="fab fa-steam"></i> STEAM FREE</a>
+        <a href="#" class="logo"><i class="fab fa-steam"></i> STEAMFREE</a>
         <div class="nav-links">
-            <a href="#"><i class="fas fa-gamepad"></i> Ação</a>
-            <a href="#"><i class="fas fa-ghost"></i> Terror</a>
-            <a href="#"><i class="fas fa-users"></i> Multiplayer</a>
-            <a href="#"><i class="fas fa-star"></i> Promoções</a>
+            <a href="#"><i class="fas fa-bolt"></i> Ação</a>
+            <a href="#"><i class="fas fa-brain"></i> Estratégia</a>
+            <a href="#"><i class="fas fa-fist-raised"></i> Luta</a>
+            <a href="#"><i class="fas fa-ghost"></i> Sobrevivência</a>
         </div>
         <div class="nav-links">
-            <a href="#"><i class="fas fa-download"></i> Instalar App</a>
+            <a href="#" style="background: #4c6b22; border-radius: 3px; color: #beee11;">JOGAR AGORA</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>MUNDO FREE-TO-PLAY</h1>
-            <p>Os melhores jogos da Steam sem custo algum.</p>
-        </div>
-    </header>
-
     <main class="main-container">
+        <h2><i class="fas fa-th-large"></i> Jogos Disponíveis</h2>
+        
         <div class="game-grid">
             <div class="card">
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Counter-Strike 2</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">O FPS competitivo número 1 do mundo.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
 
@@ -234,8 +205,7 @@
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/570/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Dota 2</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">A experiência definitiva de estratégia MOBA.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
 
@@ -243,8 +213,7 @@
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/1172470/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Apex Legends</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">Battle Royale de heróis em alta velocidade.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
 
@@ -252,8 +221,7 @@
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/230410/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Warframe</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">Ninjas espaciais em um RPG cooperativo.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
 
@@ -261,8 +229,7 @@
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/1046930/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Destiny 2</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">Explore os mistérios do sistema solar.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
 
@@ -270,23 +237,24 @@
                 <img src="https://cdn.akamai.steamstatic.com/steam/apps/440/header.jpg">
                 <div class="card-content">
                     <div class="card-title">Team Fortress 2</div>
-                    <p style="font-size: 0.8rem; margin-bottom: 10px;">O jogo de tiro baseado em classes mais popular.</p>
-                    <span class="free-tag">GRATUITO</span>
+                    <span class="price-tag">GRATUITO</span>
                 </div>
             </div>
         </div>
     </main>
 
     <footer>
-        <p>Desenvolvido para amantes de jogos.</p>
-        <p style="opacity: 0.4; font-size: 0.7rem; margin-top: 15px;">Interface baseada na estética Steam 2024.</p>
+        <p>© 2024 SteamFree Hub - Interface Limpa</p>
     </footer>
 
     <script>
         const glow = document.getElementById('mouse-glow');
-        window.addEventListener('mousemove', (e) => {
-            glow.style.setProperty('--x', e.clientX + 'px');
-            glow.style.setProperty('--y', e.clientY + 'px');
+        
+        // Função para atualizar a posição do brilho exatamente no mouse
+        document.addEventListener('mousemove', (e) => {
+            // Usamos pageX e pageY para considerar o scroll da página
+            glow.style.setProperty('--x', e.pageX + 'px');
+            glow.style.setProperty('--y', e.pageY + 'px');
         });
     </script>
 
