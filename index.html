@@ -3,103 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Free Games List</title>
+    <title>Steam Hub - Free Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --steam-dark: #171a21;
+            --steam-blue: #1b2838;
+            --steam-light-blue: #66c0f4;
+            --steam-green: #4c6b22;
+            --steam-text: #c7d5e0;
+        }
+
         body {
-            background-color: #1b2838;
-            color: #c7d5e0;
-            font-family: Arial, sans-serif;
+            background-color: var(--steam-blue);
+            color: var(--steam-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-        header {
-            background-color: #171a21;
-            padding: 20px;
+
+        /* Navbar */
+        nav {
+            background-color: var(--steam-dark);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar {
+            background: #316282;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            color: white;
+            width: 300px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(27, 40, 56, 1)), url('https://via.placeholder.com/1920x600');
+            height: 300px;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            border-bottom: 3px solid #66c0f4;
         }
+
+        /* Grid de Jogos */
         .container {
-            max-width: 1000px;
-            margin: 20px auto;
+            max-width: 1200px;
+            margin: -50px auto 50px;
+            padding: 0 20px;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: #2a475e;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--steam-light-blue);
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
+
+        /* Card do Jogo */
         .game-card {
-            background-color: #2a475e;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            transition: 0.3s;
+            position: relative;
+            border: 1px solid transparent;
         }
+
         .game-card:hover {
-            transform: scale(1.05);
+            background: rgba(42, 71, 94, 0.6);
+            transform: translateY(-5px);
+            border-color: var(--steam-light-blue);
         }
+
         .game-card img {
             width: 100%;
-            height: auto;
+            height: 160px;
+            object-fit: cover;
         }
-        .info {
+
+        .content {
             padding: 15px;
         }
-        .title {
-            font-size: 1.2em;
-            font-weight: bold;
+
+        .tags {
+            font-size: 0.8rem;
+            color: var(--steam-light-blue);
+            margin-bottom: 8px;
+        }
+
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 10px;
-            color: #fff;
-        }
-        .price {
-            background-color: #4c6b22;
-            color: #beee11;
-            padding: 5px 10px;
-            border-radius: 3px;
-            display: inline-block;
-        }
-        .btn {
             display: block;
-            text-align: center;
-            background-color: #66c0f4;
             color: #fff;
             text-decoration: none;
-            padding: 10px;
+        }
+
+        .footer-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 15px;
-            border-radius: 5px;
+        }
+
+        .price-tag {
+            background: var(--steam-green);
+            color: #bee100;
+            padding: 2px 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .platforms {
+            display: flex;
+            gap: 8px;
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--steam-dark);
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Catálogo Steam - Jogos Gratuitos</h1>
-</header>
+<nav>
+    <div class="logo">
+        <i class="fab fa-steam"></i> STEAM FREE HUB
+    </div>
+    <input type="text" class="search-bar" placeholder="Buscar jogos gratuitos...">
+</nav>
+
+<section class="hero">
+    <h1>OS MELHORES JOGOS GRATUITOS</h1>
+    <p>Descubra títulos Free-to-Play e promoções por tempo limitado</p>
+</section>
 
 <div class="container">
-    <div class="game-card">
-        <img src="https://via.placeholder.com/300x150" alt="Jogo">
-        <div class="info">
-            <div class="title">Título do Jogo 1</div>
-            <div class="price">Gratuito</div>
-            <a href="#" class="btn">Ver na Steam</a>
-        </div>
+    <div class="filters">
+        <button class="filter-btn active">Todos</button>
+        <button class="filter-btn">Ação</button>
+        <button class="filter-btn">RPG</button>
+        <button class="filter-btn">Estratégia</button>
     </div>
 
-    <div class="game-card">
-        <img src="https://via.placeholder.com/300x150" alt="Jogo">
-        <div class="info">
-            <div class="title">Título do Jogo 2</div>
-            <div class="price">Gratuito</div>
-            <a href="#" class="btn">Ver na Steam</a>
+    <div class="grid">
+        <div class="game-card">
+            <img src="https://via.placeholder.com/460x215" alt="Banner Jogo">
+            <div class="content">
+                <div class="tags">FPS, Competitivo, Ação</div>
+                <a href="#" class="game-title">Counter-Strike 2</a>
+                <div class="footer-card">
+                    <div class="price-tag">Gratuito</div>
+                    <div class="platforms">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="game-card">
-        <img src="https://via.placeholder.com/300x150" alt="Jogo">
-        <div class="info">
-            <div class="title">Título do Jogo 3</div>
-            <div class="price">Gratuito</div>
-            <a href="#" class="btn">Ver na Steam</a>
+        <div class="game-card">
+            <img src="https://via.placeholder.com/460x215" alt="Banner Jogo">
+            <div class="content">
+                <div class="tags">MOBA, Estratégia</div>
+                <a href="#" class="game-title">Dota 2</a>
+                <div class="footer-card">
+                    <div class="price-tag">Gratuito</div>
+                    <div class="platforms">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <img src="https://via.placeholder.com/460x215" alt="Banner Jogo">
+            <div class="content">
+                <div class="tags">RPG, Mundo Aberto</div>
+                <a href="#" class="game-title">Destiny 2</a>
+                <div class="footer-card">
+                    <div class="price-tag">Gratuito</div>
+                    <div class="platforms">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<footer>
+    <p>&copy; 2024 Catálogo de Jogos Steam - Interface de Estudo</p>
+    <p style="font-size: 0.8rem; opacity: 0.5;">Este site não possui vínculo oficial com a Valve Corporation.</p>
+</footer>
 
 </body>
 </html>
