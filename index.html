@@ -1,298 +1,465 @@
+```html
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Hub Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --steam-dark: #171a21;
-            --steam-blue: #1b2838;
-            --steam-focus: #1a9fff;
-            --steam-green: #a4d007;
-            --glow-color: rgba(26, 159, 255, 0.2);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: default;
-        }
+<title>Lobby de Terror</title>
 
-        body {
-            background-color: #0b0e13;
-            color: #c7d5e0;
-            font-family: "Motiva Sans", Arial, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        /* BRILHO QUE SEGUE O MOUSE - FIXO NA TELA */
-        #mouse-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-            background: radial-gradient(
-                600px circle at var(--x, 0px) var(--y, 0px), 
-                var(--glow-color), 
-                transparent 80%
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at center, #252525 0%, #0b0b0b 60%, #000 100%);
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Ambiente */
+
+.lobby {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+h1 {
+    position: absolute;
+    top: 45px;
+    font-size: 42px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px #ff0000;
+}
+
+.subtitle {
+    position: absolute;
+    top: 100px;
+    color: #999;
+}
+
+/* Plataformas */
+
+.platforms {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.platform {
+    width: 220px;
+    height: 150px;
+    background: linear-gradient(145deg, #252525, #090909);
+    border: 2px solid #555;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.8);
+}
+
+.platform:hover {
+    transform: translateY(-8px);
+    border-color: #ff2222;
+    box-shadow: 0 0 25px rgba(255,0,0,0.4);
+}
+
+.platform h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.players {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ff88;
+}
+
+.status {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Contagem */
+
+.countdown {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.9);
+    border: 1px solid #ff2222;
+    border-radius: 10px;
+    padding: 15px 25px;
+    display: none;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255,0,0,0.4);
+}
+
+.countdown span {
+    display: block;
+    font-size: 35px;
+    color: #ff2222;
+    font-weight: bold;
+}
+
+/* Mensagem */
+
+.message {
+    position: fixed;
+    bottom: 35px;
+    background: rgba(0,0,0,0.8);
+    padding: 15px 30px;
+    border-radius: 10px;
+    color: #ccc;
+}
+
+/* Jogador */
+
+.player {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #151515;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.player strong {
+    color: #00ff88;
+}
+</style>
+</head>
+
+<body>
+
+<div class="lobby">
+
+    <h1>LOBBY</h1>
+
+    <p class="subtitle">
+        Escolha uma plataforma para entrar no matchmaking
+    </p>
+
+    <div class="platforms">
+
+        <div class="platform" onclick="entrarFila(1)">
+            <h2>SOLO</h2>
+            <div class="players" id="players1">0/1</div>
+            <div class="status" id="status1">Clique para entrar</div>
+        </div>
+
+        <div class="platform" onclick="entrarFila(2)">
+            <h2>2 JOGADORES</h2>
+            <div class="players" id="players2">0/2</div>
+            <div class="status" id="status2">Clique para entrar</div>
+        </div>
+
+        <div class="platform" onclick="entrarFila(4)">
+            <h2>4 JOGADORES</h2>
+            <div class="players" id="players4">0/4</div>
+            <div class="status" id="status4">Clique para entrar</div>
+        </div>
+
+    </div>
+
+    <div class="player">
+        Jogador atual: <strong>Você</strong>
+    </div>
+
+    <div class="message" id="message">
+        Clique em uma plataforma para entrar na fila.
+    </div>
+
+</div>
+
+<div class="countdown" id="countdown">
+    INICIANDO EM
+    <span id="timer">10</span>
+</div>
+
+
+<script>
+
+let filas = {
+    1: {
+        jogadores: 0,
+        max: 1,
+        contador: null,
+        tempo: 10
+    },
+
+    2: {
+        jogadores: 0,
+        max: 2,
+        contador: null,
+        tempo: 10
+    },
+
+    4: {
+        jogadores: 0,
+        max: 4,
+        contador: null,
+        tempo: 10
+    }
+};
+
+let filaAtual = null;
+
+
+/* Entrar em uma fila */
+
+function entrarFila(maxJogadores) {
+
+    // Impede o jogador de entrar em duas filas
+    if (filaAtual !== null) {
+
+        if (filaAtual === maxJogadores) {
+            sairFila();
+        } else {
+            mostrarMensagem(
+                "Você já está em outra fila!"
             );
         }
 
-        /* Navegação */
-        nav {
-            background-color: var(--steam-dark);
-            padding: 0 5%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(102, 192, 244, 0.15);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        return;
+    }
+
+    let fila = filas[maxJogadores];
+
+    if (fila.jogadores >= fila.max) {
+        mostrarMensagem(
+            "Essa fila está cheia!"
+        );
+        return;
+    }
+
+    fila.jogadores++;
+
+    filaAtual = maxJogadores;
+
+    atualizarInterface(maxJogadores);
+
+    mostrarMensagem(
+        "Você entrou na fila de " +
+        maxJogadores +
+        " jogador(es)."
+    );
+
+    verificarFila(maxJogadores);
+}
+
+
+/* Sair da fila */
+
+function sairFila() {
+
+    if (filaAtual === null) {
+        return;
+    }
+
+    let fila = filas[filaAtual];
+
+    fila.jogadores--;
+
+    if (fila.jogadores < 0) {
+        fila.jogadores = 0;
+    }
+
+    // Cancela contagem se necessário
+    if (fila.contador !== null) {
+
+        clearInterval(fila.contador);
+
+        fila.contador = null;
+        fila.tempo = 10;
+
+        document.getElementById("countdown").style.display = "none";
+
+        mostrarMensagem(
+            "Contagem cancelada. Jogadores insuficientes."
+        );
+    }
+
+    atualizarInterface(filaAtual);
+
+    filaAtual = null;
+}
+
+
+/* Verificar se a fila está cheia */
+
+function verificarFila(maxJogadores) {
+
+    let fila = filas[maxJogadores];
+
+    if (fila.jogadores >= fila.max) {
+
+        iniciarContagem(maxJogadores);
+
+    }
+
+}
+
+
+/* Iniciar contagem */
+
+function iniciarContagem(maxJogadores) {
+
+    let fila = filas[maxJogadores];
+
+    if (fila.contador !== null) {
+        return;
+    }
+
+    fila.tempo = 10;
+
+    let countdownBox =
+        document.getElementById("countdown");
+
+    let timer =
+        document.getElementById("timer");
+
+    countdownBox.style.display = "block";
+
+    timer.textContent = fila.tempo;
+
+    mostrarMensagem(
+        "Fila completa! Preparando partida..."
+    );
+
+    fila.contador = setInterval(() => {
+
+        // Se a fila ficar abaixo do máximo
+        if (fila.jogadores < fila.max) {
+
+            clearInterval(fila.contador);
+
+            fila.contador = null;
+            fila.tempo = 10;
+
+            countdownBox.style.display = "none";
+
+            atualizarInterface(maxJogadores);
+
+            mostrarMensagem(
+                "Contagem cancelada."
+            );
+
+            return;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: white;
-            text-decoration: none;
-            letter-spacing: 1px;
+        fila.tempo--;
+
+        timer.textContent = fila.tempo;
+
+        if (fila.tempo <= 0) {
+
+            clearInterval(fila.contador);
+
+            fila.contador = null;
+
+            countdownBox.style.display = "none";
+
+            iniciarJogo(maxJogadores);
+
         }
 
-        .nav-links {
-            display: flex;
-            gap: 15px;
+    }, 1000);
+}
+
+
+/* Iniciar partida */
+
+function iniciarJogo(maxJogadores) {
+
+    let fila = filas[maxJogadores];
+
+    mostrarMensagem(
+        "PARTIDA INICIADA! " +
+        fila.jogadores +
+        " jogador(es) foram enviados para o mapa."
+    );
+
+    // Simulação de teleporte
+    setTimeout(() => {
+
+        fila.jogadores = 0;
+
+        if (filaAtual === maxJogadores) {
+            filaAtual = null;
         }
 
-        .nav-links a {
-            color: #dcdedf;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 8px 15px;
-            transition: 0.3s;
-            border-radius: 4px;
-        }
+        atualizarInterface(maxJogadores);
 
-        .nav-links a:hover {
-            color: white;
-            background: rgba(255,255,255,0.05);
-            text-shadow: 0 0 8px var(--steam-focus);
-        }
+        mostrarMensagem(
+            "Você chegou ao mapa principal do jogo!"
+        );
 
-        /* Container Principal */
-        .main-container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
+    }, 3000);
+}
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
 
-        .section-header h2 {
-            color: white;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+/* Atualizar interface */
 
-        .line {
-            flex-grow: 1;
-            height: 1px;
-            background: linear-gradient(to right, var(--steam-focus), transparent);
-        }
+function atualizarInterface(maxJogadores) {
 
-        /* Grid de Jogos */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
+    let fila = filas[maxJogadores];
 
-        /* Card Visual */
-        .card {
-            background: rgba(22, 32, 45, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(8px);
-        }
+    document.getElementById(
+        "players" + maxJogadores
+    ).textContent =
+        fila.jogadores +
+        "/" +
+        fila.max;
 
-        .card:hover {
-            transform: scale(1.03);
-            background: rgba(42, 71, 94, 0.5);
-            border-color: var(--steam-focus);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
+    if (fila.jogadores >= fila.max) {
 
-        .card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            transition: 0.5s;
-        }
+        document.getElementById(
+            "status" + maxJogadores
+        ).textContent =
+            "Fila cheia!";
 
-        .card:hover img {
-            filter: brightness(1.2);
-        }
+    } else {
 
-        .card-info {
-            padding: 20px;
-        }
+        document.getElementById(
+            "status" + maxJogadores
+        ).textContent =
+            "Clique para entrar";
 
-        .card-title {
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-        }
+    }
+}
 
-        .badge {
-            background: var(--steam-green);
-            color: #1b2838;
-            font-size: 0.7rem;
-            font-weight: 900;
-            padding: 4px 12px;
-            border-radius: 3px;
-            display: inline-block;
-            box-shadow: 0 2px 10px rgba(164, 208, 7, 0.2);
-        }
 
-        footer {
-            padding: 80px 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.4);
-            margin-top: 50px;
-            position: relative;
-            z-index: 10;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
+/* Mensagem */
 
-        .social {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            opacity: 0.6;
-        }
-    </style>
-</head>
-<body>
+function mostrarMensagem(texto) {
 
-    <div id="mouse-glow"></div>
+    document.getElementById(
+        "message"
+    ).textContent = texto;
 
-    <nav>
-        <a href="#" class="logo"><i class="fab fa-steam"></i> STEAM HUB</a>
-        
-        <div class="nav-links">
-            <a href="#"><i class="fas fa-fire"></i> Jogos em Alta</a>
-            <a href="#"><i class="fas fa-users"></i> Comunidade</a>
-            <a href="#"><i class="fas fa-tags"></i> Ofertas</a>
-        </div>
+}
 
-        <div class="nav-links">
-            <a href="#" style="background: var(--steam-focus); color: white; padding: 8px 20px;">ENTRAR</a>
-        </div>
-    </nav>
-
-    <main class="main-container">
-        <div class="section-header">
-            <h2><i class="fas fa-chart-line" style="color: var(--steam-focus);"></i> Populares Agora</h2>
-            <div class="line"></div>
-        </div>
-        
-        <div class="game-grid">
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">Counter-Strike 2</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/570/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">Dota 2</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/1172470/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">Apex Legends</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/230410/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">Warframe</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/1046930/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">Destiny 2</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/1942280/header.jpg">
-                <div class="card-info">
-                    <div class="card-title">PUBG</div>
-                    <span class="badge">GRATUITO</span>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2024 Steam Hub Interface - Desenvolvido para gamers</p>
-        <div class="social">
-            <i class="fab fa-discord"></i>
-            <i class="fab fa-twitch"></i>
-            <i class="fab fa-youtube"></i>
-        </div>
-    </footer>
-
-    <script>
-        const glow = document.getElementById('mouse-glow');
-        
-        // Agora usa clientX/Y para o brilho ficar fixo na tela em relação ao mouse
-        window.addEventListener('mousemove', (e) => {
-            glow.style.setProperty('--x', e.clientX + 'px');
-            glow.style.setProperty('--y', e.clientY + 'px');
-        });
-    </script>
+</script>
 
 </body>
 </html>
+```
